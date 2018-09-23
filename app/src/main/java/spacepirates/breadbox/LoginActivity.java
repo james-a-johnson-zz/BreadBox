@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
 
         final String username = "user";
         final String password = "pass";
-        final String failedLoginMessage = "Incorrect username or password.";
+        final String failedLoginMessage = getString(R.string.login_fail_message);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
