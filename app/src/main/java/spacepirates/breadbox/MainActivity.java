@@ -1,11 +1,21 @@
 package spacepirates.breadbox;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private FirebaseUser user;
+    private FirebaseAuth mAuth;
+    private Button logoutButton;
     // Used to load the 'native-lib' library on application startup.
     static {
         System.loadLibrary("native-lib");
@@ -17,8 +27,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Example of a call to a native method
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(stringFromJNI());
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        logoutButton = findViewById(R.id.LogoutButton);
+        logoutButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.LogoutButton) {
+            mAuth.signOut();
+            Context context = getApplicationContext();
+            CharSequence text = "User logged out.";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
+            Intent intent = new Intent(context, LoginActivity.class);
+            context.startActivity(intent);
+        }
     }
 
     /**
