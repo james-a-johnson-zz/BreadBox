@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +26,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     private Spinner userType;
     private EditText emailText;
     private EditText passwordText;
+    private TextView registerText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,9 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         userType = findViewById(R.id.UserTypeSpinner);
         emailText = findViewById(R.id.EmailText);
         passwordText = findViewById(R.id.PasswordText);
+        registerText = findViewById(R.id.RegisterText);
+
+        registerText.setText("Register a User");
 
         userType.setAdapter(new ArrayAdapter<UserType>(this, android.R.layout.simple_spinner_item, UserType.values()));
         register.setOnClickListener(this);
