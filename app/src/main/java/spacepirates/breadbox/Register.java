@@ -17,6 +17,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 import spacepirates.breadbox.model.UserType;
 
@@ -27,6 +31,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     private EditText emailText;
     private EditText passwordText;
     private TextView registerText;
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         register = findViewById(R.id.RegisterButton);
         userType = findViewById(R.id.UserTypeSpinner);
         emailText = findViewById(R.id.EmailText);
@@ -48,13 +55,10 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        String email = emailText.getText().toString();
+        final String email = emailText.getText().toString();
         String pass = passwordText.getText().toString();
-        UserType ut;
+        final UserType ut;
         switch (userType.getSelectedItem().toString()) {
-            case "Guest":
-                ut = UserType.GUEST;
-                break;
             case "Basic":
                 ut = UserType.BASIC;
                 break;
@@ -67,6 +71,11 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
             case "Administrator":
                 ut = UserType.ADMINISTRATOR;
                 break;
+            case "Guest":
+            default:
+                ut = UserType.GUEST;
+                break;
+
         }
 
         mAuth.createUserWithEmailAndPassword(email, pass)
@@ -77,6 +86,15 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                             // TODO: Need to add user to a user database that includes the type
                             // TODO: Include name and location depending on employee type?
                             // Sign in success, update UI with the signed-in user's information
+                            HashMap<String, Object> user = new HashMap<>();
+                            user.put("email", email);
+                            user.put("location", "0");
+                            user.put("name", "blanky");
+                            user.put("type", ut.toString());
+
+                            CollectionReference userDB = db.collection("users");
+                            userDB.document(mAuth.getCurrentUser().getUid().toString()).set(user);
+
                             Context context = getApplicationContext();
                             Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);
