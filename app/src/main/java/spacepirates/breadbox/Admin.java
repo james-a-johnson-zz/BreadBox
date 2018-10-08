@@ -9,6 +9,19 @@ public class Admin extends BasicUser {
         password = pass;
     }
 
+    //Add and remove manager are booleans dependent on whether or not they execute properly
+    public boolean addManager(Manager man) {
+        return false;
+    }
+
+    public boolean removeManager(Manager man) {
+        return false;
+    }
+
+    public boolean updatePassword(String newPassword) {
+        return false;
+    }
+
     public List<?> searchLocation() {
         return null;
     }
@@ -19,5 +32,13 @@ public class Admin extends BasicUser {
 
     public String comment() {
         return "";
+    }
+
+    public boolean addBusiness() {
+        return false;
+    }
+
+    public boolean removeBusiness() {
+        return false;
     }
 }
