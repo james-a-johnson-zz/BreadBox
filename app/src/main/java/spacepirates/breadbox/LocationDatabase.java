@@ -42,7 +42,7 @@ public class LocationDatabase {
         return locations;
     }
 
-    public Location removeLocation(Location l) {
+    public boolean removeLocation(Location l) {
         return locations.remove(l);
     }
 
