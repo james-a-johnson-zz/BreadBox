@@ -6,7 +6,20 @@ abstract class BasicUser {
     protected String username;
     protected String password;
 
-    abstract List<?> searchLocation();
-    abstract List<?> searchItem();
-    abstract String comment();
+    public BasicUser(String user, String pass) {
+        username = user;
+        password = pass;
+    }
+
+    public List<Location> searchLocation() {
+        return null;
+    }
+
+    public List<DonationItem> searchItem() {
+        return null;
+    }
+
+    public String comment() {
+        return "";
+    }
 }
