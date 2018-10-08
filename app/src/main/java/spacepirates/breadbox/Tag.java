@@ -3,7 +3,7 @@ package spacepirates.breadbox;
 import java.util.List;
 import java.util.ArrayList;
 
-public enum Tags{
+public enum Tag{
     TOPS("Tops", Category.APPAREL), BOTTOMS("Bottoms", Category.APPAREL),
     JEWELRY("Jewelry", Category.APPAREL), FOOTWEAR("Footwear", Category.APPAREL),
     ACCESSORIES("Accessories", Category.APPAREL), DRESSES("Dresses", Category.APPAREL),
@@ -25,7 +25,7 @@ public enum Tags{
     private String name;
     private List<Category> categories;
 
-    public Tags(String name, Category... categoryArr){
+    public Tag(String name, Category... categoryArr){
         this.name = name;
 
         for(Category c: categoryArr){
