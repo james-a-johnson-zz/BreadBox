@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Location {
 
     private String name;
@@ -6,6 +8,8 @@ public class Location {
     private double longitude;
     private String address;
     private String phoneNumber;
+    private ArrayList<DonationItem> inventory;
+    private int inventoryMax;
 
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
         this.name = name;
@@ -14,6 +18,8 @@ public class Location {
         this.longitude = longitude;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        inventory = new ArrayList<DonationItem>();
+        inventoryMax = 100;
     }
 
     public Location(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
@@ -83,5 +89,25 @@ public class Location {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public ArrayList<Location> getInventory() {
+        return inventory;
+    }
+
+    public void addItem(DonationItem d) {
+        inventory.add(d);
+    }
+
+    public double percentFull() {
+        return ((double)inventory.size())/inventoryMax;
+    }
+
+    public boolean equals(Location l) {
+        if (!(l isInstanceOf Location) || !(l.getAddress().compareTo(this.getAddress() == 0))) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
