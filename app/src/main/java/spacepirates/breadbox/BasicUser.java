@@ -1,4 +1,5 @@
 package spacepirates.breadbox;
+
 import java.util.List;
 
 abstract class BasicUser {

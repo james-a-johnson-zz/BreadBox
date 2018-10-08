@@ -1,3 +1,5 @@
+package spacepirates.breadbox;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,16 +14,16 @@ public class DonationItem {
         this(name, price, category, "None");
     }
 
-    public DonationItem(String name, double price, Category category
+    public DonationItem(String name, double price, Category category,
         String description) {
         this(name, price, category, description, null);
     }
 
-    public DonationItem(String name, double price, Category category
+    public DonationItem(String name, double price, Category category,
         String description, List<Tag> tags) {
         this.name = name;
         this.price = price;
-        this.Category = category;
+        this.category = category;
         this.description = description;
         this.tags = tags;
 
