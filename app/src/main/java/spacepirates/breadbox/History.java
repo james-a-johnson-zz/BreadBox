@@ -2,7 +2,7 @@ package spacepirates.breadbox;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.LocalDate;
+import java.time.LocalDate;
 
 public class History {
     private ArrayList<LocalDate> datesMoved;
@@ -26,27 +26,28 @@ public class History {
     }
 
     public Location getLocationOnDate(LocalDate date) {
-        if (date.compareto(datesMoved(0)) < 0 ) {
+        if (date.compareTo(datesMoved.get(0)) < 0 ) {
             throw new IllegalArgumentException("The object was not yet"
                 + "donated at this time");
         }
-        if (date.compareto(datesMoved(datesMoved.size()-1)) > 0 ) {
+        if (date.compareTo(datesMoved.get(datesMoved.size()-1)) > 0 ) {
             throw new IllegalArgumentException("Date checked cannot be in the"
                 + "future");
         } //the later the greater
-        for (int i = 0; i < datesMoved.size(); i++){
-            if (date.compareto(datesMoved(i)) < 0){
-                return Locations(i-1);
+        int i = 0;
+        for (; i < datesMoved.size(); i++){
+            if (date.compareTo(datesMoved.get(i)) < 0){
+                return Locations.get(i-1);
             }
         }
-        return Locations(i-1);
+        return Locations.get(i-1);
     }
 
     public String[] getLocationHistory() {
         String[] locHistory = new String[Locations.size()];
-        for(i = 0; i < Locations.size(); i++) {
-            locHistory[i] = "Arrived at" + Locations(i).getName
-                + "on" + datesMoved(i).toString;
+        for(int i = 0; i < Locations.size(); i++) {
+            locHistory[i] = "Arrived at" + Locations.get(i).getName()
+                + "on" + datesMoved.get(i).toString();
             //make a getter method for location database that takes
             //in a location name
 

@@ -1,6 +1,6 @@
 package spacepirates.breadbox;
 
-import java.util.LocalDate;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -49,7 +49,7 @@ public class Statistics{
 
     public void update(Location location){
 
-        locInventory = location.getInventory();
+        List<DonationItem> locInventory = location.getInventory();
         inventorySize = locInventory.size();
         //this.updateCategoryInventories(locInventory); --> could make this method, but going to make
         //it in constructor for now
@@ -60,7 +60,7 @@ public class Statistics{
 
 
         dailyDonations = 0;
-        int i = locInventory(inventorySize-1); //assuming inventory sorted by date arrived
+        int i = inventorySize-1; //assuming inventory sorted by date arrived
         //meaning the last items added will be at the back.
 
         int nowDay = LocalDate.now().getDayOfMonth();

@@ -90,7 +90,7 @@ public class DonationItem {
         return this.tags;
     }
 
-    public void setDonor(Donor donor){
+    public void setDonor(BasicUser donor){
         this.donor = donor;
     }
 
