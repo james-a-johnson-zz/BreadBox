@@ -18,9 +18,7 @@ public enum Tag{
     ELECTRONICS("Electronics", Category.KITCHENWARE, Category.FURNITURE, Category.ELECTRONICS)
 
     NOVEL("Novel", Category.BOOK), BIOGRAPHY("Biography", Category.BOOK),
-    COOKBOOK("CookBook" Category.BOOK, Category.KITCHENWARE)
-
-    ;
+    COOKBOOK("CookBook" Category.BOOK, Category.KITCHENWARE);
 
     private String name;
     private List<Category> categories;
