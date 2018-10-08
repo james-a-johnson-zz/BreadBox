@@ -41,7 +41,6 @@ public class DonationItem {
         this.price = price;
         this.category = category;
         this.currentLocation = currentLocation;
-=======
         String description) {
         this(name, price, category, description, null);
     }
@@ -51,7 +50,6 @@ public class DonationItem {
         this.name = name;
         this.price = price;
         this.category = category;
->>>>>>> 0720a98114055db3a77324947a57c7359c705b9d
         this.description = description;
         this.donor = donor;
         this.tags = tags;
