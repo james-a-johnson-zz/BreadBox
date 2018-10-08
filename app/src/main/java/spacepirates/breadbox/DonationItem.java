@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class DonationItem {
     private String name;
     private double price;
     private Category category;
-    //private ArrayList<Tag> tags;
+    private List<Tag> tags;
     private String description;
 
     public DonationItem(String name, double price, Category category) {
@@ -17,7 +18,14 @@ public class DonationItem {
     }
 
     public DonationItem(String name, double price, Category category
-        String description) {
+        String description, List<Tag> tags) {
+        this.name = name;
+        this.price = price;
+        this.Category = category;
+        this.description = description;
+        this.tags = tags;
+
+    }
 
 
 
