@@ -1,3 +1,5 @@
+package spacepirates.breadbox;
+
 import java.util.ArrayList;
 
 public class Location {
