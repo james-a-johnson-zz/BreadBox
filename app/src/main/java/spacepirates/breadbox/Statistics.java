@@ -32,10 +32,10 @@ public class Statistics{
     int[] categoryInventorySize; //current size per category
 
     //pricing:
-    int income //in income/this month
+    int income; //in income/this month
     List<Integer> incomeMonthly;
 
-    int inventoryValue //in inventoryValue/this month
+    int inventoryValue; //in inventoryValue/this month
     List<Integer> inventoryValueMonthly;
 
     public Statistics(Location location){
@@ -60,7 +60,7 @@ public class Statistics{
 
 
         dailyDonations = 0;
-        int i = locInventory(inventorySize-1) //assuming inventory sorted by date arrived
+        int i = locInventory(inventorySize-1); //assuming inventory sorted by date arrived
         //meaning the last items added will be at the back.
 
         int nowDay = LocalDate.now().getDayOfMonth();
@@ -69,7 +69,7 @@ public class Statistics{
 
         while(nowDay == locInventory.get(i).getDateArrived().getDayOfMonth()
             && nowMonth == locInventory.get(i).getDateArrived().getMonthValue()
-            && nowYear == locInventory.get(i).getDateArrived().getYear(){
+            && nowYear == locInventory.get(i).getDateArrived().getYear()){
             dailyDonations++;
             i--;
         }

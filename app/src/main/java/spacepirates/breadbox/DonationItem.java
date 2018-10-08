@@ -90,11 +90,20 @@ public class DonationItem {
         return this.tags;
     }
 
+    public void setDonor(Donor donor){
+        this.donor = donor;
+    }
 
-    public void setLocation(Location L){
+    public BasicUser getDonor(){
+        return this.donor;
+    }
+
+        public void setLocation(Location L){
         this.history.moveLocations(L);
         this.currentLocation = L;
     }
+
+    //Item history retrieval stuff
 
     public Location getCurrentLocation(){
         return currentLocation;
