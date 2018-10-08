@@ -35,4 +35,14 @@ public class LocationDatabase {
     public static void addLocation(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
         locations.add(new Location(name, type, latitude, longitude, address, phoneNumber));
     }
+
+    public static ArrayList<Location> getLocations() {
+        return locations;
+    }
+
+    public Location removeLocation(Location l) {
+        return locations.remove(l);
+    }
+
+
 }
