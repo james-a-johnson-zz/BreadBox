@@ -1,6 +1,6 @@
 public enum Category{
     APPAREL("Apparel"), FURNITURE("Furniture"), KITCHENWARE("Kitchenware"),
-     TOYS("Toys"), BOOKS("Books"), ELECTRONICS("Electronics");
+     TOY("Toy"), BOOK("Book"), ELECTRONICS("Electronics");
 
     private String name;
 

@@ -7,6 +7,8 @@ public class DonationItem {
     private Category category;
     private List<Tag> tags;
     private String description;
+    //private photo photo;
+    private User donor;
 
     public DonationItem(String name, double price, Category category) {
         this(name, price, category, "None");
@@ -18,12 +20,18 @@ public class DonationItem {
     }
 
     public DonationItem(String name, double price, Category category
-        String description, List<Tag> tags) {
+        String description, User donor) {
+        this(name, price, category, description, null);
+    }
+
+    public DonationItem(String name, double price, Category category
+        String description, List<Tag> tags, User donor) {
         this.name = name;
         this.price = price;
         this.Category = category;
         this.description = description;
         this.tags = tags;
+        this.donor = donor;
 
     }
 
