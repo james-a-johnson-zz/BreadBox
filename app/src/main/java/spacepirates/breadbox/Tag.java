@@ -15,7 +15,7 @@ public enum Tag{
 
     TABLE("Table", Category.FURNITURE), CHAIR("Chair", Category.FURNITURE),
     DECORATIVE("Decorative", Category.FURNITURE), SHELVING("Shelving", Category.FURNITURE),
-    ELECTRONICS("Electronics", Category.KITCHENWARE, Category.FURNITURE, Category.ELECTRONICS)
+    ELECTRONICS("Electronics", Category.KITCHENWARE, Category.FURNITURE, Category.ELECTRONICS),
 
     NOVEL("Novel", Category.BOOK), BIOGRAPHY("Biography", Category.BOOK),
     COOKBOOK("CookBook" Category.BOOK, Category.KITCHENWARE);

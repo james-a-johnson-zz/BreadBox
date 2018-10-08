@@ -10,7 +10,7 @@ public class DonationItem {
     private List<Tag> tags;
     private String description;
     //private photo photo;
-    private User donor;
+    private BasicUser donor;
     private Location currentLocation;
     private History history;
 
@@ -25,7 +25,7 @@ public class DonationItem {
     }
 
     public DonationItem(String name, double price, Category category,
-        Location currentLocation, String description, User donor) {
+        Location currentLocation, String description, BasicUser donor) {
         this(name, price, category, currentLocation, description, donor, null);
     }
 
@@ -35,7 +35,7 @@ public class DonationItem {
     }
 
     public DonationItem(String name, double price, Category category,
-        Location currentLocation, String description, User donor,
+        Location currentLocation, String description, BasicUser donor,
         List<Tag> tags) {
         this.name = name;
         this.price = price;
@@ -48,46 +48,67 @@ public class DonationItem {
     }
 
 
-    public void setPrice(double price){
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public double getPrice(){
+    public double getPrice() {
         return this.price;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
-    public void setDescription(String description){
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return this.description;
     }
 
-    public void setCategory(Category category){
+    public void setCategory(Category category) {
         this.category = category;
     }
 
-    public Category getCategory(){
+    public Category getCategory() {
         return this.category;
     }
 
-    public void setTags(Tag... tagArr){
+    public void setTags(Tag... tagArr) {
         for(Tag t : tagArr){
             this.tags.add(t);
         }
     }
 
-    public List<Tag> getTags(){
+    public List<Tag> getTags() {
         return this.tags;
+    }
+
+
+    public void setLocation(Location L){
+        this.history.moveLocations(L);
+        this.currentLocation = L;
+    }
+
+    public Location getCurrentLocation(){
+        return currentLocation;
+    }
+
+    //public List<Location> getLocationHistory()
+
+    public LocalDate getDateArrived() {
+        return this.history.getDateArrived(currentLocation);
+    }
+
+    public LocalDate getDateArrived(Location L) {
+        return this.history.getDateArrived(L);
+
     }
 
 

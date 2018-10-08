@@ -19,4 +19,9 @@ public class History{
         Locations.add(L);
     }
 
+    public LocalDate getDateArrived(Location L){
+        int index = Locations.lastIndexOf(L)
+        return datesMoved.get(index);
+    }
+
 }

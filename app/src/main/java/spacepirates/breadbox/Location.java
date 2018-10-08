@@ -1,6 +1,7 @@
 package spacepirates.breadbox;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Location {
 
@@ -10,7 +11,7 @@ public class Location {
     private double longitude;
     private String address;
     private String phoneNumber;
-    // private ArrayList<DonationItem> inventory;
+    private List<DonationItem> inventory;
     private int inventoryMax;
 
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
@@ -20,7 +21,7 @@ public class Location {
         this.longitude = longitude;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        // inventory = new ArrayList<DonationItem>();
+        inventory = new ArrayList<DonationItem>();
         inventoryMax = 100;
     }
 
@@ -93,17 +94,17 @@ public class Location {
         this.phoneNumber = phoneNumber;
     }
 
-    // public ArrayList<DonationItem> getInventory() {
-    //     return inventory;
-    // }
+    public ArrayList<DonationItem> getInventory() {
+        return inventory;
+    }
 
-    // public void addItem(DonationItem d) {
-    //     inventory.add(d);
-    // }
+    public void addItem(DonationItem d) {
+        inventory.add(d);
+    }
 
-    // public double percentFull() {
-    //     return ((double)inventory.size())/inventoryMax;
-    // }
+    public double percentFull() {
+        return ((double)inventory.size())/inventoryMax;
+    }
 
     @Override
     public boolean equals(Object l) {
