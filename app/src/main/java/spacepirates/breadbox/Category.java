@@ -1,3 +1,5 @@
+package spacepirates.breadbox;
+
 public enum Category{
     APPAREL("Apparel"), FURNITURE("Furniture"), KITCHENWARE("Kitchenware"),
      TOY("Toy"), BOOK("Book"), ELECTRONICS("Electronics");
