@@ -41,21 +41,12 @@ public class DonationItem {
         this.price = price;
         this.category = category;
         this.currentLocation = currentLocation;
-        String description) {
-        this(name, price, category, description, null);
-    }
-
-    public DonationItem(String name, double price, Category category,
-        String description, List<Tag> tags) {
-        this.name = name;
-        this.price = price;
-        this.category = category;
         this.description = description;
         this.donor = donor;
         this.tags = tags;
         this.history = new History(currentLocation);
-
     }
+
 
     public void setPrice(double price){
         this.price = price;
