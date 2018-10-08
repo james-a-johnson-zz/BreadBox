@@ -4,12 +4,15 @@ import java.util.List;
 
 public class Manager extends BasicUser {
 
-    public Manager(String user, String pass) {
+    private Business business;
+
+    public Manager(String user, String pass, Business bus) {
         super(user, pass);
+        business = bus;
     }
 
     //Return values are super iffy here. Subject to change later
-    public int getStatistics() {
+    public int getStatistics(Business bus) {
         return 0;
     }
 

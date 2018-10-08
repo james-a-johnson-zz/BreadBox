@@ -21,11 +21,11 @@ public class Admin extends BasicUser {
         return false;
     }
 
-    public boolean addBusiness() {
+    public boolean addBusiness(Business bus) {
         return false;
     }
 
-    public boolean removeBusiness() {
-        return false;
+    public Business removeBusiness(Business bus) {
+        return null;
     }
 }
