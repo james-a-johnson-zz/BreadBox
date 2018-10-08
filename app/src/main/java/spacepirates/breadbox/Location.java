@@ -25,7 +25,7 @@ public class Location {
     }
 
     public Location(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
-        this(name, type, new Double(latitude), new Double(longitude), address, phoneNumber);
+        this(name, type, Double.valueOf(latitude), Double.valueOf(longitude), address, phoneNumber);
     }
 
     //Only use with correctly formatted csv
@@ -106,7 +106,7 @@ public class Location {
     // }
 
     public boolean equals(Location l) {
-        if (!(l isInstanceOf Location) || !(l.getAddress().compareTo(this.getAddress() == 0))) {
+        if (!(l instanceof Location) || !(l.getAddress().compareTo(this.getAddress()) == 0)) {
             return false;
         } else {
             return true;

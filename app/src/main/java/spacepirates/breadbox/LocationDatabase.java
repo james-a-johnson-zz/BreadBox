@@ -1,26 +1,37 @@
 package spacepirates.breadbox;
 
-import java.util.Scanner;
-import java.io.File;
+import android.content.Context;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class LocationDatabase {
 
-    private static ArrayList<Location> locations;
+    private ArrayList<Location> locations;
 
-    public static void main(String[] args) {
+    private Context mContext;
+
+    public LocationDatabase() {
+        locations = new ArrayList<>();
+    }
+
+    public LocationDatabase(Context context) {
+        mContext = context;
+
+        locations = new ArrayList<Location>();
         try {
-            Scanner scan = new Scanner(new File("LocationData.csv"));
-            scan.nextLine(); //Skipping line that indicates the format of the CSV
+            InputStream is = mContext.getAssets().open("LocationData.csv");
+            BufferedReader read = new BufferedReader(new InputStreamReader(is));
+            read.readLine(); //Skipping line that indicates the format of the CSV
             ArrayList<String[]> lines = new ArrayList<>();
-            while(scan.hasNextLine()) {
-                lines.add(scan.nextLine().split(","));
+            String line;
+            while((line = read.readLine()) != null) {
+                lines.add(line.split(","));
             }
-            locations = new ArrayList<Location>();
             for (String[] arr : lines) {
-                if (arr.length == 11) {
-                    locations.add(new Location(arr));
-                }
+                locations.add(new Location(arr));
             }
 
             addLocation("Test Store", "Store", "45.5", "0", "1111 Fake Street", "(555) 555 - 5555");
@@ -34,15 +45,15 @@ public class LocationDatabase {
         }
     }
 
-    public static void addLocation(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
+    public void addLocation(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
         locations.add(new Location(name, type, latitude, longitude, address, phoneNumber));
     }
 
-    public static ArrayList<Location> getLocations() {
+    public ArrayList<Location> getLocations() {
         return locations;
     }
 
-    public static Location removeLocation(Location l) {
+    public boolean removeLocation(Location l) {
         return locations.remove(l);
     }
 
