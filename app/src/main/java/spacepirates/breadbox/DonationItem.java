@@ -25,7 +25,6 @@ public class DonationItem {
     }
 
     public DonationItem(String name, double price, Category category,
-<<<<<<< HEAD
         Location currentLocation, String description, User donor) {
         this(name, price, category, currentLocation, description, donor, null);
     }
