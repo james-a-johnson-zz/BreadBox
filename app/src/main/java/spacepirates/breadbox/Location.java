@@ -8,7 +8,7 @@ public class Location {
     private double longitude;
     private String address;
     private String phoneNumber;
-    private ArrayList<DonationItem> inventory;
+    // private ArrayList<DonationItem> inventory;
     private int inventoryMax;
 
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
@@ -18,7 +18,7 @@ public class Location {
         this.longitude = longitude;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        inventory = new ArrayList<DonationItem>();
+        // inventory = new ArrayList<DonationItem>();
         inventoryMax = 100;
     }
 
@@ -91,17 +91,17 @@ public class Location {
         this.phoneNumber = phoneNumber;
     }
 
-    public ArrayList<Location> getInventory() {
-        return inventory;
-    }
+    // public ArrayList<DonationItem> getInventory() {
+    //     return inventory;
+    // }
 
-    public void addItem(DonationItem d) {
-        inventory.add(d);
-    }
+    // public void addItem(DonationItem d) {
+    //     inventory.add(d);
+    // }
 
-    public double percentFull() {
-        return ((double)inventory.size())/inventoryMax;
-    }
+    // public double percentFull() {
+    //     return ((double)inventory.size())/inventoryMax;
+    // }
 
     public boolean equals(Location l) {
         if (!(l isInstanceOf Location) || !(l.getAddress().compareTo(this.getAddress() == 0))) {
