@@ -25,6 +25,7 @@ public class DonationItem {
     }
 
     public DonationItem(String name, double price, Category category,
+<<<<<<< HEAD
         Location currentLocation, String description, User donor) {
         this(name, price, category, currentLocation, description, donor, null);
     }
@@ -41,6 +42,17 @@ public class DonationItem {
         this.price = price;
         this.category = category;
         this.currentLocation = currentLocation;
+=======
+        String description) {
+        this(name, price, category, description, null);
+    }
+
+    public DonationItem(String name, double price, Category category,
+        String description, List<Tag> tags) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+>>>>>>> 0720a98114055db3a77324947a57c7359c705b9d
         this.description = description;
         this.donor = donor;
         this.tags = tags;
