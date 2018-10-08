@@ -23,20 +23,13 @@ public class LocationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ArrayList locations;
+        ArrayList locations = new ArrayList();
 
         setContentView(R.layout.activity_locations);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
@@ -48,20 +41,23 @@ public class LocationsActivity extends AppCompatActivity {
 
 
     public class LocationCardAdapter extends RecyclerView.Adapter<LocationCardAdapter.LocationViewHolder> {
-        List locations;
+        List<Location> locations;
 
-        public static class LocationViewHolder extends RecyclerView.ViewHolder {
+        public class LocationViewHolder extends RecyclerView.ViewHolder {
             CardView cv;
-            TextView personName;
+            TextView locationName;
+            TextView address;
 
             LocationViewHolder(View itemView) {
                 super(itemView);
-                cv = (CardView) itemView.findViewById(R.id.locationCard);
-                personName = (TextView) itemView.findViewById(R.id.person_name);
+                cv = (CardView) itemView.findViewById(R.id.location_card);
+                locationName = (TextView) itemView.findViewById(R.id.location_name);
+                address = (TextView) itemView.findViewById(R.id.address);
             }
 
         }
 
+        @Override
         public int getItemCount() {
             return locations.size();
         }
@@ -79,7 +75,7 @@ public class LocationsActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(LocationViewHolder locationViewHolder, int i) {
-            LocationViewHolder.personName.setText(locations.get(i).name);
+            //LocationViewHolder.locationName.setText(((Location)locations.get(i)).name);
         }
 
 

@@ -50,7 +50,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
-                Intent intent = new Intent(context, RegistrationActivity.class);
+                //Intent intent = new Intent(context, RegistrationActivity.class);
+                //hijack register to test ui
+                Intent intent = new Intent(context, LocationsActivity.class);
                 context.startActivity(intent);
             }
         });
