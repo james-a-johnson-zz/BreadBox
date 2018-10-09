@@ -24,11 +24,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegistrationActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".LocationsActivity"
-            android:label="@string/title_activity_locations"
+            android:name=".Register"
+            android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
