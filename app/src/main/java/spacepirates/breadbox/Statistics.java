@@ -16,13 +16,12 @@ public class Statistics{
     //each business has-a statistics
 
     //item tracking info
-    int donationRate; //in donations/this month
-    List<Integer> donationRatesMonthly;
+    List<Integer> monthlyDonations;
+    List<Integer> monthlyDistributions;
+    List<Double> monthlyIncome;
 
     int turnoverRate; //avg time items spend in inventory at location
-
-    int distributionRate; //in sales/this month
-    List<Integer> distributionRatesMonthly;
+    double inventoryValue;
 
     int dailyDonations;
     int dailyDistributions;
@@ -31,22 +30,22 @@ public class Statistics{
     int inventorySize; //current size
     int[] categoryInventorySize; //current size per category
 
-    //pricing:
-    int income; //in income/this month
-    List<Integer> incomeMonthly;
 
-    double inventoryValue;
-
+    //constructors
     public Statistics(Location location) {
+        monthlyDonations = new ArrayList<>();
+        monthlyDistributions = new ArrayList<>();
+        monthlyIncome = new ArrayList<>();
         categoryInventorySize = new int[Category.values().length];
         this.updateAll(location);
     }
 
     public Statistics(Business business) {
-        this.update(business);
+        this.updateAll(business);
 
     }
 
+    //methods (Update All)
     public void updateAll(Location location) {
         this.updateInventorySize(location);
         this.updateDailyDonations(location);
@@ -59,12 +58,12 @@ public class Statistics{
         //update inventory value & inventory value monthly list
     }
 
-    public void update(Business business) {
+    public void updateAll(Business business) {
 
     }
 
 
-    //update methods
+    //Individual update methods
     public void updateDailyDonations(Location location) {
         List<DonationItem> locInventory = location.getInventory();
         dailyDonations = 0;
@@ -82,7 +81,7 @@ public class Statistics{
     }
 
     public void updateDailyDistributions(Location location) {
-
+        dailyDistributions = location.getSoldToday().size();
     }
 
     public void updateInventorySize(Location location){
@@ -94,16 +93,13 @@ public class Statistics{
     }
 
 
-
-
-
     //smaller add and remove operations
     //add timestamp to daily donations/distributions? or update every time
     public void addItem(DonationItem d) {
         inventorySize++;
         categoryInventorySize[d.getCategory().ordinal()]++;
         inventoryValue += d.getPrice();
-        dailyDonations++;
+        //dailyDonations++;
 
     }
 
@@ -111,7 +107,7 @@ public class Statistics{
         inventorySize--;
         categoryInventorySize[d.getCategory().ordinal()]--;
         inventoryValue -= d.getPrice();
-        dailyDistributions++;
+        //dailyDistributions++;
     }
 
     public LocalDate getDay(LocalDate day) {

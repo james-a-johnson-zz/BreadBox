@@ -46,6 +46,7 @@ public class DonationItem {
         this.donor = donor;
         this.tags = tags;
         this.history = new History(currentLocation);
+        currentLocation.addItem(this);
     }
 
 
@@ -138,6 +139,7 @@ public class DonationItem {
 
     public void sell() {
         this.history.setSellDate(LocalDate.now());
+        currentLocation.sellItem(this);
     }
 
     public LocalDate getDateSold() {

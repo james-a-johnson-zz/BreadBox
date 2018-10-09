@@ -123,8 +123,7 @@ public class Location {
         return this.soldDaily;
     }
 
-    public void sell(DonationItem d) { //not sure what return type should be here (could be bool)
-        d.sell();
+    public void sellItem(DonationItem d) { //not sure what return type should be here (could be bool)
         if(inventory.remove(d)){ //for now, do nothing if item did not exist
             if (soldDaily.size() != 0 && soldDaily.get(soldDaily.size()-1).getDateSold()
                 == d.getDateSold()){
@@ -133,6 +132,7 @@ public class Location {
                 soldDaily = new ArrayList<DonationItem>();
                 soldDaily.add(d);
             }
+
         }
     }
 
