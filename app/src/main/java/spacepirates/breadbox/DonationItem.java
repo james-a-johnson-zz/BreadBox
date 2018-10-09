@@ -22,7 +22,7 @@ public class DonationItem {
 
     public DonationItem(String name, double price, Category category,
         Location currentLocation, String description) {
-        this(name, price, category, currentLocation, description, null);
+        this(name, price, category, currentLocation, description, null, null);
     }
 
     public DonationItem(String name, double price, Category category,
@@ -99,9 +99,18 @@ public class DonationItem {
         return this.donor;
     }
 
-        public void setLocation(Location L){
+    public void moveLocation(Location L){
+        currentLocation.removeItem(this);
         this.history.moveLocations(L);
         this.currentLocation = L;
+        currentLocation.addItem(this);
+    }
+
+    public void setLocation(Location L){
+        currentLocation.removeItem(this);
+        this.history.setLastLocation(L); //DIFFERENT FROM MOVE LOCATIONS
+        this.currentLocation = L;
+        currentLocation.addItem(this);
     }
 
     //Item history retrieval stuff
@@ -109,8 +118,6 @@ public class DonationItem {
     public Location getCurrentLocation(){
         return currentLocation;
     }
-
-    //public List<Location> getLocationHistory()
 
     public LocalDate getDateArrived() {
         return this.history.getDateArrived(currentLocation);
@@ -120,6 +127,34 @@ public class DonationItem {
         return this.history.getDateArrived(L);
 
     }
+
+    public History getHistory() {
+        return this.history;
+    }
+
+    public List<Location> getPastLocations() {
+        return this.history.getLocations();
+    }
+
+    public void sell() {
+        this.history.setSellDate(LocalDate.now());
+    }
+
+    public LocalDate getDateSold() {
+        return this.history.getSellDate();
+    }
+
+    public String toString(){
+        String histString = this.history.toString();
+        String finString = "Name : " + name + "\n"
+            + "Price: " + price + "\n"
+            + "Category: " + category + "\n"
+            + "Location: " + currentLocation.getName() + "\n"
+            + "History: " + histString;
+        return finString;
+    }
+
+    //public
 
 
 

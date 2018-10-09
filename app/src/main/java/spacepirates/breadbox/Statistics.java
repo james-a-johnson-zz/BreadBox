@@ -35,44 +35,21 @@ public class Statistics{
     int income; //in income/this month
     List<Integer> incomeMonthly;
 
-    int inventoryValue; //in inventoryValue/this month
-    List<Integer> inventoryValueMonthly;
+    double inventoryValue;
 
-    public Statistics(Location location){
-        this.update(location);
+    public Statistics(Location location) {
+        categoryInventorySize = new int[Category.values().length];
+        this.updateAll(location);
     }
 
-    public Statistics(Business business){
+    public Statistics(Business business) {
         this.update(business);
 
     }
 
-    public void update(Location location){
-
-        List<DonationItem> locInventory = location.getInventory();
-        inventorySize = locInventory.size();
-        //this.updateCategoryInventories(locInventory); --> could make this method, but going to make
-        //it in constructor for now
-        categoryInventorySize = new int[Category.values().length];
-        for(DonationItem d : locInventory){
-            categoryInventorySize[d.getCategory().ordinal()]++; //updates amount of items in each category
-        }
-
-
-        dailyDonations = 0;
-        int i = inventorySize-1; //assuming inventory sorted by date arrived
-        //meaning the last items added will be at the back.
-
-        int nowDay = LocalDate.now().getDayOfMonth();
-        int nowMonth = LocalDate.now().getMonthValue();
-        int nowYear = LocalDate.now().getYear();
-
-        while(nowDay == locInventory.get(i).getDateArrived().getDayOfMonth()
-            && nowMonth == locInventory.get(i).getDateArrived().getMonthValue()
-            && nowYear == locInventory.get(i).getDateArrived().getYear()){
-            dailyDonations++;
-            i--;
-        }
+    public void updateAll(Location location) {
+        this.updateInventorySize(location);
+        this.updateDailyDonations(location);
 
         //update daily distributions
         //update donation rate & donation rate monthly list
@@ -82,8 +59,66 @@ public class Statistics{
         //update inventory value & inventory value monthly list
     }
 
-    public void update(Business business){
+    public void update(Business business) {
 
+    }
+
+
+    //update methods
+    public void updateDailyDonations(Location location) {
+        List<DonationItem> locInventory = location.getInventory();
+        dailyDonations = 0;
+        int i = inventorySize-1; //assuming inventory sorted by date arrived
+        //meaning the last items added will be at the back.
+
+        LocalDate today = this.getDay(LocalDate.now());
+        LocalDate donateDay = locInventory.get(i).getDateArrived();
+
+        while(today.equals(donateDay)) {
+            dailyDonations++;
+            i--;
+            donateDay = locInventory.get(i).getDateArrived();
+        }
+    }
+
+    public void updateDailyDistributions(Location location) {
+
+    }
+
+    public void updateInventorySize(Location location){
+        List<DonationItem> locInventory = location.getInventory();
+        inventorySize = locInventory.size();
+        for(DonationItem d : locInventory) {
+            categoryInventorySize[d.getCategory().ordinal()]++; //updates amount of items in each category
+        }
+    }
+
+
+
+
+
+    //smaller add and remove operations
+    //add timestamp to daily donations/distributions? or update every time
+    public void addItem(DonationItem d) {
+        inventorySize++;
+        categoryInventorySize[d.getCategory().ordinal()]++;
+        inventoryValue += d.getPrice();
+        dailyDonations++;
+
+    }
+
+    public void sellItem(DonationItem d) {
+        inventorySize--;
+        categoryInventorySize[d.getCategory().ordinal()]--;
+        inventoryValue -= d.getPrice();
+        dailyDistributions++;
+    }
+
+    public LocalDate getDay(LocalDate day) {
+        int thisDay = day.getDayOfMonth();
+        int thisMonth = day.getMonthValue();
+        int thisYear = day.getYear();
+        return LocalDate.of(thisYear, thisMonth, thisDay);
     }
 
 

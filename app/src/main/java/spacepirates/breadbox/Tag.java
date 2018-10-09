@@ -23,7 +23,7 @@ public enum Tag{
     private String name;
     private List<Category> categories;
 
-    public Tag(String name, Category... categoryArr){
+    Tag(String name, Category... categoryArr){
         this.name = name;
 
         for(Category c: categoryArr){

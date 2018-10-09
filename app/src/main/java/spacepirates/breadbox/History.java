@@ -7,17 +7,22 @@ import java.time.LocalDate;
 public class History {
     private ArrayList<LocalDate> datesMoved;
     private ArrayList<Location> Locations;
+    private LocalDate sellDate;
 
     public History(Location location) {
-        this.datesMoved.add(LocalDate.now());
+        this.datesMoved.add(this.getDay(LocalDate.now()));
         Locations.add(location);
 
     }
 
     public void moveLocations(Location L) {
-        this.datesMoved.add(LocalDate.now());
+        this.datesMoved.add(this.getDay(LocalDate.now()));
         //do we really need the WHOLE date? we could just save day-month-year
         Locations.add(L);
+    }
+
+    public void setLastLocation(Location L) {
+        this.Locations.add(Locations.size()-1, L);
     }
 
     public LocalDate getDateArrived(Location L) {
@@ -43,7 +48,30 @@ public class History {
         return Locations.get(i-1);
     }
 
-    public String[] getLocationHistory() {
+    public List<Location> getLocations() {
+        return this.Locations;
+    }
+
+    public void setSellDate(LocalDate day){
+        sellDate = this.getDay(day);
+
+    }
+
+    public LocalDate getSellDate(){
+        return sellDate;
+    }
+
+    public LocalDate getDay(LocalDate day) {
+        int thisDay = day.getDayOfMonth();
+        int thisMonth = day.getMonthValue();
+        int thisYear = day.getYear();
+        return LocalDate.of(thisYear, thisMonth, thisDay);
+    }
+
+
+    //toString stuff
+
+    public String[] getLocationHistoryString() {
         String[] locHistory = new String[Locations.size()];
         for(int i = 0; i < Locations.size(); i++) {
             locHistory[i] = "Arrived at" + Locations.get(i).getName()
@@ -55,13 +83,15 @@ public class History {
         return locHistory;
     }
 
-    public String toString(){
-        String[] hist = this.getLocationHistory();
-        String histoPrint = "";
-        for(String h : hist){
-            histoPrint = histoPrint + h + "\n";
+    public String toString() {
+        String[] locHistoryArr = this.getLocationHistoryString();
+        String locHistory = "";
+        for(String s: locHistoryArr){
+            locHistory += s + "\n";
         }
-        return histoPrint;
+        return locHistory;
+
     }
+
 
 }

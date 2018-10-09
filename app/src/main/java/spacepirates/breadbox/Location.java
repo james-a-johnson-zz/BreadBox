@@ -12,7 +12,9 @@ public class Location {
     private String address;
     private String phoneNumber;
     private List<DonationItem> inventory;
+    private List<DonationItem> soldDaily;
     private int inventoryMax;
+    private Statistics stats;
 
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
         this.name = name;
@@ -22,7 +24,9 @@ public class Location {
         this.address = address;
         this.phoneNumber = phoneNumber;
         inventory = new ArrayList<DonationItem>();
+        soldDaily = new ArrayList<DonationItem>();
         inventoryMax = 100;
+        stats = new Statistics(this);
     }
 
     public Location(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
@@ -94,7 +98,7 @@ public class Location {
         this.phoneNumber = phoneNumber;
     }
 
-    public ArrayList<DonationItem> getInventory() {
+    public List<DonationItem> getInventory() {
         return inventory;
     }
 
@@ -113,4 +117,30 @@ public class Location {
         }
         return !(((Location) l).getAddress().compareTo(this.getAddress()) == 0);
     }
+
+
+    public List<DonationItem> getSoldToday(){
+        return this.soldDaily;
+    }
+
+    public void sell(DonationItem d) { //not sure what return type should be here (could be bool)
+        d.sell();
+        if(inventory.remove(d)){ //for now, do nothing if item did not exist
+            if (soldDaily.size() != 0 && soldDaily.get(soldDaily.size()-1).getDateSold()
+                == d.getDateSold()){
+                soldDaily.add(d);
+            } else {
+                soldDaily = new ArrayList<DonationItem>();
+                soldDaily.add(d);
+            }
+        }
+    }
+
+    public boolean removeItem(DonationItem d) { //use to move item to new location/set item location
+        return inventory.remove(d);
+    }
+
+
+
 }
+
