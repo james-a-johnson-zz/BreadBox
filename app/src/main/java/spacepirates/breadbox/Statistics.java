@@ -67,9 +67,9 @@ public class Statistics{
     public void updateDailyDonations(Location location) {
         List<DonationItem> locInventory = location.getInventory();
         dailyDonations = 0;
+        if (inventorySize == 0) {return;}
         int i = inventorySize-1; //assuming inventory sorted by date arrived
         //meaning the last items added will be at the back.
-
         LocalDate today = this.getDay(LocalDate.now());
         LocalDate donateDay = locInventory.get(i).getDateArrived();
 
@@ -86,6 +86,7 @@ public class Statistics{
 
     public void updateInventorySize(Location location){
         List<DonationItem> locInventory = location.getInventory();
+        if (inventorySize == 0) {return;}
         inventorySize = locInventory.size();
         for(DonationItem d : locInventory) {
             categoryInventorySize[d.getCategory().ordinal()]++; //updates amount of items in each category

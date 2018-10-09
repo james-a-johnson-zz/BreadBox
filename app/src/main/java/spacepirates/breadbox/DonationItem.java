@@ -149,10 +149,10 @@ public class DonationItem {
     public String toString(){
         String histString = this.history.toString();
         String finString = "Name : " + name + "\n"
-            + "Price: " + price + "\n"
+            + "Price: $" + price + "\n"
             + "Category: " + category + "\n"
             + "Location: " + currentLocation.getName() + "\n"
-            + "History: " + histString;
+            + "History: " + "\n"+ histString;
         return finString;
     }
 

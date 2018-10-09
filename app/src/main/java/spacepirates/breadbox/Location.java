@@ -140,6 +140,24 @@ public class Location {
         return inventory.remove(d);
     }
 
+    public String toStringTest() { //for testing purposes
+        String LocString = "";
+        LocString += "Name: " + name + "\n"
+            + "Location Type: " + type + "\n"
+            + "Address:" + address + "\n"
+            + "Inventory:" + "\n" + this.inventoryToString();
+        return LocString;
+
+    }
+
+    public String inventoryToString() {
+        String itemStr = "";
+        for(DonationItem d : inventory) {
+            itemStr += d.getName() + "\n";
+        }
+        return itemStr;
+    }
+
 
 
 }
