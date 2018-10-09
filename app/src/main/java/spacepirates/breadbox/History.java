@@ -8,12 +8,14 @@ public class History {
     private List<LocalDate> datesMoved;
     private List<Location> Locations;
     private LocalDate sellDate;
+    private boolean sold;
 
     public History(Location location) {
-    datesMoved = new ArrayList<>();
-    Locations = new ArrayList<>();
+        datesMoved = new ArrayList<>();
+        Locations = new ArrayList<>();
         this.datesMoved.add(this.getDay(LocalDate.now()));
         Locations.add(location);
+        sold = false;
 
     }
 
@@ -55,12 +57,17 @@ public class History {
     }
 
     public void setSellDate(LocalDate day){
+        sold = true;
         sellDate = this.getDay(day);
 
     }
 
     public LocalDate getSellDate(){
         return sellDate;
+    }
+
+    public boolean getSold(){
+        return sold;
     }
 
     public LocalDate getDay(LocalDate day) {
@@ -94,6 +101,9 @@ public class History {
         String locHistory = "";
         for(String s: locHistoryArr){
             locHistory += s + "\n";
+        }
+        if (sold){
+            locHistory += "Sold.";
         }
         return locHistory;
 

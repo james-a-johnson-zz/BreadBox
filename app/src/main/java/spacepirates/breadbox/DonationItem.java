@@ -150,9 +150,14 @@ public class DonationItem {
         String histString = this.history.toString();
         String finString = "Name : " + name + "\n"
             + "Price: $" + price + "\n"
-            + "Category: " + category + "\n"
-            + "Location: " + currentLocation.getName() + "\n"
-            + "History: " + "\n"+ histString;
+            + "Category: " + category + "\n";
+        if (this.history.getSold()){
+            finString += "Last Located at: " + currentLocation.getName() + "\n";
+        } else {
+            finString += "Location: " + currentLocation.getName() + "\n";
+        }
+
+        finString += "History: " + "\n"+ histString;
         return finString;
     }
 
