@@ -2,6 +2,7 @@ package spacepirates.breadbox;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
 
 public class Location {
 
@@ -12,9 +13,10 @@ public class Location {
     private String address;
     private String phoneNumber;
     private List<DonationItem> inventory;
-    private List<DonationItem> soldDaily;
+    private List<Statistics> yearlyStats;
+    private Statistics stats; //this year's statistics
     private int inventoryMax;
-    private Statistics stats;
+
 
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
         this.name = name;
@@ -24,9 +26,10 @@ public class Location {
         this.address = address;
         this.phoneNumber = phoneNumber;
         inventory = new ArrayList<DonationItem>();
-        soldDaily = new ArrayList<DonationItem>();
         inventoryMax = 100;
+        yearlyStats = new ArrayList<Statistics>();
         stats = new Statistics(this);
+        yearlyStats.add(stats);
     }
 
     public Location(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
@@ -103,6 +106,8 @@ public class Location {
     }
 
     public void addItem(DonationItem d) {
+        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
+        this.stats.addUpdate(d);
         inventory.add(d);
     }
 
@@ -119,24 +124,17 @@ public class Location {
     }
 
 
-    public List<DonationItem> getSoldToday(){
-        return this.soldDaily;
-    }
 
     public void sellItem(DonationItem d) { //not sure what return type should be here (could be bool)
+        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
         if(inventory.remove(d)){ //for now, do nothing if item did not exist
-            if (soldDaily.size() != 0 && soldDaily.get(soldDaily.size()-1).getDateSold()
-                == d.getDateSold()){
-                soldDaily.add(d);
-            } else {
-                soldDaily = new ArrayList<DonationItem>();
-                soldDaily.add(d);
-            }
-
+            this.stats.sellUpdate(d);
         }
     }
 
     public boolean removeItem(DonationItem d) { //use to move item to new location/set item location
+        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
+        this.stats.removeUpdate(d);
         return inventory.remove(d);
     }
 
@@ -156,6 +154,11 @@ public class Location {
             itemStr += d.getName() + "\n";
         }
         return itemStr;
+    }
+
+    public void updateYearOfStats(){
+        stats = new Statistics(this);
+        yearlyStats.add(stats);
     }
 
 

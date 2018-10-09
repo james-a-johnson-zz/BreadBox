@@ -1,114 +1,104 @@
 package spacepirates.breadbox;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.ArrayList;
 
 public class Statistics{
     //methods to compute statistics for a location and a business
     //which means overloading a 'get stats' method
-    // Total items by category.
-    // Value of inventory by month.
-    // Income (sell prices –value) per month.
-    // Donations per month per location.
 
     //each location has-a statistics
     //each business has-a statistics
 
     //item tracking info
-    List<Integer> monthlyDonations;
-    List<Integer> monthlyDistributions;
-    List<Double> monthlyIncome;
+    int year;
+    int[] monthlyDonations;
+    int[] monthlyDistributions;
+    int[] monthlyIncome;
+    int[] monthlyTurnoverTimes;
+    int[] monthlyTurnovers;
+    //to get turnover rate, divide turnover time for some month by turnover num
+    //for that month
 
-    int turnoverRate; //avg time items spend in inventory at location
+    //daily sold and added trackers
+    private List<DonationItem> soldDaily;
+    private List<DonationItem> addedDaily;
+
+    //inventory:
     double inventoryValue;
-
-    int dailyDonations;
-    int dailyDistributions;
-
-    //inventory sizes:
     int inventorySize; //current size
     int[] categoryInventorySize; //current size per category
 
 
     //constructors
     public Statistics(Location location) {
-        monthlyDonations = new ArrayList<>();
-        monthlyDistributions = new ArrayList<>();
-        monthlyIncome = new ArrayList<>();
+        monthlyDonations = new int[12];
+        monthlyDistributions = new int[12];
+        monthlyIncome = new int[12];
+        monthlyTurnoverTimes = new int[12];
+        monthlyTurnovers = new int[12];
+
+        soldDaily = new ArrayList<DonationItem>();
+        addedDaily = new ArrayList<DonationItem>();
+        year = this.getDay(LocalDate.now()).getYear();
+
         categoryInventorySize = new int[Category.values().length];
-        this.updateAll(location);
+        //this.updateAll(location);
     }
 
     public Statistics(Business business) {
-        this.updateAll(business);
+        //this.updateAll(business);
 
     }
 
-    //methods (Update All)
-    public void updateAll(Location location) {
-        this.updateInventorySize(location);
-        this.updateDailyDonations(location);
-
-        //update daily distributions
-        //update donation rate & donation rate monthly list
-        //update distribution rate & distribution rate monthly list
-        //update turnover rate
-        //update income & income monthly list
-        //update inventory value & inventory value monthly list
-    }
-
-    public void updateAll(Business business) {
-
-    }
-
-
-    //Individual update methods
-    public void updateDailyDonations(Location location) {
-        List<DonationItem> locInventory = location.getInventory();
-        dailyDonations = 0;
-        if (inventorySize == 0) {return;}
-        int i = inventorySize-1; //assuming inventory sorted by date arrived
-        //meaning the last items added will be at the back.
-        LocalDate today = this.getDay(LocalDate.now());
-        LocalDate donateDay = locInventory.get(i).getDateArrived();
-
-        while(today.equals(donateDay)) {
-            dailyDonations++;
-            i--;
-            donateDay = locInventory.get(i).getDateArrived();
+    public void addUpdate(DonationItem item){
+        if (addedDaily.size() != 0 && addedDaily.get(addedDaily.size()-1).getDateInCirculation()
+            == item.getDateInCirculation()){
+            addedDaily.add(item);
+        } else {
+            addedDaily = new ArrayList<DonationItem>();
+            addedDaily.add(item);
         }
-    }
-
-    public void updateDailyDistributions(Location location) {
-        dailyDistributions = location.getSoldToday().size();
-    }
-
-    public void updateInventorySize(Location location){
-        List<DonationItem> locInventory = location.getInventory();
-        if (inventorySize == 0) {return;}
-        inventorySize = locInventory.size();
-        for(DonationItem d : locInventory) {
-            categoryInventorySize[d.getCategory().ordinal()]++; //updates amount of items in each category
-        }
-    }
-
-
-    //smaller add and remove operations
-    //add timestamp to daily donations/distributions? or update every time
-    public void addItem(DonationItem d) {
+        monthlyDonations[item.getDateInCirculation().getMonthValue()-1]++;
+        inventoryValue += item.getPrice();
         inventorySize++;
-        categoryInventorySize[d.getCategory().ordinal()]++;
-        inventoryValue += d.getPrice();
-        //dailyDonations++;
+        categoryInventorySize[item.getCategory().ordinal()]++;
+    }
+
+
+    public void sellUpdate(DonationItem item){
+        if (soldDaily.size() != 0 && soldDaily.get(soldDaily.size()-1).getDateSold()
+            == item.getDateSold()){
+            soldDaily.add(item);
+        } else {
+            soldDaily = new ArrayList<DonationItem>();
+            soldDaily.add(item);
+        }
+        monthlyIncome[item.getDateSold().getMonthValue()-1] += item.getPrice();
+        monthlyDistributions[item.getDateSold().getMonthValue()-1]++;
+        this.removeUpdate(item);
 
     }
 
-    public void sellItem(DonationItem d) {
+    public void removeUpdate(DonationItem item){
+        inventoryValue -= item.getPrice();
         inventorySize--;
-        categoryInventorySize[d.getCategory().ordinal()]--;
-        inventoryValue -= d.getPrice();
-        //dailyDistributions++;
+        categoryInventorySize[item.getCategory().ordinal()]--;
+
+        monthlyTurnovers[item.getDateSold().getMonthValue()-1] ++;
+        Period turnoverTime = item.getDateInCirculation().until​(item.getDateSold());
+        monthlyTurnoverTimes[item.getDateSold().getMonthValue()-1] += turnoverTime.getMonths();
+    }
+
+
+    public int getDailyDistributions(){
+        return soldDaily.size();
+    }
+
+    public int getDailyDonations(){
+        return addedDaily.size();
     }
 
     public LocalDate getDay(LocalDate day) {
@@ -116,6 +106,10 @@ public class Statistics{
         int thisMonth = day.getMonthValue();
         int thisYear = day.getYear();
         return LocalDate.of(thisYear, thisMonth, thisDay);
+    }
+
+    public int getYearOfStats(){
+        return this.year;
     }
 
 

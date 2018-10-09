@@ -120,6 +120,11 @@ public class DonationItem {
         return currentLocation;
     }
 
+    public LocalDate getDateInCirculation(){
+        Location L = this.history.getLocations().get(0);
+        return this.history.getDateArrived(L);
+    }
+
     public LocalDate getDateArrived() {
         return this.history.getDateArrived(currentLocation);
     }
