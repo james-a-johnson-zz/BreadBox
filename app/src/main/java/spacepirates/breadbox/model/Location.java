@@ -1,4 +1,7 @@
 package spacepirates.breadbox.model;
+import java.util.ArrayList;
+import java.util.List;
+import java.time.LocalDate;
 
 import java.util.ArrayList;
 
@@ -10,8 +13,11 @@ public class Location {
     private double longitude;
     private String address;
     private String phoneNumber;
-    // private ArrayList<DonationItem> inventory;
+    private List<DonationItem> inventory;
+    private List<Statistics> yearlyStats;
+    private Statistics stats; //this year's statistics
     private int inventoryMax;
+
 
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
         this.name = name;
@@ -20,8 +26,11 @@ public class Location {
         this.longitude = longitude;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        // inventory = new ArrayList<DonationItem>();
+        inventory = new ArrayList<DonationItem>();
         inventoryMax = 100;
+        yearlyStats = new ArrayList<Statistics>();
+        stats = new Statistics(this);
+        yearlyStats.add(stats);
     }
 
     public Location(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
@@ -93,17 +102,19 @@ public class Location {
         this.phoneNumber = phoneNumber;
     }
 
-    // public ArrayList<DonationItem> getInventory() {
-    //     return inventory;
-    // }
+    public List<DonationItem> getInventory() {
+        return inventory;
+    }
 
-    // public void addItem(DonationItem d) {
-    //     inventory.add(d);
-    // }
+    public void addItem(DonationItem d) {
+        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
+        this.stats.addUpdate(d);
+        inventory.add(d);
+    }
 
-    // public double percentFull() {
-    //     return ((double)inventory.size())/inventoryMax;
-    // }
+    public double percentFull() {
+        return ((double)inventory.size())/inventoryMax;
+    }
 
     @Override
     public boolean equals(Object l) {
@@ -112,4 +123,53 @@ public class Location {
         }
         return (((Location) l).getAddress().compareTo(this.getAddress()) == 0);
     }
+
+
+
+    public void sellItem(DonationItem d) { //not sure what return type should be here (could be bool)
+        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
+        if(inventory.remove(d)){ //for now, do nothing if item did not exist
+            this.stats.sellUpdate(d);
+        }
+    }
+
+    public boolean removeItem(DonationItem d) { //use to move item to new location/set item location
+        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
+        this.stats.removeUpdate(d);
+        return inventory.remove(d);
+    }
+
+    public void updateYearOfStats(){
+        stats = new Statistics(this);
+        yearlyStats.add(stats);
+    }
+
+    public Statistics getStats(){
+        return this.stats;
+    }
+
+
+    //test toString methods, can delete later/comment out
+    public String toStringTest() { //for testing purposes
+        String LocString = "";
+        LocString += "Name: " + name + "\n"
+            + "Location Type: " + type + "\n"
+            + "Address:" + address + "\n"
+            + "Inventory:" + "\n" + this.inventoryToString();
+        return LocString;
+
+    }
+
+    public String inventoryToString() {
+        String itemStr = "";
+        for(DonationItem d : inventory) {
+            itemStr += d.getName() + "\n";
+        }
+        return itemStr;
+    }
+
+
+
+
 }
+
