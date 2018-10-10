@@ -78,7 +78,7 @@ public class History {
     }
 
 
-    //toString stuff
+    //toStrings for tests, can delete/comment out later
 
     public String[] getLocationHistoryString() {
         String[] locHistory = new String[Locations.size()];

@@ -102,15 +102,17 @@ public class DonationItem {
 
     public void moveLocation(Location L){
         this.history.moveLocations(L);
-        currentLocation.removeItem(this);
+        Location oldLocation = currentLocation;
         this.currentLocation = L;
+        oldLocation.removeItem(this);
         currentLocation.addItem(this);
     }
 
     public void setLocation(Location L){
         this.history.setLastLocation(L); //DIFFERENT FROM MOVE LOCATIONS
-        currentLocation.removeItem(this);
+        Location oldLocation = currentLocation;
         this.currentLocation = L;
+        oldLocation.removeItem(this);
         currentLocation.addItem(this);
     }
 
@@ -155,6 +157,7 @@ public class DonationItem {
         return this.history.getSold();
     }
 
+    //toStrings for tests, can delete/comment out later
     public String toString(){
         String histString = this.history.toString();
         String finString = "Name : " + name + "\n"

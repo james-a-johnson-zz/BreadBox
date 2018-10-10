@@ -138,6 +138,17 @@ public class Location {
         return inventory.remove(d);
     }
 
+    public void updateYearOfStats(){
+        stats = new Statistics(this);
+        yearlyStats.add(stats);
+    }
+
+    public Statistics getStats(){
+        return this.stats;
+    }
+
+
+    //test toString methods, can delete later/comment out
     public String toStringTest() { //for testing purposes
         String LocString = "";
         LocString += "Name: " + name + "\n"
@@ -156,14 +167,6 @@ public class Location {
         return itemStr;
     }
 
-    public void updateYearOfStats(){
-        stats = new Statistics(this);
-        yearlyStats.add(stats);
-    }
-
-    public Statistics getStats(){
-        return this.stats;
-    }
 
 
 

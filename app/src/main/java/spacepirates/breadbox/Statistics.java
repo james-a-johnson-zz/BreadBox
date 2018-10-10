@@ -48,11 +48,9 @@ public class Statistics{
 
         this.updateInventoryStats(location);
 
-        //this.updateAll(location);
     }
 
     public Statistics(Business business) {
-        //this.updateAll(business);
 
     }
 
@@ -133,6 +131,7 @@ public class Statistics{
         return this.year;
     }
 
+    //test toString methods, can delete later/comment out
     public String toString() {
         String statString = "Statistics Today: " + "\n"
             + "Daily Distributions: " + getDailyDistributions() + "\n"
