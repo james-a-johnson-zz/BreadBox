@@ -1,8 +1,7 @@
-package spacepirates.breadbox;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+package spacepirates.breadbox.model;
 
 public class Location {
 

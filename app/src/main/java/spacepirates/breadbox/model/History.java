@@ -1,6 +1,5 @@
-package spacepirates.breadbox;
+package spacepirates.breadbox.model;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.time.LocalDate;
 

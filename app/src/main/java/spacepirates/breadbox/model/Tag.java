@@ -1,7 +1,6 @@
-package spacepirates.breadbox;
+package spacepirates.breadbox.model;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public enum Tag{
     TOPS("Tops", Category.APPAREL), BOTTOMS("Bottoms", Category.APPAREL),

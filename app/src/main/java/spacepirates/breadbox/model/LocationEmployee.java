@@ -1,4 +1,4 @@
-package spacepirates.breadbox;
+package spacepirates.breadbox.model;
 
 public class LocationEmployee extends BasicUser {
 
