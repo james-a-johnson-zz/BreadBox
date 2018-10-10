@@ -1,5 +1,4 @@
-package spacepirates.breadbox;
-import java.util.List;
+package spacepirates.breadbox.model;
 
 public class Admin extends BasicUser {
 

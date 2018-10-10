@@ -1,7 +1,7 @@
-package spacepirates.breadbox;
+package spacepirates.breadbox.model;
 
-import java.util.ArrayList;
 import java.util.List;
+import spacepirates.breadbox.model.User;
 
 public class DonationItem {
     private String name;
@@ -21,7 +21,7 @@ public class DonationItem {
 
     public DonationItem(String name, double price, Category category,
         Location currentLocation, String description) {
-        this(name, price, category, currentLocation, description, null);
+        this(name, price, category, currentLocation, description,null,  null);
     }
 
     public DonationItem(String name, double price, Category category,

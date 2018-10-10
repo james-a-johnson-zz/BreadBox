@@ -1,4 +1,4 @@
-package spacepirates.breadbox.model;
+package spacepirates.breadbox;
 
 
 import android.support.v7.widget.CardView;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import spacepirates.breadbox.Location;
+import spacepirates.breadbox.model.Location;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
 
     @Override
     public LocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.locationCard, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.location_card, viewGroup, false);
         LocationViewHolder lvh = new LocationViewHolder(v);
         return lvh;
     }

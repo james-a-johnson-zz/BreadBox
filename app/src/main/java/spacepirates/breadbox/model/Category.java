@@ -1,4 +1,4 @@
-package spacepirates.breadbox;
+package spacepirates.breadbox.model;
 
 public enum Category{
     APPAREL("Apparel"), FURNITURE("Furniture"), KITCHENWARE("Kitchenware"),

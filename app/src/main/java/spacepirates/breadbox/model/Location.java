@@ -1,6 +1,4 @@
-package spacepirates.breadbox;
-
-import java.util.ArrayList;
+package spacepirates.breadbox.model;
 
 public class Location {
 
