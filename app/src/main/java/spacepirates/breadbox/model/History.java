@@ -2,6 +2,7 @@ package spacepirates.breadbox.model;
 
 import java.util.ArrayList;
 import java.time.LocalDate;
+import java.util.List;
 
 public class History {
     private List<LocalDate> datesMoved;
