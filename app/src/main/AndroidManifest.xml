@@ -27,12 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--
         <activity
-            android:name=".model.Register"
-            android:label="@string/title_activity_register"
+            android:name=".LocationsActivity"
+            android:label="LocationsActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-            -->
     </application>
 
 </manifest>
