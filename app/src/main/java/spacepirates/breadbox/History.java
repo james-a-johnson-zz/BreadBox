@@ -22,7 +22,7 @@ public class History {
     public void moveLocations(Location L) {
         this.datesMoved.add(this.getDay(LocalDate.now()));
         //do we really need the WHOLE date? we could just save day-month-year
-        Locations.add(L);
+        this.Locations.add(L);
     }
 
     public void setLastLocation(Location L) {

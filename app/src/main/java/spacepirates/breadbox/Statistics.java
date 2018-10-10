@@ -19,6 +19,8 @@ public class Statistics{
     int[] monthlyIncome;
     int[] monthlyTurnoverTimes;
     int[] monthlyTurnovers;
+    String[] months = {"January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "Novemver", "December"};
     //to get turnover rate, divide turnover time for some month by turnover num
     //for that month
 
@@ -44,7 +46,8 @@ public class Statistics{
         addedDaily = new ArrayList<DonationItem>();
         year = this.getDay(LocalDate.now()).getYear();
 
-        categoryInventorySize = new int[Category.values().length];
+        this.updateInventoryStats(location);
+
         //this.updateAll(location);
     }
 
@@ -86,18 +89,36 @@ public class Statistics{
         inventoryValue -= item.getPrice();
         inventorySize--;
         categoryInventorySize[item.getCategory().ordinal()]--;
+        LocalDate dateMoved = item.getDateArrived();
 
-        monthlyTurnovers[item.getDateSold().getMonthValue()-1] ++;
-        Period turnoverTime = item.getDateInCirculation().until​(item.getDateSold());
-        monthlyTurnoverTimes[item.getDateSold().getMonthValue()-1] += turnoverTime.getMonths();
+        if (item.getSold()){
+            dateMoved = item.getDateSold();
+        }
+
+        monthlyTurnovers[dateMoved.getMonthValue()-1] ++;
+        Period turnoverTime = item.getDateInCirculation().until​(dateMoved);
+        monthlyTurnoverTimes[dateMoved.getMonthValue()-1] += turnoverTime.getMonths();
+    }
+
+    public void updateInventoryStats(Location location){
+        int inventorySize = location.getInventory().size();
+        int inventoryValue = 0;
+        categoryInventorySize = new int[Category.values().length];
+
+        List<DonationItem> inventory = location.getInventory();
+        for (DonationItem item : inventory){
+            inventoryValue += item.getPrice();
+            categoryInventorySize[item.getCategory().ordinal()]++;
+        }
+
     }
 
 
-    public int getDailyDistributions(){
+    public int getDailyDistributions() {
         return soldDaily.size();
     }
 
-    public int getDailyDonations(){
+    public int getDailyDonations() {
         return addedDaily.size();
     }
 
@@ -108,8 +129,26 @@ public class Statistics{
         return LocalDate.of(thisYear, thisMonth, thisDay);
     }
 
-    public int getYearOfStats(){
+    public int getYearOfStats() {
         return this.year;
+    }
+
+    public String toString() {
+        String statString = "Statistics Today: " + "\n"
+            + "Daily Distributions: " + getDailyDistributions() + "\n"
+            + "Daily Donations: " + getDailyDonations() + "\n";
+        statString += "Statistics " + this.year + "\n"
+            + "Monthly Income:" + "\n";
+        statString += this.MonthlyIncomeString();
+        return statString;
+    }
+
+    public String MonthlyIncomeString() {
+        String incomeString = "";
+        for(int i = 0; i < months.length; i++) {
+            incomeString += months[i] + monthlyIncome[i] + "\n";
+        }
+        return incomeString;
     }
 
 

@@ -101,15 +101,15 @@ public class DonationItem {
     }
 
     public void moveLocation(Location L){
-        currentLocation.removeItem(this);
         this.history.moveLocations(L);
+        currentLocation.removeItem(this);
         this.currentLocation = L;
         currentLocation.addItem(this);
     }
 
     public void setLocation(Location L){
-        currentLocation.removeItem(this);
         this.history.setLastLocation(L); //DIFFERENT FROM MOVE LOCATIONS
+        currentLocation.removeItem(this);
         this.currentLocation = L;
         currentLocation.addItem(this);
     }
@@ -149,6 +149,10 @@ public class DonationItem {
 
     public LocalDate getDateSold() {
         return this.history.getSellDate();
+    }
+
+    public boolean getSold(){
+        return this.history.getSold();
     }
 
     public String toString(){

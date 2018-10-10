@@ -120,7 +120,7 @@ public class Location {
         if (l == null || !(l instanceof Location)) {
             return false;
         }
-        return !(((Location) l).getAddress().compareTo(this.getAddress()) == 0);
+        return (((Location) l).getAddress().compareTo(this.getAddress()) == 0);
     }
 
 
@@ -159,6 +159,10 @@ public class Location {
     public void updateYearOfStats(){
         stats = new Statistics(this);
         yearlyStats.add(stats);
+    }
+
+    public Statistics getStats(){
+        return this.stats;
     }
 
 
