@@ -16,7 +16,7 @@ public class Statistics{
     int year;
     int[] monthlyDonations;
     int[] monthlyDistributions;
-    int[] monthlyIncome;
+    double[] monthlyIncome;
     int[] monthlyTurnoverTimes;
     int[] monthlyTurnovers;
     String[] months = {"January", "February", "March", "April", "May", "June",
@@ -38,7 +38,7 @@ public class Statistics{
     public Statistics(Location location) {
         monthlyDonations = new int[12];
         monthlyDistributions = new int[12];
-        monthlyIncome = new int[12];
+        monthlyIncome = new double[12];
         monthlyTurnoverTimes = new int[12];
         monthlyTurnovers = new int[12];
 
@@ -57,8 +57,8 @@ public class Statistics{
     }
 
     public void addUpdate(DonationItem item){
-        if (addedDaily.size() != 0 && addedDaily.get(addedDaily.size()-1).getDateInCirculation()
-            == item.getDateInCirculation()){
+        if (addedDaily.size() != 0 && addedDaily.get(0).getDateInCirculation()
+            .equals(item.getDateInCirculation())){
             addedDaily.add(item);
         } else {
             addedDaily = new ArrayList<DonationItem>();
@@ -73,7 +73,7 @@ public class Statistics{
 
     public void sellUpdate(DonationItem item){
         if (soldDaily.size() != 0 && soldDaily.get(soldDaily.size()-1).getDateSold()
-            == item.getDateSold()){
+            .equals(item.getDateSold())){
             soldDaily.add(item);
         } else {
             soldDaily = new ArrayList<DonationItem>();
@@ -146,7 +146,7 @@ public class Statistics{
     public String MonthlyIncomeString() {
         String incomeString = "";
         for(int i = 0; i < months.length; i++) {
-            incomeString += months[i] + monthlyIncome[i] + "\n";
+            incomeString += String.format("%-10s %.2f %n",months[i],monthlyIncome[i]);
         }
         return incomeString;
     }
