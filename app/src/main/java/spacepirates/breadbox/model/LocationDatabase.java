@@ -1,4 +1,4 @@
-package spacepirates.breadbox;
+package spacepirates.breadbox.model;
 
 import android.content.Context;
 

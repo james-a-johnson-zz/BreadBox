@@ -1,4 +1,4 @@
-package spacepirates.breadbox;
+package spacepirates.breadbox.model;
 
 import java.util.ArrayList;
 
@@ -105,11 +105,11 @@ public class Location {
     //     return ((double)inventory.size())/inventoryMax;
     // }
 
-    public boolean equals(Location l) {
-        if (!(l instanceof Location) || !(l.getAddress().compareTo(this.getAddress()) == 0)) {
+    @Override
+    public boolean equals(Object l) {
+        if (l == null || !(l instanceof Location)) {
             return false;
-        } else {
-            return true;
         }
+        return (((Location) l).getAddress().compareTo(this.getAddress()) == 0);
     }
 }
