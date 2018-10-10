@@ -8,11 +8,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.google.firebase.FirebaseApp;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
+    //FirebaseAuth firebase = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //FirebaseAPP.initializeApp(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -21,6 +26,10 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordField = findViewById(R.id.PasswordField);
         Button loginButton = findViewById(R.id.LoginButton);
         Button registerButton = findViewById(R.id.RegisterButton);
+
+
+        //Test button
+        Button testButton = findViewById(R.id.testButton);
 
         final String username = "user";
         final String password = "pass";
@@ -46,8 +55,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();
-                //Intent intent = new Intent(context, RegistrationActivity.class);
-                //hijack register to test ui
+                Intent intent = new Intent(context, Register.class);
+                context.startActivity(intent);
+            }
+        });
+
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = view.getContext();
                 Intent intent = new Intent(context, LocationsActivity.class);
                 context.startActivity(intent);
             }

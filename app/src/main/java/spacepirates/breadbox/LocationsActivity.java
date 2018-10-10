@@ -19,6 +19,7 @@ public class LocationsActivity extends AppCompatActivity {
 
         ArrayList locations = new ArrayList();
         locations.add(new Location("Joe's", "", 0,0,"Htine", ""));
+        locations.add(new Location("Yo momma's", "", 0, 0, "A-town", ""));
 
         setContentView(R.layout.activity_locations);
 
@@ -26,6 +27,7 @@ public class LocationsActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.locations_recycler);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
         LocationRecyclerAdapter adapter = new LocationRecyclerAdapter(locations);
         recyclerView.setAdapter(adapter);
 

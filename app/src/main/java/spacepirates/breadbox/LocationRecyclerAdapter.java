@@ -13,6 +13,8 @@ import java.util.List;
 
 public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecyclerAdapter.LocationViewHolder> {
 
+    List<Location> locations;
+
     public static class LocationViewHolder extends RecyclerView.ViewHolder {
 
         CardView cv;
@@ -27,8 +29,6 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
         }
     }
 
-    List<Location> locations; 
-
     LocationRecyclerAdapter(List<Location> locations){
         this.locations = locations;
     }
@@ -40,8 +40,8 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
 
     @Override
     public LocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.location_card, viewGroup, false);
-        LocationViewHolder lvh = new LocationViewHolder(v);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.location_card, viewGroup, false);
+        LocationViewHolder lvh = new LocationViewHolder(view);
         return lvh;
     }
 
