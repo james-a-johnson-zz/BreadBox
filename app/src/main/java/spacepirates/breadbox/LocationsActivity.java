@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import spacepirates.breadbox.model.Location;
+import spacepirates.breadbox.model.LocationDatabase;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,8 @@ public class LocationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ArrayList locations = new ArrayList();
+        LocationDatabase l = new LocationDatabase(LocationsActivity.this);
+        ArrayList locations = l.getLocations();
         locations.add(new Location("Joe's", "", 0,0,"Htine", ""));
         locations.add(new Location("Yo momma's", "", 0, 0, "A-town", ""));
 
