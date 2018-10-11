@@ -20,8 +20,6 @@ public class LocationsActivity extends AppCompatActivity {
 
         LocationDatabase l = new LocationDatabase(LocationsActivity.this);
         ArrayList locations = l.getLocations();
-        locations.add(new Location("Joe's", "", 0,0,"Htine", ""));
-        locations.add(new Location("Yo momma's", "", 0, 0, "A-town", ""));
 
         setContentView(R.layout.activity_locations);
 

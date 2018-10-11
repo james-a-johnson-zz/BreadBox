@@ -3,4 +3,6 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="login_fail_message">Incorrect username or password.</string>
     <string name="title_activity_register">Register</string>
+    <string name="title_activity_location">LocationActivity</string>
+    <string name="pass_location_key">locationKey</string>
 </resources>
