@@ -1,7 +1,7 @@
 package spacepirates.breadbox.model;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDate;
 
 public class Location {
 
@@ -144,6 +144,10 @@ public class Location {
 
     public Statistics getStats(){
         return this.stats;
+    }
+
+    public List<Statistics> getAllStats(){
+        return this.yearlyStats;
     }
 
 
