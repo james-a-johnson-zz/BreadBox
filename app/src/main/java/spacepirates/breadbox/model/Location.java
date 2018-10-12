@@ -146,6 +146,10 @@ public class Location {
         return this.stats;
     }
 
+    public List<Statistics> getAllStats(){
+        return this.yearlyStats;
+    }
+
 
     //test toString methods, can delete later/comment out
     public String toStringTest() { //for testing purposes
