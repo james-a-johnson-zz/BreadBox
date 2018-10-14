@@ -34,8 +34,6 @@ public class LoginActivity extends AppCompatActivity {
         //Test button
         Button testButton = findViewById(R.id.testButton);
 
-        final String username = "user";
-        final String password = "pass";
         final String failedLoginMessage = getString(R.string.login_fail_message);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
