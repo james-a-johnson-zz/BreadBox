@@ -1,5 +1,6 @@
 package spacepirates.breadbox.model;
 
+import java.util.Map;
 
 //TODO other user classes must extend user
 public abstract class User {
@@ -13,4 +14,6 @@ public abstract class User {
     UserType getType() {
         return type;
     }
+
+    public abstract Map<String, Object> toMap();
 }

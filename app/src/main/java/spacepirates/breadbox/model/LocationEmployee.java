@@ -4,8 +4,8 @@ public class LocationEmployee extends BasicUser {
 
     private Location location;
 
-    public LocationEmployee(String user, String pass, Location locus) {
-        super(user, pass);
+    public LocationEmployee(String user, UserType t, Location locus) {
+        super(user, t);
         location = locus;
     }
 

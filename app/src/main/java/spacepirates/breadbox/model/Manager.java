@@ -1,11 +1,14 @@
 package spacepirates.breadbox.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Manager extends BasicUser {
 
     private Business business;
 
-    public Manager(String user, String pass, Business bus) {
-        super(user, pass);
+    public Manager(String user, UserType t, Business bus) {
+        super(user, t);
         business = bus;
     }
 
@@ -28,5 +31,13 @@ public class Manager extends BasicUser {
 
     public LocationEmployee removeEmployee(LocationEmployee employee) {
         return null;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> databaseRepr = new HashMap<>();
+        databaseRepr.put("username", username);
+        databaseRepr.put("type", type);
+        databaseRepr.put("business", business);
+        return databaseRepr;
     }
 }
