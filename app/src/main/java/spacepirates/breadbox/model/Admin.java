@@ -20,11 +20,11 @@ public class Admin extends BasicUser {
         return false;
     }
 
-    public boolean addBusiness(Business bus) {
+    public boolean addLocation(Location locus) {
         return false;
     }
 
-    public Business removeBusiness(Business bus) {
+    public Location removeLocation(Location locus) {
         return null;
     }
 }
