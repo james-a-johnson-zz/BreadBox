@@ -4,7 +4,7 @@ public class Admin extends BasicUser {
 
     //Username and password are protected variables in superclass
     public Admin(String user, String pass) {
-        super(user, pass);
+        super(user);
     }
 
     //Add and remove manager are booleans dependent on whether or not they execute properly

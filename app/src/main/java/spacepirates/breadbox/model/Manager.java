@@ -4,8 +4,8 @@ public class Manager extends BasicUser {
 
     private Business business;
 
-    public Manager(String user, String pass, Business bus) {
-        super(user, pass);
+    public Manager(String user, Business bus) {
+        super(user);
         business = bus;
     }
 

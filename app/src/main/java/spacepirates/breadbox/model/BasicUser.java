@@ -5,11 +5,9 @@ import java.util.List;
 public class BasicUser {
 
     protected String username;
-    protected String password;
 
-    public BasicUser(String user, String pass) {
+    public BasicUser(String user) {
         username = user;
-        password = pass;
     }
 
     public List<Location> searchLocation() {
