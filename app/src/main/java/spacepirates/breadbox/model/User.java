@@ -1,20 +1,19 @@
 package spacepirates.breadbox.model;
 
-
-import java.util.List;
+import java.util.Map;
 
 //TODO other user classes must extend user
 public abstract class User {
+    String username;
+    UserType type;
 
-    /**
-     * Will throw a LocationDatabaseNotInitializedException if the database is not initialized.
-     */
-    public List<Location> searchLocation() throws Exception{
-        Model model = Model.getInstance();
-        return model.getLocations();
+    String getUsername() {
+        return username;
     }
 
-    public List<DonationItem> searchItem() {
-        return null;
+    UserType getType() {
+        return type;
     }
+
+    public abstract Map<String, Object> toMap();
 }

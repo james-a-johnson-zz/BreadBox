@@ -1,18 +1,25 @@
 package spacepirates.breadbox.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BasicUser extends User {
 
-    protected String username;
-    protected String password;
-
-    public BasicUser(String user, String pass) {
+    public BasicUser(String user, UserType t) {
         username = user;
-        password = pass;
+        type = t;
     }
 
     public String comment() {
         return "";
+    }
+
+    @Override
+    public Map<String, Object> toMap() {
+        Map<String, Object> databaseRepr = new HashMap<>();
+        databaseRepr.put("username", username);
+        databaseRepr.put("type", type);
+        return databaseRepr;
     }
 }
