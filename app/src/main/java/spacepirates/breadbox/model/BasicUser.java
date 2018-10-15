@@ -2,7 +2,7 @@ package spacepirates.breadbox.model;
 
 import java.util.List;
 
-public class BasicUser {
+public class BasicUser extends User {
 
     protected String username;
     protected String password;
@@ -10,14 +10,6 @@ public class BasicUser {
     public BasicUser(String user, String pass) {
         username = user;
         password = pass;
-    }
-
-    public List<Location> searchLocation() {
-        return null;
-    }
-
-    public List<DonationItem> searchItem() {
-        return null;
     }
 
     public String comment() {

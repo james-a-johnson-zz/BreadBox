@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.LocationDatabase;
+import spacepirates.breadbox.model.Model;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -18,8 +20,19 @@ public class LocationsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LocationDatabase l = new LocationDatabase(LocationsActivity.this);
-        ArrayList locations = l.getLocations();
+        Model model = Model.getInstance();
+        ArrayList<Location> locations;
+
+        // Checks that location database is initialized and populates it if it is not.
+        try {
+            locations = model.getLocations();
+        } catch (Exception e) {
+            model.initializeLocationDatabase(getApplicationContext());
+            locations = model.getLocations();
+        }
+
+        int size = locations.size();
+        Log.d("Locations", "size locations list: " + size);
 
         setContentView(R.layout.activity_locations);
 
