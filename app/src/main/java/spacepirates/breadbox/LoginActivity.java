@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Model model = Model.getInstance();
                 Context context = view.getContext();
-                Intent intent = new Intent(context, LocationsActivity.class);
+                Intent intent = new Intent(context, DonationsActivity.class);
                 context.startActivity(intent);
             }
         });

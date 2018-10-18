@@ -47,7 +47,7 @@ public class LocationActivity extends AppCompatActivity {
         try {
             locations = Model.getInstance().getLocations();
         } catch (Exception e) {
-            Model.getInstance().initializeLocationDatabase(getApplicationContext());
+            Model.getInstance().initializeDatabases(getApplicationContext());
         }
         Location location = (Location) locations.get(i);
 

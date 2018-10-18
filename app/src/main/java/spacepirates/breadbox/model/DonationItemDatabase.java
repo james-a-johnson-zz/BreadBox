@@ -1,13 +1,24 @@
 package spacepirates.breadbox.model;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class DonationItemDatabase {
-    List<DonationItem> database;
+
+    private List<DonationItem> database;
+
 
     public DonationItemDatabase(){
+        database = new ArrayList<>();
+    }
+
+    public DonationItemDatabase(Context context) { initializeDatabase(context);}
+
+    public void initializeDatabase(Context context) {
+        //TODO Donation Database must read in values.
         database = new ArrayList<>();
     }
 
@@ -19,5 +30,5 @@ public class DonationItemDatabase {
         database.add(item);
     }
 
-
+    public List<DonationItem> getDonations() {return database;}
 }

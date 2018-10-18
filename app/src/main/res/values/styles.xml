@@ -1,5 +1,5 @@
 <resources>
-
+    <!-- It would be good to have some custom textView themes for prices and other unique looking strings -->
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
