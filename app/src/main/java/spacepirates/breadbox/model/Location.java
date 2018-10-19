@@ -16,6 +16,14 @@ public class Location {
     private Statistics stats; //this year's statistics
     private int inventoryMax;
 
+    public Location() {
+        this.name = "Invalid";
+        this.type = "Invalid";
+        this.latitude = Double.NaN;
+        this.longitude = Double.NaN;
+        this.address = "Invalid";
+        this.phoneNumber = "Invalid";
+    }
 
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
         this.name = name;
