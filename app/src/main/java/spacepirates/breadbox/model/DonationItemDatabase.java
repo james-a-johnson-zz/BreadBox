@@ -7,33 +7,36 @@ import java.util.List;
 
 
 public class DonationItemDatabase {
-    private static List<DonationItem> database;
-
     private List<DonationItem> database;
 
-    public DonationItemDatabase(){
+    public DonationItemDatabase() {
         database = new ArrayList<>();
 
     }
-    public static void addInventory(List<DonationItem> list) {
-    public DonationItemDatabase(Context context) { initializeDatabase(context);}
 
-    public void initializeDatabase(Context context) {
-        //TODO Donation Database must read in values.
-        database = new ArrayList<>();
-    }
+    public DonationItemDatabase(Context context) {
+            initializeDatabase(context);
+        }
 
-    public void addInventory(List<DonationItem> list) {
-        database.addAll(list);
-    }
+        public void initializeDatabase (Context context){
+            //TODO Donation Database must read in values.
+            database = new ArrayList<>();
+        }
 
-    public static void add(DonationItem item) {
-        database.add(item);
-    }
+        public void addInventory (List < DonationItem > list) {
+            database.addAll(list);
+        }
 
-    public static List<DonationItem> getDatabase(){
-        return database;
-    }
+        public void add (DonationItem item){
+            database.add(item);
+        }
 
-    public List<DonationItem> getDonations() {return database;}
+        public List<DonationItem> getDatabase () {
+            return database;
+        }
+
+        public List<DonationItem> getDonations () {
+            return database;
+        }
+
 }
