@@ -5,19 +5,23 @@ import java.util.List;
 
 
 public class DonationItemDatabase {
-    List<DonationItem> database;
+    private static List<DonationItem> database;
 
     public DonationItemDatabase(){
         database = new ArrayList<>();
+
     }
 
-    public void addInventory(List<DonationItem> list) {
+    public static void addInventory(List<DonationItem> list) {
         database.addAll(list);
     }
 
-    public void addItem(DonationItem item) {
+    public static void add(DonationItem item) {
         database.add(item);
     }
 
+    public static List<DonationItem> getDatabase(){
+        return database;
+    }
 
 }
