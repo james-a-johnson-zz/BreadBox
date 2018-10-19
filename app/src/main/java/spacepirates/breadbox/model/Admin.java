@@ -4,7 +4,7 @@ public class Admin extends BasicUser {
 
     //Username and password are protected variables in superclass
     public Admin(String user, String pass) {
-        super(user, pass);
+        super(user, UserType.ADMINISTRATOR, pass);
     }
 
     //Add and remove manager are booleans dependent on whether or not they execute properly
@@ -20,11 +20,11 @@ public class Admin extends BasicUser {
         return false;
     }
 
-    public boolean addBusiness(Business bus) {
+    public boolean addLocation(Location locus) {
         return false;
     }
 
-    public Business removeBusiness(Business bus) {
+    public Location removeLocation(Location locus) {
         return null;
     }
 }

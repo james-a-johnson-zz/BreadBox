@@ -5,4 +5,5 @@
     <string name="title_activity_register">Register</string>
     <string name="title_activity_location">LocationActivity</string>
     <string name="pass_location_key">locationKey</string>
+    <string name="title_activity_donations">DonationsActivity</string>
 </resources>

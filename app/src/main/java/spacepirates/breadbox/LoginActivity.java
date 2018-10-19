@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import spacepirates.breadbox.model.Model;
+
 public class LoginActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
@@ -68,8 +70,9 @@ public class LoginActivity extends AppCompatActivity {
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Model model = Model.getInstance();
                 Context context = view.getContext();
-                Intent intent = new Intent(context, LocationsActivity.class);
+                Intent intent = new Intent(context, DonationsActivity.class);
                 context.startActivity(intent);
             }
         });

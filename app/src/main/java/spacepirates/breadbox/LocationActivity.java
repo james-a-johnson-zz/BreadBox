@@ -16,12 +16,15 @@ import java.util.ArrayList;
 
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.LocationDatabase;
+import spacepirates.breadbox.model.Model;
 
 public class LocationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //TODO locations not displaying properly, because model not initialized until after app arrives at locations. Model must be initialized in the handshake before the call
 
         Intent intent = getIntent();
         int i = intent.getIntExtra("getString(R.string.pass_location_key)", -1);
@@ -40,8 +43,12 @@ public class LocationActivity extends AppCompatActivity {
             }
         });
 
-        LocationDatabase ld = new LocationDatabase(LocationActivity.this);
-        ArrayList locations = ld.getLocations();
+        ArrayList<Location> locations = null;
+        try {
+            locations = Model.getInstance().getLocations();
+        } catch (Exception e) {
+            Model.getInstance().initializeDatabases(getApplicationContext());
+        }
         Location location = (Location) locations.get(i);
 
         Log.d("intent", "Location is: " + location.getName());
