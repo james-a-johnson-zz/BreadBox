@@ -50,7 +50,6 @@ public class DonationItem {
         this.tags = tags;
         this.history = new History(currentLocation);
         currentLocation.addItem(this);
-        DonationItemDatabase.add(this);
     }
 
 
