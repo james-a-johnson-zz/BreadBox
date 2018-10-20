@@ -159,6 +159,17 @@ public class Model {
         }
         return (ArrayList<DonationItem>) donationItemDatabase.getDonations();
     }
+
+    /**
+     * Adds a donation item to the donation item database.
+     * Currently donations are added to location inventories in the donation item constructor.
+     * That should likely be done by this method.
+     *
+     * @param donation
+     */
+    public void addDonationItem(DonationItem donation) {
+        donationItemDatabase.addItem(donation);
+    }
     
     
     

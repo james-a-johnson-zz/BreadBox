@@ -1,5 +1,7 @@
 package spacepirates.breadbox.model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
@@ -46,8 +48,9 @@ public class DonationItem {
         this.donor = donor;
         this.tags = tags;
         this.history = new History(currentLocation);
+        Log.d("DonationItem", "Adding to Location: " + currentLocation);
         currentLocation.addItem(this);
-    }
+        }
 
 
     public void setPrice(double price) {
