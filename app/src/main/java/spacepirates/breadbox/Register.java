@@ -17,7 +17,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import spacepirates.breadbox.model.Admin;
 import spacepirates.breadbox.model.BasicUser;
@@ -30,7 +31,7 @@ import spacepirates.breadbox.model.UserType;
 
 public class Register extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
+    private DatabaseReference db;
     private Button register;
     private Spinner userType;
     private EditText emailText;
@@ -41,7 +42,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        db = FirebaseFirestore.getInstance();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        db = FirebaseDatabase.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
         register = findViewById(R.id.RegisterButton);
@@ -60,7 +62,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v) {
         final String email = emailText.getText().toString();
         final String pass = passwordText.getText().toString();
-        UserType ut;
+        final UserType ut;
         final User newUser;
         switch (userType.getSelectedItem().toString()) {
             case "Basic":
@@ -97,7 +99,12 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                             // TODO: Need to add user to a user database that includes the type
                             // TODO: Include name and location depending on employee type?
                             // Sign in success, update UI with the signed-in user's information
-                            db.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).set(newUser.toMap());
+                            String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            // Log.d("Uploading user", "" + userID + newUser.getUsername());
+                            db.child("users").child(userID).child("username").setValue(email);
+                            db.child("users").child(userID).child("type").setValue(ut);
+                            if (ut == UserType.LOCATION_EMPLOYEE)
+                                db.child("users").child(userID).child("location").setValue("NOT_SET");
                             Context context = getApplicationContext();
                             Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);
