@@ -7,6 +7,10 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /** Prof talks about message chains being bad
  * ie: model.getLocations.getLocation.getName
@@ -17,6 +21,10 @@ public class Model {
     /** Singleton instance */
     private static final Model _instance = new Model();
     public static Model getInstance() { return _instance; }
+
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference locationsRef;
+    private DatabaseReference donationsRef;
 
     //user logged in and operating app
     private User _currentUser;
@@ -51,28 +59,49 @@ public class Model {
 
     private Model(Context context) {
         Log.d("Model", "Initialized Model, with context");
+        mDatabase = FirebaseDatabase.getInstance();
         locationDatabase = new LocationDatabase(context);
+        locationsRef = mDatabase.getReference().child("locations");
         donationItemDatabase = new DonationItemDatabase(context);
+        donationsRef = mDatabase.getReference().child("donations");
         _currentUser = nullUser;
+        ValueEventListener locListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    locationDatabase.addLocation(d.getValue(Location.class));
+                }
+            }
+        };
+        locationsRef.addListenerForSingleValueEvent(locListener);
+        ValueEventListener donationListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    donationDatabase.addDonationItem(d.getValue(DonationItem.class));
+                }
+            }
+        };
+        donationsRef.addListenerForSingleValueEvent(donationListener);
     }
 
     public void initializeDatabases (Context context) {
         locationDatabase = new LocationDatabase(context);
         donationItemDatabase =  new DonationItemDatabase(context);
     }
-    
+
     public ArrayList<Location> getLocations() throws DatabaseNotInitializedException{
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
-        
+
         // If locationDatabsae is empty, return list with the null location.
         if (locationDatabase.getLocations().size() == 0) {
             ArrayList<Location> noLocations = new ArrayList<>();
             noLocations.add(theNullLocation);
             return noLocations;
         }
-        return locationDatabase.getLocations(); 
+        return locationDatabase.getLocations();
     }
 
     /**
@@ -91,7 +120,7 @@ public class Model {
             if (l.equals(location)) return false;
         }
         //TODO write method in location database to add locations
-        //locationDatabase.add(Location);
+        locationDatabase.add(Location);
         return true;
     }
 
@@ -151,7 +180,7 @@ public class Model {
             throw new DatabaseNotInitializedException();
         }
 
-        // If donationDatabsae is empty, return list with the null donation.
+        // If donationDatabase is empty, return list with the null donation.
         if (donationItemDatabase.getDonations().size() == 0) {
             ArrayList<DonationItem> noDonations = new ArrayList<>();
             noDonations.add(theNullDonation);
@@ -170,9 +199,9 @@ public class Model {
     public void addDonationItem(DonationItem donation) {
         donationItemDatabase.addItem(donation);
     }
-    
-    
-    
+
+
+
     /**
      * Exception thrown when app tries to retrieve from location database before it is initialized.
      */

@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.firebase.database.DatabaseReference;
+
 //Implements parceble, so activities bundle and put extra to pass a specific location to another activity
 public class Location implements Parcelable, Serializable {
 
@@ -25,7 +27,6 @@ public class Location implements Parcelable, Serializable {
     //used for implementing Parcelable
     private int mData;
 
-
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
         this.name = name;
         this.type = type;
@@ -42,6 +43,10 @@ public class Location implements Parcelable, Serializable {
 
     public Location(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
         this(name, type, Double.valueOf(latitude), Double.valueOf(longitude), address, phoneNumber);
+    }
+
+    public Location() {
+        this(null, null, null, null, null, null);
     }
 
     //Only use with correctly formatted csv
