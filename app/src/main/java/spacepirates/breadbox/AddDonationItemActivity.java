@@ -66,6 +66,9 @@ public class AddDonationItemActivity extends AppCompatActivity {
         donorView = findViewById(R.id.add_donation_input_donor);
         categorySpinner = findViewById(R.id.add_donation_category_spinner);
 
+        /**
+         * Category spinner uses the category enum to populate the spinner.
+         */
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Category.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
@@ -105,14 +108,17 @@ public class AddDonationItemActivity extends AppCompatActivity {
         //splits the string in the tags box into words, and places in String array tags
         //( tagView.getText().toString()).split("\\W+");
         String description =  descriptionview.getText().toString();
+
         //TODO implement adding users to donation items
         //User donor = donorView.getText().toString();
 
-        //TODO fix category and make sure that a category is entered.
-        //Category must be entered, because it might be ised for mapping in the datbase
+        //Category must be entered, because it might be used for mapping in the datbase
         category = (Category) categorySpinner.getSelectedItem();
-        //while category isn't finished, default to apparrel.
-        category = Category.APPAREL;
+        if (category == null) {
+            //If no category, invalidate donation and make a note in the failure message.
+            validDonation = false;
+            failureMessage += "Must select a Category.";
+        }
         if(validDonation) {
             //Create new Donation Item. DonationItem constructor adds it to the location inventory.
             DonationItem newItem = new DonationItem(name, price, category, location, description, null, tags);

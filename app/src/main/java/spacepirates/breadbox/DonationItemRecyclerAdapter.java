@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import spacepirates.breadbox.model.DonationItem;
+import spacepirates.breadbox.model.Tag;
 
 import java.util.List;
 
@@ -27,6 +28,9 @@ public class DonationItemRecyclerAdapter extends RecyclerView.Adapter<DonationIt
         TextView itemName;
         TextView description;
         TextView price;
+        TextView category;
+        TextView tags;
+
 
         DonationViewHolder(View itemView) {
             super(itemView);
@@ -34,6 +38,8 @@ public class DonationItemRecyclerAdapter extends RecyclerView.Adapter<DonationIt
             itemName = (TextView)itemView.findViewById(R.id.donation_card_name);
             description = (TextView)itemView.findViewById(R.id.donation_card_description);
             price = (TextView) itemView.findViewById(R.id.donation_card_price);
+            category = (TextView) itemView.findViewById(R.id.donation_card_category);
+            tags = (TextView) itemView.findViewById(R.id.donation_card_tags);
 
         }
     }
@@ -41,11 +47,16 @@ public class DonationItemRecyclerAdapter extends RecyclerView.Adapter<DonationIt
     //expands description of card view
     private void expandDonationView(DonationViewHolder v) {
         v.description.setVisibility(View.VISIBLE);
+        v.category.setVisibility(View.VISIBLE);
+        v.tags.setVisibility(View.VISIBLE);
     }
 
     //collapses description in card view
     private void collapseDonationView(DonationViewHolder v) {
         v.description.setVisibility(View.GONE);
+        v.category.setVisibility(View.GONE);
+        v.tags.setVisibility(View.GONE);
+
     }
 
     DonationItemRecyclerAdapter(List<DonationItem> donations){
@@ -66,9 +77,19 @@ public class DonationItemRecyclerAdapter extends RecyclerView.Adapter<DonationIt
 
     @Override
     public void onBindViewHolder(final DonationViewHolder donationViewHolder, final int i) {
-        donationViewHolder.itemName.setText(donations.get(i).getName());
-        donationViewHolder.description.setText(donations.get(i).getDescription());
-        donationViewHolder.price.setText("- " + donations.get(i).getPrice());
+        DonationItem donation = donations.get(i);
+        String tags = "";
+        if (donation.getTags() != null) {
+            for (Tag t : donation.getTags()) {
+                tags += t + " ";
+            }
+        }
+        
+        donationViewHolder.itemName.setText(donation.getName());
+        donationViewHolder.description.setText(donation.getDescription());
+        donationViewHolder.price.setText("- " + donation.getPrice());
+        donationViewHolder.category.setText(donation.getCategory().toString());
+        donationViewHolder.tags.setText(tags);
 
         //default for card view is collapsed form.
         collapseDonationView(donationViewHolder);
