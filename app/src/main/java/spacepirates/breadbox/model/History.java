@@ -2,59 +2,65 @@ package spacepirates.breadbox.model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 
 
 public class History {
-    private List<LocalDate> datesMoved;
-    private List<Location> Locations;
+    private Map<Location, LocalDate> locationHistory;
     private LocalDate sellDate;
     private boolean sold;
 
     public History(Location location) {
-        datesMoved = new ArrayList<>();
-        Locations = new ArrayList<>();
-        this.datesMoved.add(this.getDay(LocalDate.now()));
-        Locations.add(location);
+        locationHistory = new HashMap<>();
+        locationHistory.put(location, this.getDay(LocalDate.now()));
         sold = false;
 
     }
 
     public void moveLocations(Location L) {
-        this.datesMoved.add(this.getDay(LocalDate.now()));
-        //do we really need the WHOLE date? we could just save day-month-year
-        this.Locations.add(L);
+        this.locationHistory.put(L, this.getDay(LocalDate.now()));
     }
 
-    public void setLastLocation(Location L) {
-        this.Locations.add(Locations.size()-1, L);
+    public void setLastLocation(Location replace, Location curr) {
+        LocalDate date = locationHistory.remove(curr);
+        locationHistory.put(replace, date);
     }
 
     public LocalDate getDateArrived(Location L) {
-        int index = Locations.lastIndexOf(L);
-        return datesMoved.get(index);
+        return locationHistory.get(L);
     }
 
     public Location getLocationOnDate(LocalDate date) {
-        if (date.compareTo(datesMoved.get(0)) < 0 ) {
-            throw new IllegalArgumentException("The object was not yet"
-                + "donated at this time");
-        }
-        if (date.compareTo(datesMoved.get(datesMoved.size()-1)) > 0 ) {
-            throw new IllegalArgumentException("Date checked cannot be in the"
-                + "future");
-        } //the later the greater
-        int i = 0;
-        for (; i < datesMoved.size(); i++){
-            if (date.compareTo(datesMoved.get(i)) < 0){
-                return Locations.get(i-1);
+        date = this.getDay(date);
+        Set<Map.Entry<Location, LocalDate>> entrySet= locationHistory.entrySet();
+        for(Map.Entry<Location, LocalDate> e: entrySet){
+            if (e.getValue() == date){
+                return e.getKey();
             }
         }
-        return Locations.get(i-1);
+        return null; //or noSuchElement exception, not sure which is better here
     }
 
-    public List<Location> getLocations() {
-        return this.Locations;
+    public List<Map.Entry<Location, LocalDate>> getLocationTime() {
+        Set<Map.Entry<Location, LocalDate>> entrySet= locationHistory.entrySet();
+        List<Map.Entry<Location, LocalDate>> sortedLocations = new ArrayList<>();
+        for(Map.Entry<Location, LocalDate> e: entrySet){
+            if (sortedLocations.size() == 0){
+                sortedLocations.add( e);
+            } else {
+                for(int i = 0; i < sortedLocations.size(); i++){
+                    if (sortedLocations.get(i).getValue().compareTo(e.getValue()) > 0){
+                        sortedLocations.add(i+1, e);
+                    }
+                }
+            }
+        }
+        return sortedLocations;
     }
 
     public void setSellDate(LocalDate day){
@@ -78,37 +84,6 @@ public class History {
         return LocalDate.of(thisYear, thisMonth, thisDay);
     }
 
-
-    //toStrings for tests, can delete/comment out later
-
-    public String[] getLocationHistoryString() {
-        String[] locHistory = new String[Locations.size()];
-
-        locHistory[0] = "Arrived at " + Locations.get(0).getName()
-                + " on " + datesMoved.get(0).toString();
-
-        for(int i = 1; i < Locations.size(); i++) {
-            locHistory[i] = "Moved to " + Locations.get(i).getName()
-                + " on " + datesMoved.get(i).toString();
-            //make a getter method for location database that takes
-            //in a location name
-
-        }
-        return locHistory;
-    }
-
-    public String toString() {
-        String[] locHistoryArr = this.getLocationHistoryString();
-        String locHistory = "";
-        for(String s: locHistoryArr){
-            locHistory += s + "\n";
-        }
-        if (sold){
-            locHistory += "Sold.";
-        }
-        return locHistory;
-
-    }
 
 
 }

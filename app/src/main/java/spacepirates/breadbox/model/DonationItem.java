@@ -1,8 +1,12 @@
 package spacepirates.breadbox.model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.time.LocalDate;
+
 
 public class DonationItem {
     private String name;
@@ -15,6 +19,7 @@ public class DonationItem {
     private Location currentLocation;
     private History history;
 
+    //constructors
     public DonationItem(String name, double price, Category category,
         Location currentLocation) {
         this(name, price, category, currentLocation, "None");
@@ -46,10 +51,23 @@ public class DonationItem {
         this.donor = donor;
         this.tags = tags;
         this.history = new History(currentLocation);
-        currentLocation.addItem(this);
+        Log.d("DonationItem", "Adding to Location: " + currentLocation);
+
+        try {
+            currentLocation.addItem(this);
+        } catch (NullPointerException e) {
+            if (name.equals("No Donations Found")) {
+                //Don't add. Initialized the null donation in the database.
+                //something the model does.
+                //this is why donation items shouldn't be added to a location here.
+            } else {
+                throw e;
+            }
+        }
     }
 
 
+    //getters and setters
     public void setPrice(double price) {
         this.price = price;
     }
@@ -88,6 +106,8 @@ public class DonationItem {
         }
     }
 
+    public void addTag(Tag t){ this.tags.add(t); }
+
     public List<Tag> getTags() {
         return this.tags;
     }
@@ -100,6 +120,7 @@ public class DonationItem {
         return this.donor;
     }
 
+    //used if item is being transferred from location to location. Updates history accordingly
     public void moveLocation(Location L){
         this.history.moveLocations(L);
         Location oldLocation = currentLocation;
@@ -108,47 +129,47 @@ public class DonationItem {
         currentLocation.addItem(this);
     }
 
+    //used if correction needs to be made to item's current location (in case of user mistake)
+    //overwrites item's history
     public void setLocation(Location L){
-        this.history.setLastLocation(L); //DIFFERENT FROM MOVE LOCATIONS
+        this.history.setLastLocation(L, currentLocation);
         Location oldLocation = currentLocation;
         this.currentLocation = L;
         oldLocation.removeItem(this);
         currentLocation.addItem(this);
     }
 
-    //Item history retrieval stuff
-
     public Location getCurrentLocation(){
-        return currentLocation;
+        return this.currentLocation;
     }
 
     public LocalDate getDateInCirculation(){
-        Location L = this.history.getLocations().get(0);
-        return this.history.getDateArrived(L);
+        return this.history.getLocationTime().get(0).getValue();
     }
 
     public LocalDate getDateArrived() {
-        return this.history.getDateArrived(currentLocation);
+        return this.getDateArrived(currentLocation);
     }
 
     public LocalDate getDateArrived(Location L) {
         return this.history.getDateArrived(L);
-
     }
 
     public History getHistory() {
         return this.history;
     }
 
-    public List<Location> getPastLocations() {
-        return this.history.getLocations();
+    public List<Map.Entry<Location, LocalDate>> getPastLocations() {
+        return this.history.getLocationTime();
     }
 
+    //need to implement this with DonationItemDatabase in future
     public void sell() {
         this.history.setSellDate(LocalDate.now());
-        currentLocation.sellItem(this);
+        this.currentLocation.sellItem(this);
     }
 
+    //returns the date an item was sold (does not handle exception where item was not sold)
     public LocalDate getDateSold() {
         return this.history.getSellDate();
     }
@@ -158,24 +179,19 @@ public class DonationItem {
     }
 
     //toStrings for tests, can delete/comment out later
-    public String toString(){
-        String histString = this.history.toString();
-        String finString = "Name : " + name + "\n"
-            + "Price: $" + price + "\n"
-            + "Category: " + category + "\n";
-        if (this.history.getSold()){
-            finString += "Last Located at: " + currentLocation.getName() + "\n";
-        } else {
-            finString += "Location: " + currentLocation.getName() + "\n";
-        }
-
-        finString += "History: " + "\n"+ histString;
-        return finString;
-    }
-
-    //public
-
-
-
+//    public String toString(){
+//        String histString = this.history.toString();
+//        String finString = "Name : " + name + "\n"
+//            + "Price: $" + price + "\n"
+//            + "Category: " + category + "\n";
+//        if (this.history.getSold()){
+//            finString += "Last Located at: " + currentLocation.getName() + "\n";
+//        } else {
+//            finString += "Location: " + currentLocation.getName() + "\n";
+//        }
+//
+//        finString += "History: " + "\n"+ histString;
+//        return finString;
+//    }
 
 }

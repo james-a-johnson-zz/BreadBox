@@ -1,9 +1,15 @@
 package spacepirates.breadbox.model;
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.util.Log;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Location {
+//Implements parceble, so activities bundle and put extra to pass a specific location to another activity
+public class Location implements Parcelable, Serializable {
 
     private String name;
     private String type;
@@ -15,6 +21,9 @@ public class Location {
     private List<Statistics> yearlyStats;
     private Statistics stats; //this year's statistics
     private int inventoryMax;
+
+    //used for implementing Parcelable
+    private int mData;
 
 
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
@@ -170,8 +179,36 @@ public class Location {
         return itemStr;
     }
 
+    /* everything below here is for implementing Parcelable */
 
+    // 99.9% of the time you can just ignore this
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    // write your object's data to the passed-in Parcel
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mData);
+    }
+
+    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
+        public Location createFromParcel(Parcel in) {
+            Log.d("Location", "Creating from Parcel");
+            return new Location(in);
+        }
+
+        public Location[] newArray(int size) {
+            return new Location[size];
+        }
+    };
+
+    // example constructor that takes a Parcel and gives you an object populated with it's values
+    private Location(Parcel in) {
+        mData = in.readInt();
+    }
 
 }
 
