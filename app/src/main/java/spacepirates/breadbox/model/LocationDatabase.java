@@ -71,6 +71,10 @@ public class LocationDatabase{
     public void addLocation(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
         locations.add(new Location(name, type, latitude, longitude, address, phoneNumber));
     }
+    
+    public void addLocation(Location location) {
+        locations.add(location);
+    }
 
     public ArrayList<Location> getLocations() {
         return locations;
