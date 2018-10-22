@@ -87,6 +87,7 @@ public class AddDonationItemActivity extends AppCompatActivity {
         String failureMessage = "";
         boolean validDonation = true;
         String name = nameView.getText().toString();
+        Category category;
         double price = 0;
         if (name.isEmpty()) {
             validDonation = false;
@@ -109,7 +110,9 @@ public class AddDonationItemActivity extends AppCompatActivity {
 
         //TODO fix category and make sure that a category is entered.
         //Category must be entered, because it might be ised for mapping in the datbase
-        Category category = (Category) categorySpinner.getSelectedItem();
+        category = (Category) categorySpinner.getSelectedItem();
+        //while category isn't finished, default to apparrel.
+        category = Category.APPAREL;
         if(validDonation) {
             //Create new Donation Item. DonationItem constructor adds it to the location inventory.
             DonationItem newItem = new DonationItem(name, price, category, location, description, null, tags);

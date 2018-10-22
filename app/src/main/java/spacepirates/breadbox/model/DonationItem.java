@@ -52,8 +52,19 @@ public class DonationItem {
         this.tags = tags;
         this.history = new History(currentLocation);
         Log.d("DonationItem", "Adding to Location: " + currentLocation);
-        currentLocation.addItem(this);
+
+        try {
+            currentLocation.addItem(this);
+        } catch (NullPointerException e) {
+            if (name.equals("No Donations Found")) {
+                //Don't add. Initialized the null donation in the database.
+                //something the model does.
+                //this is why donation items shouldn't be added to a location here.
+            } else {
+                throw e;
+            }
         }
+    }
 
 
     //getters and setters

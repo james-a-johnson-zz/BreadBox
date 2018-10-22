@@ -1,5 +1,7 @@
 package spacepirates.breadbox.model;
 
+import android.util.Log;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
@@ -43,7 +45,7 @@ public class Statistics{
         monthlyIncome = new double[12];
         monthlyTurnoverTimes = new int[12];
         monthlyTurnovers = new int[12];
-        Map<Category, Integer> categoryInventorySize = new HashMap<>();
+        categoryInventorySize = new HashMap<>();
 
         soldDaily = new ArrayList<DonationItem>();
         addedDaily = new ArrayList<DonationItem>();
@@ -68,6 +70,8 @@ public class Statistics{
         monthlyDonations[item.getDateInCirculation().getMonthValue()-1]++;
         inventoryValue += item.getPrice();
         inventorySize++;
+        Log.d("Statistics", "categoryInventorySize: " + categoryInventorySize.size());
+        Log.d("Statistics", "new item category: " + item.getCategory());
         if (categoryInventorySize.containsKey(item.getCategory())){
             Category cat = item.getCategory();
             categoryInventorySize.put(cat, categoryInventorySize.get(cat)+1);

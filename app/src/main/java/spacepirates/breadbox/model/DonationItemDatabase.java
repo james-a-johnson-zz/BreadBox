@@ -27,7 +27,7 @@ public class DonationItemDatabase {
             database.addAll(list);
         }
 
-        public void add (DonationItem item){
+        public void addItem(DonationItem item){
             database.add(item);
         }
 
