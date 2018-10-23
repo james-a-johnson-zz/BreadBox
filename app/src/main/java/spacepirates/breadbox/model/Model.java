@@ -3,11 +3,10 @@ package spacepirates.breadbox.model;
 
 import android.content.Context;
 import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
-
+//TODO Make sure classes and methods are implmented good.
 /** Prof talks about message chains being bad
  * ie: model.getLocations.getLocation.getName
  * We should write our model so that we don't do that.
@@ -61,7 +60,7 @@ public class Model {
         donationItemDatabase =  new DonationItemDatabase(context);
     }
     
-    public ArrayList<Location> getLocations() throws DatabaseNotInitializedException{
+    public ArrayList<Location> getLocations() throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
@@ -75,6 +74,28 @@ public class Model {
         return locationDatabase.getLocations(); 
     }
 
+
+    /**
+     * //TODO Decide how to implement the filter.
+     * Idea: What if the filter was an interface? Then locations and DonationItems could implement
+     * the same filter, and Filter using their own sets of data?
+     *
+     * Seems like a pointless excersise, I feel that the Model should probably just handle all the
+     * filtering. Overcomplicates by spreading out filtering duty, for a gain I don't see.
+     */
+
+    /**
+     * Filters DonationItems.
+     *
+     * @param location
+     * @param category
+     * @return Returns an ArrayList of all the DonationItems in a specified category at a location.
+     */
+    public ArrayList<DonationItem> filterDonationItems(Location location, Category category) {
+                return null;
+    }
+    //TODO There should be filterDonationItem methods implmented for every way a donation should be filtered.
+
     /**
      * add a location to the app.  checks if the location is already entered
      *
@@ -83,7 +104,7 @@ public class Model {
      * @param location  the course to be added
      * @return true if added, false if a duplicate
      */
-    public boolean addLocation(Location location) throws DatabaseNotInitializedException{
+    public boolean addLocation(Location location) throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
@@ -176,7 +197,7 @@ public class Model {
     /**
      * Exception thrown when app tries to retrieve from location database before it is initialized.
      */
-    public class DatabaseNotInitializedException extends RuntimeException {
+    private class DatabaseNotInitializedException extends RuntimeException {
 
     }
 

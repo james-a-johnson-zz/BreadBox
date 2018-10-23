@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class LocationDatabase{
+public class LocationDatabase {
 
     private ArrayList<Location> locations;
 
