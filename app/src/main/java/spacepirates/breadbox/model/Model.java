@@ -3,8 +3,8 @@ package spacepirates.breadbox.model;
 
 import android.content.Context;
 import android.util.Log;
+
 import java.util.ArrayList;
-import java.util.List;
 
 //TODO Make sure classes and methods are implmented good.
 /** Prof talks about message chains being bad

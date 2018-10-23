@@ -1,14 +1,9 @@
 package spacepirates.breadbox;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,11 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import spacepirates.breadbox.model.Location;
-import spacepirates.breadbox.model.LocationDatabase;
 import spacepirates.breadbox.model.Model;
 
 public class LocationActivity extends AppCompatActivity {
@@ -34,7 +27,7 @@ public class LocationActivity extends AppCompatActivity {
         Log.d("intent","int i in location = " + i);
 
         setContentView(R.layout.activity_location);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ArrayList<Location> locations = null;
@@ -43,16 +36,16 @@ public class LocationActivity extends AppCompatActivity {
         } catch (Exception e) {
             Model.getInstance().initializeDatabases(getApplicationContext());
         }
-        final Location location = (Location) locations.get(i);
+        final Location location = locations.get(i);
 
         Log.d("intent", "Location is: " + location.getName());
 
-        TextView nameView = (TextView) findViewById(R.id.location_name_location_activity);
-        TextView typeView = (TextView) findViewById(R.id.type_location_activity);
-        TextView coordinatesView = (TextView) findViewById(R.id.coordinates_location_activity);
-        TextView addressView = (TextView) findViewById(R.id.address_location_activity);
-        TextView phoneNumberView = (TextView) findViewById(R.id.phone_location_activity);
-        RecyclerView donationsRV = (RecyclerView) findViewById(R.id.location_donations_list_rv);
+        TextView nameView = findViewById(R.id.location_name_location_activity);
+        TextView typeView = findViewById(R.id.type_location_activity);
+        TextView coordinatesView = findViewById(R.id.coordinates_location_activity);
+        TextView addressView = findViewById(R.id.address_location_activity);
+        TextView phoneNumberView = findViewById(R.id.phone_location_activity);
+        RecyclerView donationsRV = findViewById(R.id.location_donations_list_rv);
 
         nameView.setText(location.getName());
         typeView.setText(location.getType());
@@ -65,7 +58,7 @@ public class LocationActivity extends AppCompatActivity {
         donationsRV.setAdapter(donationsAdapter);
         donationsRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

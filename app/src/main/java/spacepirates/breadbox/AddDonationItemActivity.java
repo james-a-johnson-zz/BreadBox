@@ -2,20 +2,15 @@ package spacepirates.breadbox;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -51,12 +46,12 @@ public class AddDonationItemActivity extends AppCompatActivity {
         } catch (Exception e) {
             Model.getInstance().initializeDatabases(getApplicationContext());
         }
-        location = (Location) locations.get(i);
+        location = locations.get(i);
 
         Log.d("AddDonation", "Got Location: " + location);
 
         setContentView(R.layout.activity_add_donation_item);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         nameView = findViewById(R.id.add_donation_input_name);
@@ -69,12 +64,12 @@ public class AddDonationItemActivity extends AppCompatActivity {
         /**
          * Category spinner uses the category enum to populate the spinner.
          */
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Category.values());
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Category.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,7 +102,7 @@ public class AddDonationItemActivity extends AppCompatActivity {
         ArrayList<Tag> tags = new ArrayList<Tag>();
         //splits the string in the tags box into words, and places in String array tags
         //( tagView.getText().toString()).split("\\W+");
-        String description =  descriptionview.getText().toString();
+        String description = descriptionview.getText().toString();
 
         //TODO implement adding users to donation items
         //User donor = donorView.getText().toString();
@@ -119,7 +114,7 @@ public class AddDonationItemActivity extends AppCompatActivity {
             validDonation = false;
             failureMessage += "Must select a Category.";
         }
-        if(validDonation) {
+        if (validDonation) {
             //Create new Donation Item. DonationItem constructor adds it to the location inventory.
             DonationItem newItem = new DonationItem(name, price, category, location, description, null, tags);
             //Add donation item to donation item datbase
