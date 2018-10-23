@@ -1,7 +1,5 @@
 package spacepirates.breadbox.model;
 
-import java.util.Map;
-
 public abstract class User {
     String username;
     UserType type;
@@ -18,7 +16,4 @@ public abstract class User {
     UserType getType() {
         return type;
     }
-
-    //TODO implement toMap() in children of user. Not really sure what this should do. -Alexander
-    public abstract Map<String, Object> toMap();
 }

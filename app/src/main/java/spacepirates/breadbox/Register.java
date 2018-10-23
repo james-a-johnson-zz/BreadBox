@@ -23,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import spacepirates.breadbox.model.Admin;
 import spacepirates.breadbox.model.BasicUser;
 import spacepirates.breadbox.model.DatabaseUser;
-import spacepirates.breadbox.model.GuestUser;
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.LocationEmployee;
 import spacepirates.breadbox.model.Manager;
@@ -82,13 +81,16 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 ut = UserType.ADMINISTRATOR;
                 newUser = new Admin(email, ut);
                 break;
+            // TODO: Disallow registering a guest user
+                /*
             case "Guest":
                 ut = UserType.GUEST;
                 newUser = new GuestUser();
                 break;
+                */
             default:
-                ut = UserType.GUEST;
-                newUser = new GuestUser();
+                ut = UserType.BASIC;
+                newUser = new BasicUser(email, ut);
                 break;
         }
         final DatabaseUser dbUser = new DatabaseUser(email, ut);
@@ -106,7 +108,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                             db.child("users").child(userID).setValue(dbUser);
                             Model.getInstance().setCurrentUser(newUser);
                             Context context = getApplicationContext();
-                            Intent intent = new Intent(context, MainActivity.class);
+                            Intent intent = new Intent(context, LocationsActivity.class);
                             context.startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.

@@ -129,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                             break;
                     }
                     Context c = getApplicationContext();
-                    Intent i = new Intent(c, MainActivity.class);
+                    Intent i = new Intent(c, LocationsActivity.class);
                     c.startActivity(i);
                 } else {
                     Log.d(tag, "Fetch unsuccessful");
