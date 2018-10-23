@@ -22,10 +22,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import spacepirates.breadbox.model.Admin;
 import spacepirates.breadbox.model.BasicUser;
+import spacepirates.breadbox.model.DatabaseUser;
 import spacepirates.breadbox.model.GuestUser;
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.LocationEmployee;
 import spacepirates.breadbox.model.Manager;
+import spacepirates.breadbox.model.Model;
 import spacepirates.breadbox.model.User;
 import spacepirates.breadbox.model.UserType;
 
@@ -42,7 +44,6 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         db = FirebaseDatabase.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
@@ -90,6 +91,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 newUser = new GuestUser();
                 break;
         }
+        final DatabaseUser dbUser = new DatabaseUser(email, ut);
 
         mAuth.createUserWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -101,10 +103,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                             // Sign in success, update UI with the signed-in user's information
                             String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             // Log.d("Uploading user", "" + userID + newUser.getUsername());
-                            db.child("users").child(userID).child("username").setValue(email);
-                            db.child("users").child(userID).child("type").setValue(ut);
-                            if (ut == UserType.LOCATION_EMPLOYEE)
-                                db.child("users").child(userID).child("location").setValue("NOT_SET");
+                            db.child("users").child(userID).setValue(dbUser);
+                            Model.getInstance().setCurrentUser(newUser);
                             Context context = getApplicationContext();
                             Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);
