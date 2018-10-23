@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class Manager extends LocationEmployee {
 
-    public Manager(String user, UserType t, Location locus) {
-        super(user, t, locus);
+    public Manager(String user, Location locus, String pass) {
+        super(user, UserType.MANAGER, locus, pass);
     }
 
     //Return values are super iffy here. Subject to change later

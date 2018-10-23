@@ -52,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         //Test button
         Button testButton = findViewById(R.id.testButton);
 
+        //TODO move this string.
+        //These sorts of app level final strings should be in the resource String xml, and then referenced,
         final String failedLoginMessage = getString(R.string.login_fail_message);
 
         loginButton.setOnClickListener(new View.OnClickListener() {

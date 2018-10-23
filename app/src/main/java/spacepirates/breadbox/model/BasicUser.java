@@ -5,12 +5,17 @@ import java.util.List;
 import java.util.Map;
 
 public class BasicUser extends User {
+    String password;
 
-    public BasicUser(String user, UserType t) {
-        username = user;
-        type = t;
+    public BasicUser(String user, UserType t, String password) {
+        super(user, t);
+        this.password = password;
     }
 
+    public BasicUser(String user, String password) {
+        super(user, UserType.BASIC);
+        this.password = password;
+    }
     public String comment() {
         return "";
     }

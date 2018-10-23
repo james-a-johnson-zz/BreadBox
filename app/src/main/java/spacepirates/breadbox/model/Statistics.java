@@ -1,9 +1,12 @@
 package spacepirates.breadbox.model;
 
+import android.util.Log;
+
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Statistics{
     //methods to compute statistics for a location and a business
@@ -31,7 +34,8 @@ public class Statistics{
     //inventory:
     double inventoryValue;
     int inventorySize; //current size
-    int[] categoryInventorySize; //current size per category
+    Map<Category, Integer> categoryInventorySize;
+    //int[] categoryInventorySize; //current size per category
 
 
     //constructors
@@ -41,6 +45,7 @@ public class Statistics{
         monthlyIncome = new double[12];
         monthlyTurnoverTimes = new int[12];
         monthlyTurnovers = new int[12];
+        categoryInventorySize = new HashMap<>();
 
         soldDaily = new ArrayList<DonationItem>();
         addedDaily = new ArrayList<DonationItem>();
@@ -65,7 +70,14 @@ public class Statistics{
         monthlyDonations[item.getDateInCirculation().getMonthValue()-1]++;
         inventoryValue += item.getPrice();
         inventorySize++;
-        categoryInventorySize[item.getCategory().ordinal()]++;
+        Log.d("Statistics", "categoryInventorySize: " + categoryInventorySize.size());
+        Log.d("Statistics", "new item category: " + item.getCategory());
+        if (categoryInventorySize.containsKey(item.getCategory())){
+            Category cat = item.getCategory();
+            categoryInventorySize.put(cat, categoryInventorySize.get(cat)+1);
+        } else {
+            categoryInventorySize.put(item.getCategory(), 1);
+        }
     }
 
 
@@ -86,7 +98,8 @@ public class Statistics{
     public void removeUpdate(DonationItem item){
         inventoryValue -= item.getPrice();
         inventorySize--;
-        categoryInventorySize[item.getCategory().ordinal()]--;
+        Category cat = item.getCategory();
+        categoryInventorySize.put(cat, categoryInventorySize.get(cat)-1);
         LocalDate dateMoved = item.getDateArrived();
 
         if (item.getSold()){
@@ -94,19 +107,24 @@ public class Statistics{
         }
 
         monthlyTurnovers[dateMoved.getMonthValue()-1] ++;
-        Period turnoverTime = item.getDateInCirculation().until​(dateMoved);
-        monthlyTurnoverTimes[dateMoved.getMonthValue()-1] += turnoverTime.getMonths();
+        int turnoverTime = item.getDateInCirculation().getMonthValue()
+                - dateMoved.getMonthValue();
+        monthlyTurnoverTimes[dateMoved.getMonthValue()-1] += turnoverTime;
     }
 
     public void updateInventoryStats(Location location){
         int inventorySize = location.getInventory().size();
         int inventoryValue = 0;
-        categoryInventorySize = new int[Category.values().length];
 
         List<DonationItem> inventory = location.getInventory();
         for (DonationItem item : inventory){
             inventoryValue += item.getPrice();
-            categoryInventorySize[item.getCategory().ordinal()]++;
+            if (categoryInventorySize.containsKey(item.getCategory())){
+                Category cat = item.getCategory();
+                categoryInventorySize.put(cat, categoryInventorySize.get(cat)+1);
+            } else {
+                categoryInventorySize.put(item.getCategory(), 1);
+            }
         }
 
     }

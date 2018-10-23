@@ -3,8 +3,8 @@ package spacepirates.breadbox.model;
 public class Admin extends BasicUser {
 
     //Username and password are protected variables in superclass
-    public Admin(String user, UserType t) {
-        super(user, t);
+    public Admin(String user, String pass) {
+        super(user, UserType.ADMINISTRATOR, pass);
     }
 
     //Add and remove manager are booleans dependent on whether or not they execute properly
