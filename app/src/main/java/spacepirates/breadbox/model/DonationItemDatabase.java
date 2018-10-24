@@ -3,6 +3,7 @@ package spacepirates.breadbox.model;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -41,7 +42,7 @@ public class DonationItemDatabase {
             return database;
         }
 
-        public List<DonationItem> getItemsByCategory(List<DonationItem> list, Category cat) {
+        public Queue<DonationItem> getItemsByCategory(List<DonationItem> list, Category cat) {
             PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
             for (DonationItem d: list) {
                 if (d.getCategory() == cat) {
@@ -53,8 +54,14 @@ public class DonationItemDatabase {
 
         public Queue<DonationItem> getItemsByName(List<DonationItem> list, String name) {
             PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
-                comp -> compare(DonationItem a, DonationItem b) = a.getName().compareTo(name)
+                (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
                 - b.getName().compareTo(name));
+//            PriorityQueue<DonationItem>ret = new PriorityQueue<>(list.size(), new Comparator<DonationItem>() {
+//                @Override
+//                public int compare(DonationItem donationItem, DonationItem t1) {
+//                    return donationItem.getName().compareTo(name) - (t1.getName().compareTo(name));
+//                }
+//            });
             for (DonationItem d: list) {
                 ret.add(d);
             }

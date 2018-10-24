@@ -2,11 +2,14 @@ package spacepirates.breadbox.model;
 
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -72,14 +75,24 @@ public class Model {
                     locationDatabase.addLocation(d.getValue(Location.class));
                 }
             }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w("Listener Failure", databaseError.toException());
+            }
         };
         locationsRef.addListenerForSingleValueEvent(locListener);
         ValueEventListener donationListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    donationDatabase.addDonationItem(d.getValue(DonationItem.class));
+                    donationItemDatabase.addItem(d.getValue(DonationItem.class));
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w("Listener Failure", databaseError.toException());
             }
         };
         donationsRef.addListenerForSingleValueEvent(donationListener);
@@ -104,6 +117,11 @@ public class Model {
     }
 
 
+
+    public Queue<DonationItem> filterDonationItems(List<DonationItem> list, Category category) {
+        return donationItemDatabase.getItemsByCategory(list, category);
+    }
+
     /**
      * //TODO Decide how to implement the filter.
      * Idea: What if the filter was an interface? Then locations and DonationItems could implement
@@ -120,10 +138,6 @@ public class Model {
      * @param category
      * @return Returns an ArrayList of all the DonationItems in a specified category at a location.
      */
-    public Queue<DonationItem> filterDonationItems(List<DonationItem> list, Category category) {
-        return donationItemDatabase.getItemsByCategory(list, category);
-    }
-
     public Queue<DonationItem> filterDonationItems(Location location, Category category) {
         return donationItemDatabase.getItemsByCategory(location.getInventory(), category);
     }
@@ -156,7 +170,7 @@ public class Model {
             if (l.equals(location)) return false;
         }
         //TODO write method in location database to add locations
-        locationDatabase.add(location);
+        locationDatabase.addLocation(location);
         return true;
     }
 
