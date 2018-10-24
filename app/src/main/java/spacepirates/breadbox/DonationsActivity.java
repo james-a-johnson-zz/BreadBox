@@ -5,14 +5,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-
-import spacepirates.breadbox.model.DonationItem;
-import spacepirates.breadbox.model.DonationItemDatabase;
-import spacepirates.breadbox.model.Model;
 import android.util.Log;
 
 import java.util.ArrayList;
+
+import spacepirates.breadbox.model.DonationItem;
+import spacepirates.breadbox.model.Model;
 
 public class DonationsActivity extends AppCompatActivity {
 
@@ -37,15 +35,13 @@ public class DonationsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_donations);
 
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.donations_rv);
+        RecyclerView recyclerView = findViewById(R.id.donations_rv);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         DonationItemRecyclerAdapter adapter = new DonationItemRecyclerAdapter(donations);
         recyclerView.setAdapter(adapter);
     }
-
-
 
 
 }

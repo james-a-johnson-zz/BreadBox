@@ -1,12 +1,13 @@
 package spacepirates.breadbox.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Manager extends LocationEmployee {
 
-    public Manager(String user, Location locus, String pass) {
-        super(user, UserType.MANAGER, locus, pass);
+    public Manager(String user, Location locus) {
+        super(user, UserType.MANAGER, locus);
+    }
+
+    public Manager(String user, UserType ut, Location locus) {
+        super(user, ut, locus);
     }
 
     //Return values are super iffy here. Subject to change later
@@ -28,12 +29,5 @@ public class Manager extends LocationEmployee {
 
     public LocationEmployee removeEmployee(LocationEmployee employee) {
         return null;
-    }
-
-    public Map<String, Object> toMap() {
-        Map<String, Object> databaseRepr = new HashMap<>();
-        databaseRepr.put("username", username);
-        databaseRepr.put("type", type);
-        return databaseRepr;
     }
 }

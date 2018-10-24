@@ -6,12 +6,12 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+//TODO Make sure classes and methods are implmented good.
 /** Prof talks about message chains being bad
  * ie: model.getLocations.getLocation.getName
  * We should write our model so that we don't do that.
@@ -90,11 +90,10 @@ public class Model {
         donationItemDatabase =  new DonationItemDatabase(context);
     }
 
-    public ArrayList<Location> getLocations() throws DatabaseNotInitializedException{
+    public ArrayList<Location> getLocations() throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
-
         // If locationDatabsae is empty, return list with the null location.
         if (locationDatabase.getLocations().size() == 0) {
             ArrayList<Location> noLocations = new ArrayList<>();
@@ -104,6 +103,43 @@ public class Model {
         return locationDatabase.getLocations();
     }
 
+
+    /**
+     * //TODO Decide how to implement the filter.
+     * Idea: What if the filter was an interface? Then locations and DonationItems could implement
+     * the same filter, and Filter using their own sets of data?
+     *
+     * Seems like a pointless excersise, I feel that the Model should probably just handle all the
+     * filtering. Overcomplicates by spreading out filtering duty, for a gain I don't see.
+     */
+
+    /**
+     * Filters DonationItems.
+     *
+     * @param location
+     * @param category
+     * @return Returns an ArrayList of all the DonationItems in a specified category at a location.
+     */
+    public Queue<DonationItem> filterDonationItems(List<DonationItem> list, Category category) {
+        return donationItemDatabase.getItemsByCategory(list, category);
+    }
+
+    public Queue<DonationItem> filterDonationItems(Location location, Category category) {
+        return donationItemDatabase.getItemsByCategory(location.getInventory(), category);
+    }
+    //TODO There should be filterDonationItem methods implmented for every way a donation should be filtered.
+    public Queue<DonationItem> filterDonationItems(List<DonationItem> list, String input) {
+        return donationItemDatabase.getItemsByName(list, input);
+    }
+
+    public Queue<DonationItem> filterDonationItems(Location location, String input) {
+        return donationItemDatabase.getItemsByName(location.getInventory(), input);
+    }
+
+    // public Queue<Location> filterLocations(List<Location> list, String input) {
+    //     return locationDatabase.getLocationsByAddress(list, input);
+    // }
+
     /**
      * add a location to the app.  checks if the location is already entered
      *
@@ -112,7 +148,7 @@ public class Model {
      * @param location  the course to be added
      * @return true if added, false if a duplicate
      */
-    public boolean addLocation(Location location) throws DatabaseNotInitializedException{
+    public boolean addLocation(Location location) throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
@@ -120,7 +156,7 @@ public class Model {
             if (l.equals(location)) return false;
         }
         //TODO write method in location database to add locations
-        locationDatabase.add(Location);
+        locationDatabase.add(location);
         return true;
     }
 
@@ -205,7 +241,7 @@ public class Model {
     /**
      * Exception thrown when app tries to retrieve from location database before it is initialized.
      */
-    public class DatabaseNotInitializedException extends RuntimeException {
+    private class DatabaseNotInitializedException extends RuntimeException {
 
     }
 

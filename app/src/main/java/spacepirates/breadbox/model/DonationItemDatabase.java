@@ -4,6 +4,8 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 
 public class DonationItemDatabase {
@@ -37,6 +39,26 @@ public class DonationItemDatabase {
 
         public List<DonationItem> getDonations () {
             return database;
+        }
+
+        public List<DonationItem> getItemsByCategory(List<DonationItem> list, Category cat) {
+            PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
+            for (DonationItem d: list) {
+                if (d.getCategory() == cat) {
+                    ret.add(d);
+                }
+            }
+            return ret;
+        }
+
+        public Queue<DonationItem> getItemsByName(List<DonationItem> list, String name) {
+            PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
+                comp -> compare(DonationItem a, DonationItem b) = a.getName().compareTo(name)
+                - b.getName().compareTo(name));
+            for (DonationItem d: list) {
+                ret.add(d);
+            }
+            return ret;
         }
 
 }

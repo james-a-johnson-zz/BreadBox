@@ -2,20 +2,15 @@ package spacepirates.breadbox;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -51,12 +46,12 @@ public class AddDonationItemActivity extends AppCompatActivity {
         } catch (Exception e) {
             Model.getInstance().initializeDatabases(getApplicationContext());
         }
-        location = (Location) locations.get(i);
+        location = locations.get(i);
 
         Log.d("AddDonation", "Got Location: " + location);
 
         setContentView(R.layout.activity_add_donation_item);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         nameView = findViewById(R.id.add_donation_input_name);
@@ -66,12 +61,15 @@ public class AddDonationItemActivity extends AppCompatActivity {
         donorView = findViewById(R.id.add_donation_input_donor);
         categorySpinner = findViewById(R.id.add_donation_category_spinner);
 
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, Category.values());
+        /**
+         * Category spinner uses the category enum to populate the spinner.
+         */
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Category.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,16 +102,19 @@ public class AddDonationItemActivity extends AppCompatActivity {
         ArrayList<Tag> tags = new ArrayList<Tag>();
         //splits the string in the tags box into words, and places in String array tags
         //( tagView.getText().toString()).split("\\W+");
-        String description =  descriptionview.getText().toString();
+        String description = descriptionview.getText().toString();
+
         //TODO implement adding users to donation items
         //User donor = donorView.getText().toString();
 
-        //TODO fix category and make sure that a category is entered.
-        //Category must be entered, because it might be ised for mapping in the datbase
+        //Category must be entered, because it might be used for mapping in the datbase
         category = (Category) categorySpinner.getSelectedItem();
-        //while category isn't finished, default to apparrel.
-        category = Category.APPAREL;
-        if(validDonation) {
+        if (category == null) {
+            //If no category, invalidate donation and make a note in the failure message.
+            validDonation = false;
+            failureMessage += "Must select a Category.";
+        }
+        if (validDonation) {
             //Create new Donation Item. DonationItem constructor adds it to the location inventory.
             DonationItem newItem = new DonationItem(name, price, category, location, description, null, tags);
             //Add donation item to donation item datbase

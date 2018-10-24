@@ -1,18 +1,17 @@
 package spacepirates.breadbox;
 
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import spacepirates.breadbox.model.DonationItem;
 
 import java.util.List;
+
+import spacepirates.breadbox.model.DonationItem;
+import spacepirates.breadbox.model.Tag;
 
 public class DonationItemRecyclerAdapter extends RecyclerView.Adapter<DonationItemRecyclerAdapter.DonationViewHolder> {
 
@@ -21,35 +20,23 @@ public class DonationItemRecyclerAdapter extends RecyclerView.Adapter<DonationIt
     //recycler allows a total of one card to be expanded, and uses this refernce to collapse old expanded card
     private DonationViewHolder expandedViewHolder;
 
-    public static class DonationViewHolder extends RecyclerView.ViewHolder {
-
-        CardView cv;
-        TextView itemName;
-        TextView description;
-        TextView price;
-
-        DonationViewHolder(View itemView) {
-            super(itemView);
-            cv = (CardView)itemView.findViewById(R.id.donation_item_card);
-            itemName = (TextView)itemView.findViewById(R.id.donation_card_name);
-            description = (TextView)itemView.findViewById(R.id.donation_card_description);
-            price = (TextView) itemView.findViewById(R.id.donation_card_price);
-
-        }
+    DonationItemRecyclerAdapter(List<DonationItem> donations) {
+        this.donations = donations;
     }
 
     //expands description of card view
     private void expandDonationView(DonationViewHolder v) {
         v.description.setVisibility(View.VISIBLE);
+        v.category.setVisibility(View.VISIBLE);
+        v.tags.setVisibility(View.VISIBLE);
     }
 
     //collapses description in card view
     private void collapseDonationView(DonationViewHolder v) {
         v.description.setVisibility(View.GONE);
-    }
+        v.category.setVisibility(View.GONE);
+        v.tags.setVisibility(View.GONE);
 
-    DonationItemRecyclerAdapter(List<DonationItem> donations){
-        this.donations = donations;
     }
 
     @Override
@@ -66,9 +53,19 @@ public class DonationItemRecyclerAdapter extends RecyclerView.Adapter<DonationIt
 
     @Override
     public void onBindViewHolder(final DonationViewHolder donationViewHolder, final int i) {
-        donationViewHolder.itemName.setText(donations.get(i).getName());
-        donationViewHolder.description.setText(donations.get(i).getDescription());
-        donationViewHolder.price.setText("- " + donations.get(i).getPrice());
+        DonationItem donation = donations.get(i);
+        String tags = "";
+        if (donation.getTags() != null) {
+            for (Tag t : donation.getTags()) {
+                tags += t + " ";
+            }
+        }
+
+        donationViewHolder.itemName.setText(donation.getName());
+        donationViewHolder.description.setText(donation.getDescription());
+        donationViewHolder.price.setText("- " + donation.getPrice());
+        donationViewHolder.category.setText(donation.getCategory().toString());
+        donationViewHolder.tags.setText(tags);
 
         //default for card view is collapsed form.
         collapseDonationView(donationViewHolder);
@@ -106,5 +103,27 @@ public class DonationItemRecyclerAdapter extends RecyclerView.Adapter<DonationIt
     @Override
     public int getItemCount() {
         return donations.size();
+    }
+
+    public static class DonationViewHolder extends RecyclerView.ViewHolder {
+
+        CardView cv;
+        TextView itemName;
+        TextView description;
+        TextView price;
+        TextView category;
+        TextView tags;
+
+
+        DonationViewHolder(View itemView) {
+            super(itemView);
+            cv = itemView.findViewById(R.id.donation_item_card);
+            itemName = itemView.findViewById(R.id.donation_card_name);
+            description = itemView.findViewById(R.id.donation_card_description);
+            price = itemView.findViewById(R.id.donation_card_price);
+            category = itemView.findViewById(R.id.donation_card_category);
+            tags = itemView.findViewById(R.id.donation_card_tags);
+
+        }
     }
 }

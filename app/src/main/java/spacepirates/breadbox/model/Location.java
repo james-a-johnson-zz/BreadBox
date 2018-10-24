@@ -23,9 +23,22 @@ public class Location implements Parcelable, Serializable {
     private List<Statistics> yearlyStats;
     private Statistics stats; //this year's statistics
     private int inventoryMax;
-
     //used for implementing Parcelable
     private int mData;
+
+    public Location() {
+        this.name = "Invalid";
+        this.type = "Invalid";
+        this.latitude = Double.NaN;
+        this.longitude = Double.NaN;
+        this.address = "Invalid";
+        this.phoneNumber = "Invalid";
+        inventory = new ArrayList<DonationItem>();
+        inventoryMax = 100;
+        yearlyStats = new ArrayList<Statistics>();
+        stats = new Statistics(this);
+        yearlyStats.add(stats);
+    }
 
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
         this.name = name;
@@ -43,10 +56,6 @@ public class Location implements Parcelable, Serializable {
 
     public Location(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
         this(name, type, Double.valueOf(latitude), Double.valueOf(longitude), address, phoneNumber);
-    }
-
-    public Location() {
-        this(null, null, null, null, null, null);
     }
 
     //Only use with correctly formatted csv
