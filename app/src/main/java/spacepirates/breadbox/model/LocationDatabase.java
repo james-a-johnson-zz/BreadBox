@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import com.google.firebase.database.DatabaseReference;
+
 public class LocationDatabase {
 
     private ArrayList<Location> locations;
