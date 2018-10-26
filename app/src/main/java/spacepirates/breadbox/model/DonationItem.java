@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class DonationItem {
+public class DonationItem implements Comparable<DonationItem> {
     private String name;
     private double price;
     private Category category;
@@ -175,6 +175,11 @@ public class DonationItem {
 
     public boolean getSold(){
         return this.history.getSold();
+    }
+
+    @Override
+    public int compareTo(DonationItem other) {
+        return this.getName().compareTo(other.getName());
     }
 
     //toStrings for tests, can delete/comment out later

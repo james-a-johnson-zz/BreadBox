@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import com.google.firebase.database.DatabaseReference;
+
 public class LocationDatabase {
 
     private ArrayList<Location> locations;
@@ -69,9 +71,14 @@ public class LocationDatabase {
     public void addLocation(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
         locations.add(new Location(name, type, latitude, longitude, address, phoneNumber));
     }
-    
+
     public void addLocation(Location location) {
         locations.add(location);
+    }
+
+    public void addLocation(Location location, DatabaseReference locReference) {
+        locations.add(location);
+        locReference.child(location.getAddress()).setValue(location);
     }
 
     public ArrayList<Location> getLocations() {

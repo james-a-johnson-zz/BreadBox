@@ -2,9 +2,17 @@ package spacepirates.breadbox.model;
 
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 //TODO Make sure classes and methods are implmented good.
 /** Prof talks about message chains being bad
@@ -16,6 +24,10 @@ public class Model {
     /** Singleton instance */
     private static final Model _instance = new Model();
     public static Model getInstance() { return _instance; }
+
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference locationsRef;
+    private DatabaseReference donationsRef;
 
     //user logged in and operating app
     private User _currentUser;
@@ -50,30 +62,65 @@ public class Model {
 
     private Model(Context context) {
         Log.d("Model", "Initialized Model, with context");
+        mDatabase = FirebaseDatabase.getInstance();
         locationDatabase = new LocationDatabase(context);
+        locationsRef = mDatabase.getReference().child("locations");
         donationItemDatabase = new DonationItemDatabase(context);
+        donationsRef = mDatabase.getReference().child("donations");
         _currentUser = nullUser;
+        ValueEventListener locListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    locationDatabase.addLocation(d.getValue(Location.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w("Listener Failure", databaseError.toException());
+            }
+        };
+        locationsRef.addListenerForSingleValueEvent(locListener);
+        ValueEventListener donationListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    donationItemDatabase.addItem(d.getValue(DonationItem.class));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.w("Listener Failure", databaseError.toException());
+            }
+        };
+        donationsRef.addListenerForSingleValueEvent(donationListener);
     }
 
     public void initializeDatabases (Context context) {
         locationDatabase = new LocationDatabase(context);
         donationItemDatabase =  new DonationItemDatabase(context);
     }
-    
+
     public ArrayList<Location> getLocations() throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
-        
         // If locationDatabsae is empty, return list with the null location.
         if (locationDatabase.getLocations().size() == 0) {
             ArrayList<Location> noLocations = new ArrayList<>();
             noLocations.add(theNullLocation);
             return noLocations;
         }
-        return locationDatabase.getLocations(); 
+        return locationDatabase.getLocations();
     }
 
+
+
+    public Queue<DonationItem> filterDonationItems(List<DonationItem> list, Category category) {
+        return donationItemDatabase.getItemsByCategory(list, category);
+    }
 
     /**
      * //TODO Decide how to implement the filter.
@@ -91,10 +138,21 @@ public class Model {
      * @param category
      * @return Returns an ArrayList of all the DonationItems in a specified category at a location.
      */
-    public ArrayList<DonationItem> filterDonationItems(Location location, Category category) {
-                return null;
+    public Queue<DonationItem> filterDonationItems(Location location, Category category) {
+        return donationItemDatabase.getItemsByCategory(location.getInventory(), category);
     }
     //TODO There should be filterDonationItem methods implmented for every way a donation should be filtered.
+    public Queue<DonationItem> filterDonationItems(List<DonationItem> list, String input) {
+        return donationItemDatabase.getItemsByName(list, input);
+    }
+
+    public Queue<DonationItem> filterDonationItems(Location location, String input) {
+        return donationItemDatabase.getItemsByName(location.getInventory(), input);
+    }
+
+    // public Queue<Location> filterLocations(List<Location> list, String input) {
+    //     return locationDatabase.getLocationsByAddress(list, input);
+    // }
 
     /**
      * add a location to the app.  checks if the location is already entered
@@ -112,7 +170,7 @@ public class Model {
             if (l.equals(location)) return false;
         }
         //TODO write method in location database to add locations
-        //locationDatabase.add(Location);
+        locationDatabase.addLocation(location);
         return true;
     }
 
@@ -172,7 +230,7 @@ public class Model {
             throw new DatabaseNotInitializedException();
         }
 
-        // If donationDatabsae is empty, return list with the null donation.
+        // If donationDatabase is empty, return list with the null donation.
         if (donationItemDatabase.getDonations().size() == 0) {
             ArrayList<DonationItem> noDonations = new ArrayList<>();
             noDonations.add(theNullDonation);
@@ -191,9 +249,9 @@ public class Model {
     public void addDonationItem(DonationItem donation) {
         donationItemDatabase.addItem(donation);
     }
-    
-    
-    
+
+
+
     /**
      * Exception thrown when app tries to retrieve from location database before it is initialized.
      */

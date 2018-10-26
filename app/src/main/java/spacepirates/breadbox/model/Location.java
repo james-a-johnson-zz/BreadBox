@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.firebase.database.DatabaseReference;
+
 //Implements parceble, so activities bundle and put extra to pass a specific location to another activity
 public class Location implements Parcelable, Serializable {
 
@@ -21,6 +23,8 @@ public class Location implements Parcelable, Serializable {
     private List<Statistics> yearlyStats;
     private Statistics stats; //this year's statistics
     private int inventoryMax;
+    //used for implementing Parcelable
+    private int mData;
 
     public Location() {
         this.name = "Invalid";
@@ -29,10 +33,12 @@ public class Location implements Parcelable, Serializable {
         this.longitude = Double.NaN;
         this.address = "Invalid";
         this.phoneNumber = "Invalid";
+        inventory = new ArrayList<DonationItem>();
+        inventoryMax = 100;
+        yearlyStats = new ArrayList<Statistics>();
+        stats = new Statistics(this);
+        yearlyStats.add(stats);
     }
-    //used for implementing Parcelable
-    private int mData;
-
 
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
         this.name = name;
