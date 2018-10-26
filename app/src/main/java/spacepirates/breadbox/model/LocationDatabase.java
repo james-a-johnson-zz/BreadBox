@@ -1,18 +1,23 @@
 package spacepirates.breadbox.model;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LocationDatabase {
 
-    private ArrayList<Location> locations;
+    private List<Location> locations;
+    private DatabaseReference db;
 
     private Context mContext;
 
@@ -21,67 +26,47 @@ public class LocationDatabase {
 
     public LocationDatabase(Context context) {
         mContext = context;
+        db = FirebaseDatabase.getInstance().getReference("locations");
         locations = initializeLocations(context);
     }
 
-    private ArrayList<Location> initializeLocations(Context context) {
+    private List<Location> initializeLocations(Context context) {
         Log.d("LocationDatabase", "Initializing Database.");
-        ArrayList<Location> locations = new ArrayList<Location>();
-        try {
+        final List<Location> locations = new ArrayList<Location>();
 
-            //TODO Find context independent way to load csv. Safer for initializing model
-            //working on a way to read file that isn't dependent on context
-            /**
-            File file = null;
-            try {
-                file = new File("BreadBox.app.src.main.assets.LocationData.csv");
-            } catch (Exception e) {
-                Log.e("LocationDatbase: ", "Failed to read file");
-            }
-            InputStream is = new FileInputStream(file);
-            */
-
-            InputStream is = mContext.getAssets().open("LocationData.csv");
-
-
-            BufferedReader read = new BufferedReader(new InputStreamReader(is));
-            read.readLine(); //Skipping line that indicates the format of the CSV
-            ArrayList<String[]> lines = new ArrayList<>();
-            String line;
-            while((line = read.readLine()) != null) {
-                lines.add(line.split(","));
-            }
-            for (String[] arr : lines) {
-                locations.add(new Location(arr));
+        ValueEventListener initLocations = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    throw new DatabaseException("Database could not initialize");
+                }
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    locations.add(ds.getValue(Location.class));
+                }
             }
 
-            addLocation("Test Store", "Store", "45.5", "0", "1111 Fake Street", "(555) 555 - 5555");
-
-            for (Location l : locations) {
-                System.out.println(l);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                throw new DatabaseException("Database could not initialize");
             }
-        } catch(Exception e) {
-            System.out.println(e);
-            System.out.println("Hit an exception");
-        }
-        Log.d("Location Database", "locations size: " + locations.size());
+        };
+
+        db.addListenerForSingleValueEvent(initLocations);
+
         return locations;
     }
 
     public void addLocation(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
-        locations.add(new Location(name, type, latitude, longitude, address, phoneNumber));
+        Location l = new Location(name, type, latitude, longitude, address, phoneNumber);
+        this.addLocation(l);
     }
 
     public void addLocation(Location location) {
         locations.add(location);
+        db.child(location.getAddress()).setValue(location);
     }
 
-    public void addLocation(Location location, DatabaseReference locReference) {
-        locations.add(location);
-        locReference.child(location.getAddress()).setValue(location);
-    }
-
-    public ArrayList<Location> getLocations() {
+    public List<Location> getLocations() {
         return locations;
     }
 
@@ -89,5 +74,13 @@ public class LocationDatabase {
         return locations.remove(l);
     }
 
+    public void updateLocation(Location l) {
+        db.child(l.getAddress()).setValue(l);
+    }
+
+    public void updateAllLocations() {
+        for (Location l : locations)
+            this.updateLocation(l);
+    }
 
 }

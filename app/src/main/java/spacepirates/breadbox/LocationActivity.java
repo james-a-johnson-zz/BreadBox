@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
@@ -30,7 +30,7 @@ public class LocationActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ArrayList<Location> locations = null;
+        List<Location> locations = null;
         try {
             locations = Model.getInstance().getLocations();
         } catch (Exception e) {

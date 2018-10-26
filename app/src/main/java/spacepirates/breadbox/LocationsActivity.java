@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
@@ -19,7 +19,7 @@ public class LocationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Model model = Model.getInstance();
-        ArrayList<Location> locations;
+        List<Location> locations;
 
         // Checks that location database is initialized and populates it if it is not.
         try {

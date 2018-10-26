@@ -5,14 +5,15 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
 
 //TODO Make sure classes and methods are implmented good.
 /** Prof talks about message chains being bad
@@ -48,7 +49,7 @@ public class Model {
     /** Null Donation pattern, returned when no donations are found.
      *  Current default category is apparel. Fails curing run if category is null.
      */
-    private DonationItem theNullDonation = new DonationItem("No Donations Found", 0, Category.APPAREL, theNullLocation);
+    private DonationItem theNullDonation = new DonationItem("No Donations Found", 0, Category.APPAREL);
 
     /**
      * make a new model
@@ -103,7 +104,7 @@ public class Model {
         donationItemDatabase =  new DonationItemDatabase(context);
     }
 
-    public ArrayList<Location> getLocations() throws DatabaseNotInitializedException {
+    public List<Location> getLocations() throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }

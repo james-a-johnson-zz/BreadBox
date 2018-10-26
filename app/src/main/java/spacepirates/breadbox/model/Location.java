@@ -1,16 +1,17 @@
 package spacepirates.breadbox.model;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.firebase.database.DatabaseReference;
-
 //Implements parceble, so activities bundle and put extra to pass a specific location to another activity
+@IgnoreExtraProperties
 public class Location implements Parcelable, Serializable {
 
     private String name;
@@ -20,8 +21,8 @@ public class Location implements Parcelable, Serializable {
     private String address;
     private String phoneNumber;
     private List<DonationItem> inventory;
-    private List<Statistics> yearlyStats;
-    private Statistics stats; //this year's statistics
+    // private List<Statistics> yearlyStats;
+    //private Statistics stats; //this year's statistics
     private int inventoryMax;
     //used for implementing Parcelable
     private int mData;
@@ -35,9 +36,11 @@ public class Location implements Parcelable, Serializable {
         this.phoneNumber = "Invalid";
         inventory = new ArrayList<DonationItem>();
         inventoryMax = 100;
-        yearlyStats = new ArrayList<Statistics>();
+        //yearlyStats = new ArrayList<Statistics>();
+        /*
         stats = new Statistics(this);
         yearlyStats.add(stats);
+        */
     }
 
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
@@ -49,9 +52,11 @@ public class Location implements Parcelable, Serializable {
         this.phoneNumber = phoneNumber;
         inventory = new ArrayList<DonationItem>();
         inventoryMax = 100;
-        yearlyStats = new ArrayList<Statistics>();
+        //yearlyStats = new ArrayList<Statistics>();
+        /*
         stats = new Statistics(this);
         yearlyStats.add(stats);
+        */
     }
 
     public Location(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
@@ -91,7 +96,7 @@ public class Location implements Parcelable, Serializable {
         this.latitude = latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitudeFromString(String latitude) {
         this.latitude = new Double(latitude);
     }
 
@@ -103,7 +108,7 @@ public class Location implements Parcelable, Serializable {
         this.longitude = longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitudeFromString(String longitude) {
         this.longitude = new Double(longitude);
     }
 
@@ -128,9 +133,11 @@ public class Location implements Parcelable, Serializable {
     }
 
     public void addItem(DonationItem d) {
+        /*
         if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
         this.stats.addUpdate(d);
         inventory.add(d);
+        */
     }
 
     public double percentFull() {
@@ -148,30 +155,40 @@ public class Location implements Parcelable, Serializable {
 
 
     public void sellItem(DonationItem d) { //not sure what return type should be here (could be bool)
+        /*
         if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
         if(inventory.remove(d)){ //for now, do nothing if item did not exist
             this.stats.sellUpdate(d);
         }
+        */
     }
 
     public boolean removeItem(DonationItem d) { //use to move item to new location/set item location
+        /*
         if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
         this.stats.removeUpdate(d);
+        */
         return inventory.remove(d);
     }
 
     public void updateYearOfStats(){
+        /*
         stats = new Statistics(this);
         yearlyStats.add(stats);
+        */
     }
 
+    /*
     public Statistics getStats(){
         return this.stats;
     }
+    */
 
+    /*
     public List<Statistics> getAllStats(){
         return this.yearlyStats;
     }
+    */
 
 
     //test toString methods, can delete later/comment out

@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import spacepirates.breadbox.model.Category;
 import spacepirates.breadbox.model.DonationItem;
@@ -40,7 +41,7 @@ public class AddDonationItemActivity extends AppCompatActivity {
         //Location location = (Location) i.getParcelableExtra(getString(R.string.pass_location_key));
         //location = (Location) this.getIntent().getSerializableExtra("location");
         i = this.getIntent().getIntExtra("location_index", -1);
-        ArrayList<Location> locations = null;
+        List<Location> locations = null;
         try {
             locations = Model.getInstance().getLocations();
         } catch (Exception e) {
@@ -116,7 +117,7 @@ public class AddDonationItemActivity extends AppCompatActivity {
         }
         if (validDonation) {
             //Create new Donation Item. DonationItem constructor adds it to the location inventory.
-            DonationItem newItem = new DonationItem(name, price, category, location, description, null, tags);
+            DonationItem newItem = new DonationItem(name, price, category, description, null, tags);
             //Add donation item to donation item datbase
             Model.getInstance().addDonationItem(newItem);
 
