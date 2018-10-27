@@ -41,12 +41,8 @@ public class AddDonationItemActivity extends AppCompatActivity {
         //Location location = (Location) i.getParcelableExtra(getString(R.string.pass_location_key));
         //location = (Location) this.getIntent().getSerializableExtra("location");
         i = this.getIntent().getIntExtra("location_index", -1);
-        List<Location> locations = null;
-        try {
-            locations = Model.getInstance().getLocations();
-        } catch (Exception e) {
-            Model.getInstance().initializeDatabases(getApplicationContext());
-        }
+        List<Location> locations;
+        locations = Model.getInstance().getLocations();
         location = locations.get(i);
 
         Log.d("AddDonation", "Got Location: " + location);
@@ -117,7 +113,8 @@ public class AddDonationItemActivity extends AppCompatActivity {
         }
         if (validDonation) {
             //Create new Donation Item. DonationItem constructor adds it to the location inventory.
-            DonationItem newItem = new DonationItem(name, price, category, description, null, tags);
+            DonationItem newItem = new DonationItem(name, price, category, description,
+                    Model.getInstance().getCurrentUser(), tags, location.getAddress());
             //Add donation item to donation item datbase
             Model.getInstance().addDonationItem(newItem);
 

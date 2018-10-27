@@ -2,14 +2,10 @@ package spacepirates.breadbox.model;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,52 +52,17 @@ public class Model {
      */
     private Model() {
         Log.d("Model", "Initialized Model, without context");
-        locationDatabase = null;
-        donationItemDatabase = null;
+        this.initializeDatabases();
         _currentUser = nullUser;
     }
 
     private Model(Context context) {
-        Log.d("Model", "Initialized Model, with context");
-        mDatabase = FirebaseDatabase.getInstance();
-        locationDatabase = new LocationDatabase(context);
-        locationsRef = mDatabase.getReference().child("locations");
-        donationItemDatabase = new DonationItemDatabase(context);
-        donationsRef = mDatabase.getReference().child("donations");
-        _currentUser = nullUser;
-        ValueEventListener locListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    locationDatabase.addLocation(d.getValue(Location.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("Listener Failure", databaseError.toException());
-            }
-        };
-        locationsRef.addListenerForSingleValueEvent(locListener);
-        ValueEventListener donationListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    donationItemDatabase.addItem(d.getValue(DonationItem.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("Listener Failure", databaseError.toException());
-            }
-        };
-        donationsRef.addListenerForSingleValueEvent(donationListener);
+        this();
     }
 
-    public void initializeDatabases (Context context) {
-        locationDatabase = new LocationDatabase(context);
-        donationItemDatabase =  new DonationItemDatabase(context);
+    private void initializeDatabases() {
+        locationDatabase = new LocationDatabase();
+        donationItemDatabase = new DonationItemDatabase();
     }
 
     public List<Location> getLocations() throws DatabaseNotInitializedException {

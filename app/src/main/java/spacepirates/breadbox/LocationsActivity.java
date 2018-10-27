@@ -22,12 +22,7 @@ public class LocationsActivity extends AppCompatActivity {
         List<Location> locations;
 
         // Checks that location database is initialized and populates it if it is not.
-        try {
-            locations = model.getLocations();
-        } catch (Exception e) {
-            model.initializeDatabases(getApplicationContext());
-            locations = model.getLocations();
-        }
+        locations = model.getLocations();
 
         int size = locations.size();
         Log.d("Locations", "size locations list: " + size);

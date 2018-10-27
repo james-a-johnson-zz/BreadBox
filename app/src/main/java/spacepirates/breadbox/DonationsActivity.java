@@ -19,15 +19,7 @@ public class DonationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Model model = Model.getInstance();
-        ArrayList<DonationItem> donations;
-
-        // Checks that donation database is initialized and populates it if it is not.
-        try {
-            donations = model.getDonations();
-        } catch (Exception e) {
-            model.initializeDatabases(getApplicationContext());
-            donations = model.getDonations();
-        }
+        ArrayList<DonationItem> donations = model.getDonations();
 
         int size = donations.size();
         Log.d("Donations", "size donations list: " + size);

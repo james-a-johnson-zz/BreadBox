@@ -30,12 +30,7 @@ public class LocationActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        List<Location> locations = null;
-        try {
-            locations = Model.getInstance().getLocations();
-        } catch (Exception e) {
-            Model.getInstance().initializeDatabases(getApplicationContext());
-        }
+        List<Location> locations = Model.getInstance().getLocations();
         final Location location = locations.get(i);
 
         Log.d("intent", "Location is: " + location.getName());

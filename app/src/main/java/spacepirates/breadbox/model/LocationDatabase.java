@@ -1,6 +1,5 @@
 package spacepirates.breadbox.model;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -19,19 +18,17 @@ public class LocationDatabase {
     private List<Location> locations;
     private DatabaseReference db;
 
-    private Context mContext;
-
     //TODO It would be convenient if the database could be initialized without context from an Activity
     //public LocationDatabase() {}
 
-    public LocationDatabase(Context context) {
-        mContext = context;
+    public LocationDatabase() {
         db = FirebaseDatabase.getInstance().getReference("locations");
-        locations = initializeLocations(context);
+        this.locations = new ArrayList<>();
+        initializeLocations();
     }
 
-    private List<Location> initializeLocations(Context context) {
-        Log.d("LocationDatabase", "Initializing Database.");
+    private void initializeLocations() {
+        Log.d("LocationDB", "Initializing Database.");
         final List<Location> locations = new ArrayList<Location>();
 
         ValueEventListener initLocations = new ValueEventListener() {
@@ -41,7 +38,9 @@ public class LocationDatabase {
                     throw new DatabaseException("Database could not initialize");
                 }
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    locations.add(ds.getValue(Location.class));
+                    Location curr = ds.getValue(Location.class);
+                    Log.d("LocationDB", "Received: " + curr.getAddress());
+                    locations.add(curr);
                 }
             }
 
@@ -52,8 +51,8 @@ public class LocationDatabase {
         };
 
         db.addListenerForSingleValueEvent(initLocations);
-
-        return locations;
+        Log.d("LocationDB", "Size: " + locations.size());
+        this.locations = locations;
     }
 
     public void addLocation(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
@@ -71,6 +70,7 @@ public class LocationDatabase {
     }
 
     public boolean removeLocation(Location l) {
+        db.child(l.getAddress()).removeValue();
         return locations.remove(l);
     }
 
