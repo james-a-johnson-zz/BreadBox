@@ -185,6 +185,14 @@ public class Location implements Parcelable, Serializable {
 
     }
 
+    public String toStringMap() {
+        String result = "";
+        result += "Name: " + name + "\n"
+                + "Location Type: " + type + "\n"
+                + "Address:" + address + "\n";
+        return result;
+    }
+
     public String inventoryToString() {
         String itemStr = "";
         for(DonationItem d : inventory) {

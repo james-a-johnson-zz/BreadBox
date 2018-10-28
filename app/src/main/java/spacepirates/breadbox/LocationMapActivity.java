@@ -10,6 +10,11 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
+import spacepirates.breadbox.model.Location;
+import spacepirates.breadbox.model.Model;
+
 public class LocationMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -38,9 +43,25 @@ public class LocationMapActivity extends FragmentActivity implements OnMapReadyC
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        Model model = Model.getInstance();
+        ArrayList<Location> locations;
+
+        // Checks that location database is initialized and populates it if it is not.
+        try {
+            locations = model.getLocations();
+        } catch (Exception e) {
+            model.initializeDatabases(getApplicationContext());
+            locations = model.getLocations();
+        }
+
+        for (Location location : locations) {
+            LatLng pin = new LatLng(location.getLatitude(), location.getLongitude());
+            mMap.addMarker(new MarkerOptions().position(pin).title(location.toStringMap()));
+        }
+
         // Add a marker in Atlanta and move the camera to it because Atlanta is where it's at
         LatLng atlanta = new LatLng(33.7490, -84.3880);
-        mMap.addMarker(new MarkerOptions().position(atlanta).title("Marker in Atlanta"));
+//        mMap.addMarker(new MarkerOptions().position(atlanta).title("Marker in Atlanta"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(atlanta));
     }
 }
