@@ -52,16 +52,16 @@ public class DonationItemDatabase {
             return ret;
         }
 
-        public Queue<DonationItem> getItemsByName(List<DonationItem> list, String name) {
-            PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
-                (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
-                - b.getName().compareTo(name));
-//            PriorityQueue<DonationItem>ret = new PriorityQueue<>(list.size(), new Comparator<DonationItem>() {
-//                @Override
-//                public int compare(DonationItem donationItem, DonationItem t1) {
-//                    return donationItem.getName().compareTo(name) - (t1.getName().compareTo(name));
-//                }
-//            });
+        public Queue<DonationItem> getItemsByName(List<DonationItem> list, final String name) {
+//            PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
+//                (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
+//                - b.getName().compareTo(name));
+            PriorityQueue<DonationItem>ret = new PriorityQueue<>(list.size(), new Comparator<DonationItem>() {
+                @Override
+                public int compare(DonationItem donationItem, DonationItem t1) {
+                    return donationItem.getName().compareTo(name) - (t1.getName().compareTo(name));
+                }
+            });
             for (DonationItem d: list) {
                 ret.add(d);
             }
