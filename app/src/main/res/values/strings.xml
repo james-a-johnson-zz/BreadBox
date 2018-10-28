@@ -7,4 +7,5 @@
     <string name="pass_location_key">locationKey</string>
     <string name="title_activity_donations">DonationsActivity</string>
     <string name="title_activity_add_donation_item">AddDonationItemActivity</string>
+    <string name="title_activity_location_map">Map</string>
 </resources>
