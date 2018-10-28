@@ -1,11 +1,15 @@
 package spacepirates.breadbox;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -34,13 +38,24 @@ public class LocationsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_locations);
 
-
         RecyclerView recyclerView = findViewById(R.id.locations_recycler);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         LocationRecyclerAdapter adapter = new LocationRecyclerAdapter(locations);
         recyclerView.setAdapter(adapter);
+
+        Button mapDisp = findViewById(R.id.displayMapButton);
+        mapDisp.setText("Display Map");
+        mapDisp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Model model = Model.getInstance();
+                Context context = view.getContext();
+                Intent intent = new Intent(context, LocationMapActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
     }
 
