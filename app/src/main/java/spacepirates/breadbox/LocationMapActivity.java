@@ -38,9 +38,9 @@ public class LocationMapActivity extends FragmentActivity implements OnMapReadyC
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Atlanta and move the camera
-        LatLng atlanta = new LatLng(33.7490, 84.3880);
-        mMap.addMarker(new MarkerOptions().position(atlanta).title("Marker in Sydney"));
+        // Add a marker in Atlanta and move the camera to it because Atlanta is where it's at
+        LatLng atlanta = new LatLng(33.7490, -84.3880);
+        mMap.addMarker(new MarkerOptions().position(atlanta).title("Marker in Atlanta"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(atlanta));
     }
 }
