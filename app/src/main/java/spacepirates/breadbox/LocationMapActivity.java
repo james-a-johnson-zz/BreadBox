@@ -2,12 +2,14 @@ package spacepirates.breadbox;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -56,12 +58,22 @@ public class LocationMapActivity extends FragmentActivity implements OnMapReadyC
 
         for (Location location : locations) {
             LatLng pin = new LatLng(location.getLatitude(), location.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(pin).title(location.toStringMap()));
+            mMap.addMarker(new MarkerOptions()
+                    .position(pin)
+                    .title(location.getName())
+                    .snippet("Phone: " + location.getPhoneNumber()));
         }
 
         // Add a marker in Atlanta and move the camera to it because Atlanta is where it's at
         LatLng atlanta = new LatLng(33.7490, -84.3880);
 //        mMap.addMarker(new MarkerOptions().position(atlanta).title("Marker in Atlanta"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(atlanta));
+
+//        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+//            @Override
+//            public boolean onMarkerClick(Marker marker) {
+//
+//            }
+//        });
     }
 }
