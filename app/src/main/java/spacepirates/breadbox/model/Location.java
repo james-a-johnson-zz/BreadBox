@@ -188,8 +188,7 @@ public class Location implements Parcelable, Serializable {
     public String toStringMap() {
         String result = "";
         result += "Name: " + name + "\n"
-                + "Location Type: " + type + "\n"
-                + "Address:" + address + "\n";
+                + "Phone Number: " + phoneNumber + "\n";
         return result;
     }
 
