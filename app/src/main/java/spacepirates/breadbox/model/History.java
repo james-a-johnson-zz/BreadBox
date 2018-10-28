@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 
-
 public class History {
     private Map<Location, LocalDate> locationHistory;
     private LocalDate sellDate;
