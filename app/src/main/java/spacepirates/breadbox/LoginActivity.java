@@ -49,8 +49,9 @@ public class LoginActivity extends AppCompatActivity {
         Button registerButton = findViewById(R.id.RegisterButton);
 
 
-        //Test button
+        //Test buttonb
         Button testButton = findViewById(R.id.testButton);
+        Button mapDisp = findViewById(R.id.displayMapButton);
 
         //TODO move this string.
         //These sorts of app level final strings should be in the resource String xml, and then referenced,
@@ -91,6 +92,18 @@ public class LoginActivity extends AppCompatActivity {
                 Model model = Model.getInstance();
                 Context context = view.getContext();
                 Intent intent = new Intent(context, LocationsActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
+
+        mapDisp.setText("Display Map");
+        mapDisp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Model model = Model.getInstance();
+                Context context = view.getContext();
+                Intent intent = new Intent(context, LocationMapActivity.class);
                 context.startActivity(intent);
             }
         });

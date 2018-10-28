@@ -45,18 +45,6 @@ public class LocationsActivity extends AppCompatActivity {
         LocationRecyclerAdapter adapter = new LocationRecyclerAdapter(locations);
         recyclerView.setAdapter(adapter);
 
-        Button mapDisp = findViewById(R.id.displayMapButton);
-        mapDisp.setText("Display Map");
-        mapDisp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Model model = Model.getInstance();
-                Context context = view.getContext();
-                Intent intent = new Intent(context, LocationMapActivity.class);
-                context.startActivity(intent);
-            }
-        });
-
     }
 
 
