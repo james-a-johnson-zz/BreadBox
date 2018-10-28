@@ -33,11 +33,6 @@ public class Location implements Parcelable, Serializable {
         this.longitude = Double.NaN;
         this.address = "Invalid";
         this.phoneNumber = "Invalid";
-        inventory = new ArrayList<DonationItem>();
-        inventoryMax = 100;
-        yearlyStats = new ArrayList<Statistics>();
-        stats = new Statistics(this);
-        yearlyStats.add(stats);
     }
 
     public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {

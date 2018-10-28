@@ -81,6 +81,12 @@ public class LocationDatabase {
         locReference.child(location.getAddress()).setValue(location);
     }
 
+    public ArrayList<Location> clear() {
+        ArrayList<Location> old = locations;
+        locations = new ArrayList<>();
+        return old;
+    }
+
     public ArrayList<Location> getLocations() {
         return locations;
     }

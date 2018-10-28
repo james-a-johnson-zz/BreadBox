@@ -6,8 +6,10 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Queue;
+import java.util.PriorityQueue;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -100,6 +102,13 @@ public class Model {
 
     public void initializeDatabases (Context context) {
         locationDatabase = new LocationDatabase(context);
+        mDatabase = FirebaseDatabase.getInstance();
+        locationsRef = mDatabase.getReference().child("locations");
+        ArrayList<Location> garbage = locationDatabase.clear();
+        for (Location l: garbage) {
+            locationDatabase.addLocation(l);
+            locationsRef.child(l.getAddress()).setValue(l);
+        }
         donationItemDatabase =  new DonationItemDatabase(context);
     }
 
@@ -118,8 +127,18 @@ public class Model {
 
 
 
-    public Queue<DonationItem> filterDonationItems(List<DonationItem> list, Category category) {
-        return donationItemDatabase.getItemsByCategory(list, category);
+    public List<DonationItem> filterDonationItems(List<DonationItem> list, Category cat) {
+        PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
+        ArrayList<DonationItem> srt = new ArrayList<>();
+        for (DonationItem d: list) {
+            if (d.getCategory() == cat) {
+                ret.add(d);
+            }
+        }
+        while(!ret.isEmpty()) {
+            srt.add(ret.poll());
+        }
+        return srt;
     }
 
     /**
@@ -138,16 +157,32 @@ public class Model {
      * @param category
      * @return Returns an ArrayList of all the DonationItems in a specified category at a location.
      */
-    public Queue<DonationItem> filterDonationItems(Location location, Category category) {
-        return donationItemDatabase.getItemsByCategory(location.getInventory(), category);
+    public List<DonationItem> filterDonationItems(Location location, Category category) {
+        return filterDonationItems(location.getInventory(), category);
     }
     //TODO There should be filterDonationItem methods implmented for every way a donation should be filtered.
-    public Queue<DonationItem> filterDonationItems(List<DonationItem> list, String input) {
-        return donationItemDatabase.getItemsByName(list, input);
+    public List<DonationItem> filterDonationItems(List<DonationItem> list, final String input) {
+        // PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
+        //     (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
+        //     - b.getName().compareTo(name));
+        PriorityQueue<DonationItem>ret = new PriorityQueue<>(list.size(), new Comparator<DonationItem>() {
+            @Override
+            public int compare(DonationItem donationItem, DonationItem t1) {
+                return donationItem.getName().compareTo(input) - (t1.getName().compareTo(input));
+            }
+        });
+        ArrayList<DonationItem> srt = new ArrayList<>();
+        for (DonationItem d: list) {
+            ret.add(d);
+        }
+        while(!ret.isEmpty()) {
+            srt.add(ret.poll());
+        }
+        return srt;
     }
 
-    public Queue<DonationItem> filterDonationItems(Location location, String input) {
-        return donationItemDatabase.getItemsByName(location.getInventory(), input);
+    public List<DonationItem> filterDonationItems(Location location, String input) {
+        return filterDonationItems(location.getInventory(), input);
     }
 
     // public Queue<Location> filterLocations(List<Location> list, String input) {
