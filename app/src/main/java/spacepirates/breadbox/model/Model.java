@@ -81,8 +81,8 @@ public class Model {
             return l;
     }
 
-    public ArrayList<DonationItem> getDonationItems() {
-        return (ArrayList) donationItemDatabase.getDonations();
+    public List<DonationItem> getDonationItems() {
+        return donationItemDatabase.getDonations();
     }
 
     public List<DonationItem> filterDonationItems(List<DonationItem> list, Category cat) {

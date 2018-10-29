@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import spacepirates.breadbox.model.Category;
 import spacepirates.breadbox.model.DonationItem;
@@ -66,7 +66,7 @@ public class SearchActivity extends AppCompatActivity {
         nameFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<DonationItem> filterResult;
+                List<DonationItem> filterResult;
                 String name = nameInput.getText().toString();
                 Model model = Model.getInstance();
                 filterResult = model.filterDonationItems(name);
@@ -77,7 +77,7 @@ public class SearchActivity extends AppCompatActivity {
         categoryFilterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ArrayList<DonationItem> filterResult;
+                List<DonationItem> filterResult;
                 Category category = (Category) categorySpinner.getSelectedItem();
                 Model model = Model.getInstance();
                 filterResult = model.filterDonationItems(category);
@@ -87,7 +87,7 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
-    private void setRecycler (ArrayList<DonationItem> donationItems) {
+    private void setRecycler(List<DonationItem> donationItems) {
         DonationItemRecyclerAdapter adapter = new DonationItemRecyclerAdapter(donationItems);
         recyclerView.setAdapter(adapter);
         if (donationItems.size() == 0) {
@@ -96,5 +96,4 @@ public class SearchActivity extends AppCompatActivity {
             noMatchesView.setVisibility(View.GONE);
         }
     }
-
 }

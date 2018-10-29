@@ -1,6 +1,7 @@
 package spacepirates.breadbox.model;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +24,7 @@ public class DonationItemDatabase {
         database = new ArrayList<>();
 
         db = FirebaseDatabase.getInstance().getReference("donations");
+        initializeDatabase();
     }
 
     public void initializeDatabase() {
@@ -42,6 +44,8 @@ public class DonationItemDatabase {
                 throw new DatabaseException("Could not load donations");
             }
         };
+
+        db.addListenerForSingleValueEvent(addItems);
     }
 
     public void addInventory(List<DonationItem> list) {
@@ -59,6 +63,7 @@ public class DonationItemDatabase {
     }
 
     public List<DonationItem> getDonations() {
+        Log.d("DonationDB", "Size is: " + database.size());
         return database;
     }
 
