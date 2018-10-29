@@ -91,10 +91,11 @@ public class Location implements Parcelable, Serializable {
         this.latitude = latitude;
     }
 
-    public void setLatitudeFromString(String latitude) {
+/*
+    public void setLatitude(String latitude) {
         this.latitude = new Double(latitude);
     }
-
+*/
     public double getLongitude() {
         return longitude;
     }
@@ -103,9 +104,9 @@ public class Location implements Parcelable, Serializable {
         this.longitude = longitude;
     }
 
-    public void setLongitudeFromString(String longitude) {
+    /*public void setLongitude(String longitude) {
         this.longitude = new Double(longitude);
-    }
+    }*/
 
     public String getAddress() {
         return address;
