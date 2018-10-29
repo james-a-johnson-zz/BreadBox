@@ -81,6 +81,10 @@ public class Model {
             return l;
     }
 
+    public ArrayList<DonationItem> getDonationItems() {
+        return (ArrayList) donationItemDatabase.getDonations();
+    }
+
     public List<DonationItem> filterDonationItems(List<DonationItem> list, Category cat) {
         PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
         ArrayList<DonationItem> srt = new ArrayList<>();
@@ -98,7 +102,7 @@ public class Model {
     public ArrayList<DonationItem> filterDonationItems(String name) {
         PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
         ArrayList<DonationItem> srt = new ArrayList<>();
-        for (DonationItem d: donationItemDatabase.getDatabase()) {
+        for (DonationItem d: donationItemDatabase.getDonations()) {
             if (d.getName().equals(name)) {
                 ret.add(d);
             }
@@ -112,7 +116,7 @@ public class Model {
     public ArrayList<DonationItem> filterDonationItems(Category cat) {
         PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
         ArrayList<DonationItem> srt = new ArrayList<>();
-        for (DonationItem d: donationItemDatabase.getDatabase()) {
+        for (DonationItem d: donationItemDatabase.getDonations()) {
             if (d.getCategory() == cat) {
                 ret.add(d);
             }
