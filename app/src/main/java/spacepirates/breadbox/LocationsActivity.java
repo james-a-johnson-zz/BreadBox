@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import spacepirates.breadbox.model.Category;
 import spacepirates.breadbox.model.DonationItem;
@@ -25,15 +25,10 @@ public class LocationsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Model model = Model.getInstance();
-        ArrayList<Location> locations;
+        List<Location> locations;
 
         // Checks that location database is initialized and populates it if it is not.
-        try {
-            locations = model.getLocations();
-        } catch (Exception e) {
-            model.initializeDatabases(getApplicationContext());
-            locations = model.getLocations();
-        }
+        locations = model.getLocations();
 
         int size = locations.size();
         Log.d("Locations", "size locations list: " + size);

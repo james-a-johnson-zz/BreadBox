@@ -1,10 +1,7 @@
 package spacepirates.breadbox.model;
 
-import android.util.Log;
-
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 
 
 public class DonationItem implements Comparable<DonationItem> {
@@ -13,60 +10,48 @@ public class DonationItem implements Comparable<DonationItem> {
     private Category category;
     private List<Tag> tags;
     private String description;
-    //private photo photo;
-    private BasicUser donor;
-    private Location currentLocation;
-    private History history;
+    private final String id;
+    // private photo photo;
+    // private User donor;
+    private String address;
+    // private Location currentLocation;
+    // private History history;
 
     //constructors
-    public DonationItem(String name, double price, Category category,
-        Location currentLocation) {
-        this(name, price, category, currentLocation, "None");
+    public DonationItem() {
+        this(null, -1, null);
+    }
+    public DonationItem(String name, double price, Category category) {
+        this(name, price, category, "None");
     }
 
     public DonationItem(String name, double price, Category category,
-        Location currentLocation, String description) {
-        this(name, price, category, currentLocation, description, null, null);
+                        String description) {
+        this(name, price, category, description, null, null);
     }
 
     public DonationItem(String name, double price, Category category,
-        Location currentLocation, String description, BasicUser donor) {
-        this(name, price, category, currentLocation, description, donor, null);
+                        String description, List<Tag> tags) {
+        this(name, price, category, description, tags, null);
     }
 
     public DonationItem(String name, double price, Category category,
-        Location currentLocation, String description, List<Tag> tags) {
-        this(name, price, category, currentLocation, description, null, tags);
-    }
-
-    public DonationItem(String name, double price, Category category,
-        Location currentLocation, String description, BasicUser donor,
-        List<Tag> tags) {
+                        String description, List<Tag> tags, String address) {
         this.name = name;
         this.price = price;
         this.category = category;
-        this.currentLocation = currentLocation;
         this.description = description;
-        this.donor = donor;
         this.tags = tags;
-        this.history = new History(currentLocation);
-        Log.d("DonationItem", "Adding to Location: " + currentLocation);
-
-        try {
-            currentLocation.addItem(this);
-        } catch (NullPointerException e) {
-            if (name.equals("No Donations Found")) {
-                //Don't add. Initialized the null donation in the database.
-                //something the model does.
-                //this is why donation items shouldn't be added to a location here.
-            } else {
-                throw e;
-            }
-        }
+        this.address = address;
+        id = UUID.randomUUID().toString();
     }
 
-
     //getters and setters
+
+    public String getId() {
+        return id;
+    }
+
     public void setPrice(double price) {
         this.price = price;
     }
@@ -99,6 +84,14 @@ public class DonationItem implements Comparable<DonationItem> {
         return this.category;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public void setTags(Tag... tagArr) {
         for(Tag t : tagArr){
             this.tags.add(t);
@@ -109,72 +102,6 @@ public class DonationItem implements Comparable<DonationItem> {
 
     public List<Tag> getTags() {
         return this.tags;
-    }
-
-    public void setDonor(BasicUser donor){
-        this.donor = donor;
-    }
-
-    public BasicUser getDonor(){
-        return this.donor;
-    }
-
-    //used if item is being transferred from location to location. Updates history accordingly
-    public void moveLocation(Location L){
-        this.history.moveLocations(L);
-        Location oldLocation = currentLocation;
-        this.currentLocation = L;
-        oldLocation.removeItem(this);
-        currentLocation.addItem(this);
-    }
-
-    //used if correction needs to be made to item's current location (in case of user mistake)
-    //overwrites item's history
-    public void setLocation(Location L){
-        this.history.setLastLocation(L, currentLocation);
-        Location oldLocation = currentLocation;
-        this.currentLocation = L;
-        oldLocation.removeItem(this);
-        currentLocation.addItem(this);
-    }
-
-    public Location getCurrentLocation(){
-        return this.currentLocation;
-    }
-
-    public LocalDate getDateInCirculation(){
-        return this.history.getLocationTime().get(0).getValue();
-    }
-
-    public LocalDate getDateArrived() {
-        return this.getDateArrived(currentLocation);
-    }
-
-    public LocalDate getDateArrived(Location L) {
-        return this.history.getDateArrived(L);
-    }
-
-    public History getHistory() {
-        return this.history;
-    }
-
-    public List<Map.Entry<Location, LocalDate>> getPastLocations() {
-        return this.history.getLocationTime();
-    }
-
-    //need to implement this with DonationItemDatabase in future
-    public void sell() {
-        this.history.setSellDate(LocalDate.now());
-        this.currentLocation.sellItem(this);
-    }
-
-    //returns the date an item was sold (does not handle exception where item was not sold)
-    public LocalDate getDateSold() {
-        return this.history.getSellDate();
-    }
-
-    public boolean getSold(){
-        return this.history.getSold();
     }
 
     @Override

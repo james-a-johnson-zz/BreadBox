@@ -2,7 +2,6 @@ package spacepirates.breadbox.model;
 
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -10,11 +9,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Queue;
 import java.util.PriorityQueue;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 //TODO Make sure classes and methods are implmented good.
 /** Prof talks about message chains being bad
@@ -26,10 +20,6 @@ public class Model {
     /** Singleton instance */
     private static final Model _instance = new Model();
     public static Model getInstance() { return _instance; }
-
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference locationsRef;
-    private DatabaseReference donationsRef;
 
     //user logged in and operating app
     private User _currentUser;
@@ -50,69 +40,27 @@ public class Model {
     /** Null Donation pattern, returned when no donations are found.
      *  Current default category is apparel. Fails curing run if category is null.
      */
-    private DonationItem theNullDonation = new DonationItem("No Donations Found", 0, Category.APPAREL, theNullLocation);
+    private DonationItem theNullDonation = new DonationItem("No Donations Found", 0, Category.APPAREL);
 
     /**
      * make a new model
      */
     private Model() {
         Log.d("Model", "Initialized Model, without context");
-        locationDatabase = null;
-        donationItemDatabase = null;
+        this.initializeDatabases();
         _currentUser = nullUser;
     }
 
     private Model(Context context) {
-        Log.d("Model", "Initialized Model, with context");
-        mDatabase = FirebaseDatabase.getInstance();
-        locationDatabase = new LocationDatabase(context);
-        locationsRef = mDatabase.getReference().child("locations");
-        donationItemDatabase = new DonationItemDatabase(context);
-        donationsRef = mDatabase.getReference().child("donations");
-        _currentUser = nullUser;
-        ValueEventListener locListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    locationDatabase.addLocation(d.getValue(Location.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("Listener Failure", databaseError.toException());
-            }
-        };
-        locationsRef.addListenerForSingleValueEvent(locListener);
-        ValueEventListener donationListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    donationItemDatabase.addItem(d.getValue(DonationItem.class));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("Listener Failure", databaseError.toException());
-            }
-        };
-        donationsRef.addListenerForSingleValueEvent(donationListener);
+        this();
     }
 
-    public void initializeDatabases (Context context) {
-        locationDatabase = new LocationDatabase(context);
-        mDatabase = FirebaseDatabase.getInstance();
-        locationsRef = mDatabase.getReference().child("locations");
-        ArrayList<Location> garbage = locationDatabase.clear();
-        for (Location l: garbage) {
-            locationDatabase.addLocation(l);
-            locationsRef.child(l.getAddress()).setValue(l);
-        }
-        donationItemDatabase =  new DonationItemDatabase(context);
+    private void initializeDatabases() {
+        locationDatabase = new LocationDatabase();
+        donationItemDatabase = new DonationItemDatabase();
     }
 
-    public ArrayList<Location> getLocations() throws DatabaseNotInitializedException {
+    public List<Location> getLocations() throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
@@ -125,7 +73,13 @@ public class Model {
         return locationDatabase.getLocations();
     }
 
-
+    public Location getLocationByAddress(String address) {
+        Location l = locationDatabase.getLocationByAddress(address);
+        if (l == null)
+            return theNullLocation;
+        else
+            return l;
+    }
 
     public List<DonationItem> filterDonationItems(List<DonationItem> list, Category cat) {
         PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
@@ -188,6 +142,7 @@ public class Model {
     public List<DonationItem> filterDonationItems(Location location, Category category) {
         return filterDonationItems(location.getInventory(), category);
     }
+
     //TODO There should be filterDonationItem methods implmented for every way a donation should be filtered.
     public List<DonationItem> filterDonationItems(List<DonationItem> list, final String input) {
         // PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
@@ -238,10 +193,9 @@ public class Model {
     }
 
     /**
-     *
      * @return  the currently selected location
      */
-    public Location getCurrentLocation() throws DatabaseNotInitializedException{
+    public Location getCurrentLocation() throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
@@ -259,13 +213,13 @@ public class Model {
      * @return  the location with that number or the NullLocation if no such number exists.
      *
      */
-    public Location getLocationByNumber (String number) throws DatabaseNotInitializedException{
+    public Location getLocationByName(String name) throws DatabaseNotInitializedException{
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
         for (Location l : locationDatabase.getLocations() ) {
             //TODO need some way to find a specific location index? number? name?
-            //if (l.getNumber().equals(number)) return l;
+            if (l.getName().equals(name)) return l;
         }
         return theNullLocation;
     }
@@ -311,9 +265,10 @@ public class Model {
      */
     public void addDonationItem(DonationItem donation) {
         donationItemDatabase.addItem(donation);
+        Location addedTo = this.getLocationByAddress(donation.getAddress());
+        addedTo.addItem(donation);
+        locationDatabase.updateLocation(addedTo);
     }
-
-
 
     /**
      * Exception thrown when app tries to retrieve from location database before it is initialized.

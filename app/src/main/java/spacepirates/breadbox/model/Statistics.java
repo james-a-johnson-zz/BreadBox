@@ -60,6 +60,7 @@ public class Statistics{
     }
 
     public void addUpdate(DonationItem item){
+        /*
         if (addedDaily.size() != 0 && addedDaily.get(0).getDateInCirculation()
             .equals(item.getDateInCirculation())){
             addedDaily.add(item);
@@ -68,6 +69,7 @@ public class Statistics{
             addedDaily.add(item);
         }
         monthlyDonations[item.getDateInCirculation().getMonthValue()-1]++;
+        */
         inventoryValue += item.getPrice();
         inventorySize++;
         Log.d("Statistics", "categoryInventorySize: " + categoryInventorySize.size());
@@ -82,6 +84,7 @@ public class Statistics{
 
 
     public void sellUpdate(DonationItem item){
+        /*
         if (soldDaily.size() != 0 && soldDaily.get(soldDaily.size()-1).getDateSold()
             .equals(item.getDateSold())){
             soldDaily.add(item);
@@ -92,10 +95,11 @@ public class Statistics{
         monthlyIncome[item.getDateSold().getMonthValue()-1] += item.getPrice();
         monthlyDistributions[item.getDateSold().getMonthValue()-1]++;
         this.removeUpdate(item);
-
+        */
     }
 
     public void removeUpdate(DonationItem item){
+        /*
         inventoryValue -= item.getPrice();
         inventorySize--;
         Category cat = item.getCategory();
@@ -110,6 +114,7 @@ public class Statistics{
         int turnoverTime = item.getDateInCirculation().getMonthValue()
                 - dateMoved.getMonthValue();
         monthlyTurnoverTimes[dateMoved.getMonthValue()-1] += turnoverTime;
+        */
     }
 
     public void updateInventoryStats(Location location){
