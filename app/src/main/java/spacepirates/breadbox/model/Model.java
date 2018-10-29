@@ -141,6 +141,34 @@ public class Model {
         return srt;
     }
 
+    public ArrayList<DonationItem> filterDonationItems(String name) {
+        PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
+        ArrayList<DonationItem> srt = new ArrayList<>();
+        for (DonationItem d: donationItemDatabase.getDatabase()) {
+            if (d.getName().equals(name)) {
+                ret.add(d);
+            }
+        }
+        while(!ret.isEmpty()) {
+            srt.add(ret.poll());
+        }
+        return srt;
+    }
+
+    public ArrayList<DonationItem> filterDonationItems(Category cat) {
+        PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
+        ArrayList<DonationItem> srt = new ArrayList<>();
+        for (DonationItem d: donationItemDatabase.getDatabase()) {
+            if (d.getCategory() == cat) {
+                ret.add(d);
+            }
+        }
+        while(!ret.isEmpty()) {
+            srt.add(ret.poll());
+        }
+        return srt;
+    }
+
     /**
      * //TODO Decide how to implement the filter.
      * Idea: What if the filter was an interface? Then locations and DonationItems could implement
