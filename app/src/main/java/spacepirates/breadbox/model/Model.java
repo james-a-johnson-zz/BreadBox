@@ -4,9 +4,6 @@ package spacepirates.breadbox.model;
 import android.content.Context;
 import android.util.Log;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -21,10 +18,6 @@ public class Model {
     /** Singleton instance */
     private static final Model _instance = new Model();
     public static Model getInstance() { return _instance; }
-
-    private FirebaseDatabase mDatabase;
-    private DatabaseReference locationsRef;
-    private DatabaseReference donationsRef;
 
     //user logged in and operating app
     private User _currentUser;
@@ -78,7 +71,13 @@ public class Model {
         return locationDatabase.getLocations();
     }
 
-
+    public Location getLocationByAddress(String address) {
+        Location l = locationDatabase.getLocationByAddress(address);
+        if (l == null)
+            return theNullLocation;
+        else
+            return l;
+    }
 
     public Queue<DonationItem> filterDonationItems(List<DonationItem> list, Category category) {
         return donationItemDatabase.getItemsByCategory(list, category);
@@ -103,6 +102,7 @@ public class Model {
     public Queue<DonationItem> filterDonationItems(Location location, Category category) {
         return donationItemDatabase.getItemsByCategory(location.getInventory(), category);
     }
+
     //TODO There should be filterDonationItem methods implmented for every way a donation should be filtered.
     public Queue<DonationItem> filterDonationItems(List<DonationItem> list, String input) {
         return donationItemDatabase.getItemsByName(list, input);
@@ -137,10 +137,9 @@ public class Model {
     }
 
     /**
-     *
      * @return  the currently selected location
      */
-    public Location getCurrentLocation() throws DatabaseNotInitializedException{
+    public Location getCurrentLocation() throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
@@ -158,13 +157,13 @@ public class Model {
      * @return  the location with that number or the NullLocation if no such number exists.
      *
      */
-    public Location getLocationByNumber (String number) throws DatabaseNotInitializedException{
+    public Location getLocationByName(String name) throws DatabaseNotInitializedException{
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
         for (Location l : locationDatabase.getLocations() ) {
             //TODO need some way to find a specific location index? number? name?
-            //if (l.getNumber().equals(number)) return l;
+            if (l.getName().equals(name)) return l;
         }
         return theNullLocation;
     }
@@ -210,9 +209,10 @@ public class Model {
      */
     public void addDonationItem(DonationItem donation) {
         donationItemDatabase.addItem(donation);
+        Location addedTo = this.getLocationByAddress(donation.getAddress());
+        addedTo.addItem(donation);
+        locationDatabase.updateLocation(addedTo);
     }
-
-
 
     /**
      * Exception thrown when app tries to retrieve from location database before it is initialized.

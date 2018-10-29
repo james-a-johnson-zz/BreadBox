@@ -17,7 +17,7 @@ import java.util.Queue;
 
 public class DonationItemDatabase {
     private List<DonationItem> database;
-    DatabaseReference db;
+    private DatabaseReference db;
 
     public DonationItemDatabase() {
         database = new ArrayList<>();
@@ -50,7 +50,7 @@ public class DonationItemDatabase {
     }
 
     public void addItem(DonationItem item) {
-        db.child(item.getId().toString()).setValue(item);
+        db.child(item.getId()).setValue(item);
         database.add(item);
     }
 
@@ -72,6 +72,11 @@ public class DonationItemDatabase {
         return ret;
     }
 
+    public void removeItem(DonationItem di) {
+        db.child(di.getId()).removeValue();
+        database.remove(di);
+    }
+
     public Queue<DonationItem> getItemsByName(List<DonationItem> list, final String name) {
         /*
             PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
@@ -89,5 +94,4 @@ public class DonationItemDatabase {
             }
             return ret;
         }
-
 }

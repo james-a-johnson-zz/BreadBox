@@ -65,6 +65,14 @@ public class LocationDatabase {
         db.child(location.getAddress()).setValue(location);
     }
 
+    public Location getLocationByAddress(String address) {
+        for (Location l : locations)
+            if (l.getAddress().equals(address))
+                return l;
+
+        return null;
+    }
+
     public List<Location> getLocations() {
         return locations;
     }

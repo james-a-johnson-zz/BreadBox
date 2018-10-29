@@ -10,9 +10,9 @@ public class DonationItem implements Comparable<DonationItem> {
     private Category category;
     private List<Tag> tags;
     private String description;
-    private final UUID id;
+    private final String id;
     // private photo photo;
-    private User donor;
+    // private User donor;
     private String address;
     // private Location currentLocation;
     // private History history;
@@ -27,34 +27,28 @@ public class DonationItem implements Comparable<DonationItem> {
 
     public DonationItem(String name, double price, Category category,
                         String description) {
-        this(name, price, category, description, null, null, null);
-    }
-
-    public DonationItem(String name, double price, Category category,
-                        String description, BasicUser donor) {
-        this(name, price, category, description, donor, null, null);
+        this(name, price, category, description, null, null);
     }
 
     public DonationItem(String name, double price, Category category,
                         String description, List<Tag> tags) {
-        this(name, price, category, description, null, tags, null);
+        this(name, price, category, description, tags, null);
     }
 
     public DonationItem(String name, double price, Category category,
-                        String description, User donor, List<Tag> tags, String address) {
+                        String description, List<Tag> tags, String address) {
         this.name = name;
         this.price = price;
         this.category = category;
         this.description = description;
-        this.donor = donor;
         this.tags = tags;
         this.address = address;
-        id = UUID.randomUUID();
+        id = UUID.randomUUID().toString();
     }
 
     //getters and setters
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
@@ -108,14 +102,6 @@ public class DonationItem implements Comparable<DonationItem> {
 
     public List<Tag> getTags() {
         return this.tags;
-    }
-
-    public void setDonor(BasicUser donor){
-        this.donor = donor;
-    }
-
-    public User getDonor() {
-        return this.donor;
     }
 
     @Override

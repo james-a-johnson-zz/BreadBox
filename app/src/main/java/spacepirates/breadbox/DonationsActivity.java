@@ -26,7 +26,6 @@ public class DonationsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_donations);
 
-
         RecyclerView recyclerView = findViewById(R.id.donations_rv);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());

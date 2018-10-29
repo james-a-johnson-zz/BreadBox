@@ -63,11 +63,6 @@ public class Location implements Parcelable, Serializable {
         this(name, type, Double.valueOf(latitude), Double.valueOf(longitude), address, phoneNumber);
     }
 
-    //Only use with correctly formatted csv
-    public Location(String[] arr) {
-        this(arr[1], arr[8], arr[2], arr[3], arr[4], arr[9]);
-    }
-
     public String toString() {
         return (type + ": " + name + " at " + address + ". Call " + phoneNumber);
     }
@@ -136,8 +131,8 @@ public class Location implements Parcelable, Serializable {
         /*
         if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
         this.stats.addUpdate(d);
-        inventory.add(d);
         */
+        inventory.add(d);
     }
 
     public double percentFull() {
@@ -199,7 +194,6 @@ public class Location implements Parcelable, Serializable {
             + "Address:" + address + "\n"
             + "Inventory:" + "\n" + this.inventoryToString();
         return LocString;
-
     }
 
     public String inventoryToString() {

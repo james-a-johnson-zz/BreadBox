@@ -114,7 +114,7 @@ public class AddDonationItemActivity extends AppCompatActivity {
         if (validDonation) {
             //Create new Donation Item. DonationItem constructor adds it to the location inventory.
             DonationItem newItem = new DonationItem(name, price, category, description,
-                    Model.getInstance().getCurrentUser(), tags, location.getAddress());
+                    tags, location.getAddress());
             //Add donation item to donation item datbase
             Model.getInstance().addDonationItem(newItem);
 
@@ -130,7 +130,6 @@ public class AddDonationItemActivity extends AppCompatActivity {
         } else {
             //Display a toast if the Donation is not valid with an explanation.
             Toast.makeText(getApplicationContext(), failureMessage, Toast.LENGTH_SHORT).show();
-
         }
     }
 
