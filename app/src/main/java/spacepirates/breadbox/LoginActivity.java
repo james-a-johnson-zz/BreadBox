@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        mapDisp.setText("Display Map");
+        mapDisp.setText("Test Shortcut to Display Map");
         mapDisp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
