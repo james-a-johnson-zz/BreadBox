@@ -129,6 +129,8 @@ public class Location implements Parcelable, Serializable {
 
     /**
      * Adds an item to the inventory at this specific instance of a location
+     * Also modifies statistics dependent on that item for the location
+     *
      * @param           d the item to be added
      *
      * @pre             Donation item must be valid: all instance
@@ -143,6 +145,7 @@ public class Location implements Parcelable, Serializable {
      *                  the item in their records
      *
      * @invariants      inventory.size() += 1
+     *                  inventory.contains(d) == true
      *
      * @frameconditions This method will change the many parts
      *                  of the location specific statistics,
