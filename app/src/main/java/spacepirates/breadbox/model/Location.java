@@ -127,6 +127,32 @@ public class Location implements Parcelable, Serializable {
         return inventory;
     }
 
+    /**
+     * Adds an item to the inventory at this specific instance of a location
+     * @param           d the item to be added
+     *
+     * @pre             Donation item must be valid: all instance
+     *                  variables must not be default values unless
+     *                  they are optional (such as tags and history)
+     *                  Inventory must exist or else you would
+     *                  be trying to add to nothing
+     *
+     * @post            Inventory's size will be incremented by 1
+     *                  Inventory will contain the recently added item
+     *                  The statistics will include
+     *                  the item in their records
+     *
+     * @invariants      inventory.size() += 1
+     *
+     * @frameconditions This method will change the many parts
+     *                  of the location specific statistics,
+     *                  which will indirectly change the
+     *                  overall organization statistics
+     *                  There is no other data that is changed
+     *                  since the method does not call
+     *                  any helper methods besides the
+     *                  ones for the statistics class
+     */
     public void addItem(DonationItem d) {
         if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
         this.stats.addUpdate(d);

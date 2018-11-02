@@ -66,8 +66,9 @@ public class LocationMapActivity extends FragmentActivity implements OnMapReadyC
 
         // Add a marker in Atlanta and move the camera to it because Atlanta is where it's at
         LatLng atlanta = new LatLng(33.7490, -84.3880);
+        float zoom = 10.0f;
 //        mMap.addMarker(new MarkerOptions().position(atlanta).title("Marker in Atlanta"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(atlanta));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(atlanta, zoom));
 
 //        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 //            @Override
