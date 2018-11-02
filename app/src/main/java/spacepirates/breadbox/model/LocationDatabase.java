@@ -1,99 +1,94 @@
 package spacepirates.breadbox.model;
 
-import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class LocationDatabase {
 
-    private ArrayList<Location> locations;
-
-    private Context mContext;
+    private List<Location> locations;
+    private DatabaseReference db;
 
     //TODO It would be convenient if the database could be initialized without context from an Activity
     //public LocationDatabase() {}
 
-    public LocationDatabase(Context context) {
-        mContext = context;
-        locations = initializeLocations(context);
+    public LocationDatabase() {
+        db = FirebaseDatabase.getInstance().getReference("locations");
+        this.locations = new ArrayList<>();
+        initializeLocations();
     }
 
-    private ArrayList<Location> initializeLocations(Context context) {
-        Log.d("LocationDatabase", "Initializing Database.");
-        ArrayList<Location> locations = new ArrayList<Location>();
-        try {
+    private void initializeLocations() {
+        Log.d("LocationDB", "Initializing Database.");
+        final List<Location> locations = new ArrayList<Location>();
 
-            //TODO Find context independent way to load csv. Safer for initializing model
-            //working on a way to read file that isn't dependent on context
-            /**
-            File file = null;
-            try {
-                file = new File("BreadBox.app.src.main.assets.LocationData.csv");
-            } catch (Exception e) {
-                Log.e("LocationDatbase: ", "Failed to read file");
-            }
-            InputStream is = new FileInputStream(file);
-            */
-
-            InputStream is = mContext.getAssets().open("LocationData.csv");
-
-
-            BufferedReader read = new BufferedReader(new InputStreamReader(is));
-            read.readLine(); //Skipping line that indicates the format of the CSV
-            ArrayList<String[]> lines = new ArrayList<>();
-            String line;
-            while((line = read.readLine()) != null) {
-                lines.add(line.split(","));
-            }
-            for (String[] arr : lines) {
-                locations.add(new Location(arr));
+        ValueEventListener initLocations = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    throw new DatabaseException("Database could not initialize");
+                }
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    Location curr = ds.getValue(Location.class);
+                    Log.d("LocationDB", "Received: " + curr.getAddress());
+                    locations.add(curr);
+                }
             }
 
-            addLocation("Test Store", "Store", "45.5", "0", "1111 Fake Street", "(555) 555 - 5555");
-
-            for (Location l : locations) {
-                System.out.println(l);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                throw new DatabaseException("Database could not initialize");
             }
-        } catch(Exception e) {
-            System.out.println(e);
-            System.out.println("Hit an exception");
-        }
-        Log.d("Location Database", "locations size: " + locations.size());
-        return locations;
+        };
+
+        db.addListenerForSingleValueEvent(initLocations);
+        Log.d("LocationDB", "Size: " + locations.size());
+        this.locations = locations;
     }
 
     public void addLocation(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
-        locations.add(new Location(name, type, latitude, longitude, address, phoneNumber));
+        Location l = new Location(name, type, latitude, longitude, address, phoneNumber);
+        this.addLocation(l);
     }
 
     public void addLocation(Location location) {
         locations.add(location);
+        db.child(location.getAddress()).setValue(location);
     }
 
-    public void addLocation(Location location, DatabaseReference locReference) {
-        locations.add(location);
-        locReference.child(location.getAddress()).setValue(location);
+    public Location getLocationByAddress(String address) {
+        for (Location l : locations)
+            if (l.getAddress().equals(address))
+                return l;
+
+        return null;
     }
 
-    public ArrayList<Location> clear() {
-        ArrayList<Location> old = locations;
-        locations = new ArrayList<>();
-        return old;
-    }
-
-    public ArrayList<Location> getLocations() {
+    public List<Location> getLocations() {
         return locations;
     }
 
     public boolean removeLocation(Location l) {
+        db.child(l.getAddress()).removeValue();
         return locations.remove(l);
     }
 
+    public void updateLocation(Location l) {
+        db.child(l.getAddress()).setValue(l);
+    }
+
+    public void updateAllLocations() {
+        for (Location l : locations)
+            this.updateLocation(l);
+    }
 
 }
