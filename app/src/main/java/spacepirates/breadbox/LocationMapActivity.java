@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
@@ -46,7 +46,7 @@ public class LocationMapActivity extends FragmentActivity implements OnMapReadyC
         mMap = googleMap;
 
         Model model = Model.getInstance();
-        ArrayList<Location> locations;
+        List<Location> locations;
 
         // Checks that location database is initialized and populates it if it is not.
         try {
