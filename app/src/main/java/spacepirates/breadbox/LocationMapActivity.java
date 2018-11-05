@@ -48,13 +48,7 @@ public class LocationMapActivity extends FragmentActivity implements OnMapReadyC
         Model model = Model.getInstance();
         List<Location> locations;
 
-        // Checks that location database is initialized and populates it if it is not.
-        try {
-            locations = model.getLocations();
-        } catch (Exception e) {
-            model.initializeDatabases(getApplicationContext());
-            locations = model.getLocations();
-        }
+        locations = model.getLocations();
 
         for (Location location : locations) {
             LatLng pin = new LatLng(location.getLatitude(), location.getLongitude());
