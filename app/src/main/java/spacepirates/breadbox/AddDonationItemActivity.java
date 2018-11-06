@@ -111,6 +111,7 @@ public class AddDonationItemActivity extends AppCompatActivity {
             validDonation = false;
             failureMessage += "Must select a Category.";
         }
+        //TODO decision for valid donation should be made by donation class.
         if (validDonation) {
             //Create new Donation Item. DonationItem constructor adds it to the location inventory.
             DonationItem newItem = new DonationItem(name, price, category, description,
