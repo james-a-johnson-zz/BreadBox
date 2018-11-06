@@ -127,14 +127,12 @@ public class Model {
         return srt;
     }
 
-    /**
-     * //TODO Decide how to implement the filter.
-     * Idea: What if the filter was an interface? Then locations and DonationItems could implement
-     * the same filter, and Filter using their own sets of data?
-     *
-     * Seems like a pointless excersise, I feel that the Model should probably just handle all the
-     * filtering. Overcomplicates by spreading out filtering duty, for a gain I don't see.
-     */
+    //TODO Decide how to implement the filter.
+//     Idea: What if the filter was an interface? Then locations and DonationItems could implement
+//      the same filter, and Filter using their own sets of data?
+//
+//      Seems like a pointless excersise, I feel that the Model should probably just handle all the
+//      filtering. Overcomplicates by spreading out filtering duty, for a gain I don't see.
 
     /**
      * Filters DonationItems.
