@@ -11,7 +11,7 @@ public class Manager extends LocationEmployee {
     }
 
     //Return values are super iffy here. Subject to change later
-    public int getStatistics(Business bus) {
+    public int getStatistics() {
         return 0;
     }
 
