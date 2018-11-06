@@ -38,8 +38,8 @@ public class AddDonationItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Location location = (Location) i.getParcelableExtra(getString(R.string.pass_location_key));
-        //location = (Location) this.getIntent().getSerializableExtra("location");
+        //Location location = (Location)i.getParcelableExtra(getString(R.string.pass_location_key));
+        //location = (Location)this.getIntent().getSerializableExtra("location");
         i = this.getIntent().getIntExtra("location_index", -1);
         List<Location> locations;
         locations = Model.getInstance().getLocations();
@@ -61,7 +61,8 @@ public class AddDonationItemActivity extends AppCompatActivity {
         /**
          * Category spinner uses the category enum to populate the spinner.
          */
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Category.values());
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, Category.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
 

@@ -12,7 +12,6 @@ public class LocationEmployee extends BasicUser {
      * @param user
      * @param t
      * @param locus
-     * @param pass
      */
     public LocationEmployee(String user, UserType t, Location locus) {
             super(user, t);
@@ -24,7 +23,6 @@ public class LocationEmployee extends BasicUser {
      *
      * @param user
      * @param locus
-     * @param pass
      */
     public LocationEmployee(String user, Location locus) {
         super(user, UserType.LOCATION_EMPLOYEE);

@@ -210,11 +210,11 @@ public class Model {
     public void setCurrentLocation(Location location) { _currentLocation = location; }
 
     /**
-     * Return a location that has matching number.
+     * Return a location that has matching name.
      * This uses an O(n) linear search.
      *
-     * @param number the number of the location to find
-     * @return  the location with that number or the NullLocation if no such number exists.
+     * @param name the name of the location to find
+     * @return  the location with that name or the NullLocation if no such name exists.
      *
      */
     public Location getLocationByName(String name) throws DatabaseNotInitializedException{
