@@ -1,5 +1,9 @@
 package spacepirates.breadbox.model;
 
+/**
+ * User that is similar to BasicUser but also can have a location to interact with that location's
+ * Items and database
+ */
 public class DatabaseUser {
     public String username;
     public UserType type;
@@ -20,6 +24,7 @@ public class DatabaseUser {
      * Same as above but has a specific location tied to them
      * @param username      Self explanatory
      * @param type          User type
+     * @param locus         Location to specify which database to interact with
      */
     public DatabaseUser(String username, UserType type, String locus) {
         this(username, type);

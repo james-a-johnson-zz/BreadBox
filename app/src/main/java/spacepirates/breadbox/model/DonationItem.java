@@ -4,7 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-
+/**
+ * The main item that locations store and track
+ * Stored in a location's inventory as a list of items
+ * Has many values to identify itself and also be filtered by
+ */
 public class DonationItem implements Comparable<DonationItem> {
     private String name;
     private double price;
@@ -181,6 +185,10 @@ public class DonationItem implements Comparable<DonationItem> {
      */
     public void addTag(Tag t){ this.tags.add(t); }
 
+    /**
+     * Get all tags for an item
+     * @return The list of tags
+     */
     public List<Tag> getTags() {
         return this.tags;
     }
