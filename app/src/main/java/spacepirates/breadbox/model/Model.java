@@ -40,14 +40,17 @@ public class Model {
     private Location _currentLocation;
 
     /** Null Location pattern, returned when no course is found */
-    private final Location theNullLocation = new Location("No Locations", "none", 0, 0, "Not Found", "000-000-0000");
+    private final Location theNullLocation =
+            new Location("No Locations", "none", 0, 0,
+                    "Not Found", "000-000-0000");
 
     private DonationItemDatabase donationItemDatabase;
 
     /** Null Donation pattern, returned when no donations are found.
      *  Current default category is apparel. Fails curing run if category is null.
      */
-    private DonationItem theNullDonation = new DonationItem("No Donations Found", 0, Category.APPAREL);
+    private DonationItem theNullDonation =
+            new DonationItem("No Donations Found", 0, Category.APPAREL);
 
     /**
      * make a new model
@@ -179,7 +182,7 @@ public class Model {
 //     *
 //     * @param location
 //     * @param category
-//     * @return Returns an ArrayList of all the DonationItems in a specified category at a location.
+//     *@return Returns an ArrayList of all the DonationItems in a specified category at a location.
 //     */
 //    public List<DonationItem> filterDonationItems(Location location, Category category) {
 //        return filterDonationItems(location.getInventory(), category);
@@ -191,12 +194,13 @@ public class Model {
      * @param input     Name to filter by
      * @return          The filtered result
      */
-    //TODO There should be filterDonationItem methods implmented for every way a donation should be filtered.
+    //TODO There should be filterDonationItem methods implmented for every way we can filter.
     public List<DonationItem> filterDonationItems(List<DonationItem> list, final String input) {
         // PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
         //     (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
         //     - b.getName().compareTo(name));
-        PriorityQueue<DonationItem>ret = new PriorityQueue<>(list.size(), new Comparator<DonationItem>() {
+        PriorityQueue<DonationItem>ret = new PriorityQueue<>(list.size(),
+                new Comparator<DonationItem>() {
             @Override
             public int compare(DonationItem donationItem, DonationItem t1) {
                 return donationItem.getName().compareTo(input) - (t1.getName().compareTo(input));

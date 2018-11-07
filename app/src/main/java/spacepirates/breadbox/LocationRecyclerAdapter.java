@@ -15,7 +15,8 @@ import spacepirates.breadbox.model.Location;
 
 import java.util.List;
 
-public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecyclerAdapter.LocationViewHolder> {
+public class LocationRecyclerAdapter
+        extends RecyclerView.Adapter<LocationRecyclerAdapter.LocationViewHolder> {
 
     List<Location> locations;
 
@@ -46,7 +47,8 @@ public class LocationRecyclerAdapter extends RecyclerView.Adapter<LocationRecycl
 
     @Override
     public LocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.location_card, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.location_card, viewGroup, false);
         LocationViewHolder lvh = new LocationViewHolder(view);
         return lvh;
     }

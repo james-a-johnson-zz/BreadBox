@@ -88,7 +88,8 @@ public class Location implements Parcelable, Serializable {
      * @param address       Street address
      * @param phoneNumber   Phone included for contacting the location
      */
-    public Location(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
+    public Location(String name, String type, String latitude, String longitude,
+                    String address, String phoneNumber) {
         this(name, type, Double.valueOf(latitude), Double.valueOf(longitude), address, phoneNumber);
     }
 
@@ -228,9 +229,8 @@ public class Location implements Parcelable, Serializable {
         return (((Location) l).getAddress().compareTo(this.getAddress()) == 0);
     }
 
-
-
-//    public void sellItem(DonationItem d) { //not sure what return type should be here (could be bool)
+      //not sure what return type should be here (could be bool)
+//    public void sellItem(DonationItem d) {
 //        /*
 //        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
 //        if(inventory.remove(d)){ //for now, do nothing if item did not exist
@@ -239,7 +239,8 @@ public class Location implements Parcelable, Serializable {
 //        */
 //    }
 //
-//    public boolean removeItem(DonationItem d) { //use to move item to new location/set item location
+      //use to move item to new location/set item location
+//    public boolean removeItem(DonationItem d) {
 //        /*
 //        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
 //        this.stats.removeUpdate(d);
@@ -299,7 +300,8 @@ public class Location implements Parcelable, Serializable {
         out.writeInt(mData);
     }
 
-    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    // this is used to regenerate your object.
+    // All Parcelables must have a CREATOR that implements these two methods
     public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
         public Location createFromParcel(Parcel in) {
             Log.d("Location", "Creating from Parcel");

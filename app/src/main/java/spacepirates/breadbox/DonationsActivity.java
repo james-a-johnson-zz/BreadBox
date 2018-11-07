@@ -28,7 +28,8 @@ public class DonationsActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.donations_rv);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager linearLayoutManager =
+                new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         DonationItemRecyclerAdapter adapter = new DonationItemRecyclerAdapter(donations);
         recyclerView.setAdapter(adapter);
