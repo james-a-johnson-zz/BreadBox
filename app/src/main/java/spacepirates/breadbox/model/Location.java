@@ -10,7 +10,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-//Implements parceble, so activities bundle and put extra to pass a specific location to another activity
+//Implements parcelable, so activities bundle and put
+//extra to pass a specific location to another activity
+
+/**
+ * Class that holds all information about a company's location,
+ * including an inventory of items, contact info, address and global position
+ */
 @IgnoreExtraProperties
 public class Location implements Parcelable, Serializable {
 
@@ -27,6 +33,9 @@ public class Location implements Parcelable, Serializable {
     //used for implementing Parcelable
     private int mData;
 
+    /**
+     * Default constructor
+     */
     public Location() {
         this.name = "Invalid";
         this.type = "Invalid";
@@ -43,7 +52,17 @@ public class Location implements Parcelable, Serializable {
         */
     }
 
-    public Location(String name, String type, double latitude, double longitude, String address, String phoneNumber) {
+    /**
+     * Main constructor for a Location
+     * @param name          The name of the location
+     * @param type          A location's type (store, warehouse, etc...)
+     * @param latitude      Latitude position
+     * @param longitude     Longitude position. Both of these are used for the map
+     * @param address       Street address
+     * @param phoneNumber   Phone included for contacting the location
+     */
+    public Location(String name, String type, double latitude, double longitude,
+                    String address, String phoneNumber) {
         this.name = name;
         this.type = type;
         this.latitude = latitude;
@@ -59,34 +78,64 @@ public class Location implements Parcelable, Serializable {
         */
     }
 
+    /**
+     * This constructor handles the case where latitude and longitude
+     * are not provided as double values but as some other number
+     * @param name          The name of the location
+     * @param type          A location's type (store, warehouse, etc...)
+     * @param latitude      Latitude position
+     * @param longitude     Longitude position. Both of these are used for the map
+     * @param address       Street address
+     * @param phoneNumber   Phone included for contacting the location
+     */
     public Location(String name, String type, String latitude, String longitude, String address, String phoneNumber) {
         this(name, type, Double.valueOf(latitude), Double.valueOf(longitude), address, phoneNumber);
     }
 
+    @Override
     public String toString() {
         return (type + ": " + name + " at " + address + ". Call " + phoneNumber);
     }
 
+    /**
+     * @return The location's name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Set the location's name
+     * @param name Data to set name to
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * @return The location's type (A string)
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * @param type Set a location's new type to this
+     */
     public void setType(String type) {
         this.type = type;
     }
 
+    /**
+     * @return The location's latitude
+     */
     public double getLatitude() {
         return latitude;
     }
 
+    /**
+     * @param latitude New latitude to be set
+     */
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
@@ -96,10 +145,17 @@ public class Location implements Parcelable, Serializable {
         this.latitude = new Double(latitude);
     }
 */
+
+    /**
+     * @return The location's longitude
+     */
     public double getLongitude() {
         return longitude;
     }
 
+    /**
+     * @param longitude New longitude to be set
+     */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
@@ -108,26 +164,46 @@ public class Location implements Parcelable, Serializable {
         this.longitude = new Double(longitude);
     }*/
 
+    /**
+     * @return The location's address
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * @param address Give a location this new address
+     */
     public void setAddress(String address) {
         this.address = address;
     }
 
+    /**
+     * @return A location's phone number
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    /**
+     * @param phoneNumber Change a location's phone number to this param
+     */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * Used to examine the inventory of the location
+     * @return The location's collection of items
+     */
     public List<DonationItem> getInventory() {
         return inventory;
     }
 
+    /**
+     * Adds an item to the location's inventory
+     * @param d the donation item to be added
+     */
     public void addItem(DonationItem d) {
         /*
         if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
@@ -136,13 +212,17 @@ public class Location implements Parcelable, Serializable {
         inventory.add(d);
     }
 
+    /**
+     * Gives a double representing the amount of the inventory that is currently filled
+     * @return A percentage of how much capacity is taken up
+     */
     public double percentFull() {
         return ((double)inventory.size())/inventoryMax;
     }
 
     @Override
     public boolean equals(Object l) {
-        if (l == null || !(l instanceof Location)) {
+        if (!(l instanceof Location)) {
             return false;
         }
         return (((Location) l).getAddress().compareTo(this.getAddress()) == 0);
@@ -150,60 +230,60 @@ public class Location implements Parcelable, Serializable {
 
 
 
-    public void sellItem(DonationItem d) { //not sure what return type should be here (could be bool)
-        /*
-        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
-        if(inventory.remove(d)){ //for now, do nothing if item did not exist
-            this.stats.sellUpdate(d);
-        }
-        */
-    }
-
-    public boolean removeItem(DonationItem d) { //use to move item to new location/set item location
-        /*
-        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
-        this.stats.removeUpdate(d);
-        */
-        return inventory.remove(d);
-    }
-
-    public void updateYearOfStats(){
-        /*
-        stats = new Statistics(this);
-        yearlyStats.add(stats);
-        */
-    }
-
-    /*
-    public Statistics getStats(){
-        return this.stats;
-    }
-    */
-
-    /*
-    public List<Statistics> getAllStats(){
-        return this.yearlyStats;
-    }
-    */
-
-
-    //test toString methods, can delete later/comment out
-    public String toStringTest() { //for testing purposes
-        String LocString = "";
-        LocString += "Name: " + name + "\n"
-            + "Location Type: " + type + "\n"
-            + "Address:" + address + "\n"
-            + "Inventory:" + "\n" + this.inventoryToString();
-        return LocString;
-    }
-
-    public String inventoryToString() {
-        String itemStr = "";
-        for(DonationItem d : inventory) {
-            itemStr += d.getName() + "\n";
-        }
-        return itemStr;
-    }
+//    public void sellItem(DonationItem d) { //not sure what return type should be here (could be bool)
+//        /*
+//        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
+//        if(inventory.remove(d)){ //for now, do nothing if item did not exist
+//            this.stats.sellUpdate(d);
+//        }
+//        */
+//    }
+//
+//    public boolean removeItem(DonationItem d) { //use to move item to new location/set item location
+//        /*
+//        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}
+//        this.stats.removeUpdate(d);
+//        */
+//        return inventory.remove(d);
+//    }
+//
+//    public void updateYearOfStats(){
+//        /*
+//        stats = new Statistics(this);
+//        yearlyStats.add(stats);
+//        */
+//    }
+//
+//    /*
+//    public Statistics getStats(){
+//        return this.stats;
+//    }
+//    */
+//
+//    /*
+//    public List<Statistics> getAllStats(){
+//        return this.yearlyStats;
+//    }
+//    */
+//
+//
+//    //test toString methods, can delete later/comment out
+//    public String toStringTest() { //for testing purposes
+//        String LocString = "";
+//        LocString += "Name: " + name + "\n"
+//            + "Location Type: " + type + "\n"
+//            + "Address:" + address + "\n"
+//            + "Inventory:" + "\n" + this.inventoryToString();
+//        return LocString;
+//    }
+//
+//    public String inventoryToString() {
+//        String itemStr = "";
+//        for(DonationItem d : inventory) {
+//            itemStr += d.getName() + "\n";
+//        }
+//        return itemStr;
+//    }
 
     /* everything below here is for implementing Parcelable */
 
