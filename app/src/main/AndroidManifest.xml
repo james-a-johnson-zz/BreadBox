@@ -45,6 +45,11 @@
             android:label="@string/title_activity_add_donation_item"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".LocationMapActivity"
+            android:label="LocationMapActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDO2P4QoHnHP9QI6CL6aXP_58nIGZmMt-0"/>
+        <activity
             android:name=".SearchActivity"
             android:label="@string/title_activity_search"
             android:theme="@style/AppTheme.NoActionBar"></activity>
