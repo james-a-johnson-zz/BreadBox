@@ -15,10 +15,17 @@ import java.util.PriorityQueue;
  * ie: model.getLocations.getLocation.getName
  * We should write our model so that we don't do that.
  * alluded to M10  being where message chains are checked by an autograder.
+ *
+ * Model Acts as a liaison between system and databases
  */
 public class Model {
     /** Singleton instance */
     private static final Model _instance = new Model();
+
+    /**
+     * Returns the instance of the model. This is vital for classes that utilize it
+     * @return _instance of the model
+     */
     public static Model getInstance() { return _instance; }
 
     //user logged in and operating app
@@ -60,6 +67,11 @@ public class Model {
         donationItemDatabase = new DonationItemDatabase();
     }
 
+    /**
+     * Get locations stored in the system. Works with location database
+     * @return The stored locations
+     * @throws DatabaseNotInitializedException
+     */
     public List<Location> getLocations() throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
@@ -73,6 +85,11 @@ public class Model {
         return locationDatabase.getLocations();
     }
 
+    /**
+     * Searches for a location by address using getLocationByAddress in LocationDatabase
+     * @param address the address being searched for
+     * @return The location if it is found, otherwise a nullLocation sentinel value
+     */
     public Location getLocationByAddress(String address) {
         Location l = locationDatabase.getLocationByAddress(address);
         if (l == null)
@@ -81,10 +98,20 @@ public class Model {
             return l;
     }
 
+    /**
+     * Get all donation items from Donation Item database
+     * @return
+     */
     public List<DonationItem> getDonationItems() {
         return donationItemDatabase.getDonations();
     }
 
+    /**
+     * Get donation items by category through the Model
+     * @param list Donation item list to filter
+     * @param cat  Category to filter by
+     * @return     The filtered list
+     */
     public List<DonationItem> filterDonationItems(List<DonationItem> list, Category cat) {
         PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
         ArrayList<DonationItem> srt = new ArrayList<>();
@@ -99,6 +126,11 @@ public class Model {
         return srt;
     }
 
+    /**
+     * Filter donation items by name
+     * @param name The name filter
+     * @return     The filtered ArrayList
+     */
     public ArrayList<DonationItem> filterDonationItems(String name) {
         PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
         ArrayList<DonationItem> srt = new ArrayList<>();
@@ -113,6 +145,12 @@ public class Model {
         return srt;
     }
 
+    /**
+     * Identical to filter by category above but returns an ArrayList
+     * @param list Donation item list to filter
+     * @param cat  Category to filter by
+     * @return     The filtered list
+     */
     public ArrayList<DonationItem> filterDonationItems(Category cat) {
         PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
         ArrayList<DonationItem> srt = new ArrayList<>();
@@ -134,17 +172,23 @@ public class Model {
 //      Seems like a pointless excersise, I feel that the Model should probably just handle all the
 //      filtering. Overcomplicates by spreading out filtering duty, for a gain I don't see.
 
-    /**
-     * Filters DonationItems.
-     *
-     * @param location
-     * @param category
-     * @return Returns an ArrayList of all the DonationItems in a specified category at a location.
-     */
-    public List<DonationItem> filterDonationItems(Location location, Category category) {
-        return filterDonationItems(location.getInventory(), category);
-    }
+//    /**
+//     * Filters DonationItems.
+//     *
+//     * @param location
+//     * @param category
+//     * @return Returns an ArrayList of all the DonationItems in a specified category at a location.
+//     */
+//    public List<DonationItem> filterDonationItems(Location location, Category category) {
+//        return filterDonationItems(location.getInventory(), category);
+//    }
 
+    /**
+     * Identical to filter donation items by name but returns a List
+     * @param list      List to filter
+     * @param input     Name to filter by
+     * @return          The filtered result
+     */
     //TODO There should be filterDonationItem methods implmented for every way a donation should be filtered.
     public List<DonationItem> filterDonationItems(List<DonationItem> list, final String input) {
         // PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
@@ -166,9 +210,9 @@ public class Model {
         return srt;
     }
 
-    public List<DonationItem> filterDonationItems(Location location, String input) {
-        return filterDonationItems(location.getInventory(), input);
-    }
+//    public List<DonationItem> filterDonationItems(Location location, String input) {
+//        return filterDonationItems(location.getInventory(), input);
+//    }
 
     // public Queue<Location> filterLocations(List<Location> list, String input) {
     //     return locationDatabase.getLocationsByAddress(list, input);
@@ -205,7 +249,7 @@ public class Model {
         return _currentLocation;
     }
 
-    public void setCurrentLocation(Location location) { _currentLocation = location; }
+//    public void setCurrentLocation(Location location) { _currentLocation = location; }
 
     /**
      * Return a location that has matching name.
@@ -229,7 +273,7 @@ public class Model {
     /**
      * Set the current user logged in to the app.
      *
-     * @param user
+     * @param user User to be set
      */
     public void setCurrentUser(User user) {
         _currentUser = user;
@@ -263,7 +307,7 @@ public class Model {
      * Currently donations are added to location inventories in the donation item constructor.
      * That should likely be done by this method.
      *
-     * @param donation
+     * @param donation item to be added
      */
     public void addDonationItem(DonationItem donation) {
         donationItemDatabase.addItem(donation);
