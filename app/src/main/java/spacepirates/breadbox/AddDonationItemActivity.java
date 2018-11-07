@@ -38,6 +38,10 @@ public class AddDonationItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // adds up navigation button to app bar that navigates to parent activity defined in manifest
+        //(parent activity is LocationActivity)
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
+
         //Location location = (Location) i.getParcelableExtra(getString(R.string.pass_location_key));
         //location = (Location) this.getIntent().getSerializableExtra("location");
         i = this.getIntent().getIntExtra("location_index", -1);

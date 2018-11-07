@@ -22,6 +22,10 @@ public class LocationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // adds up navigation button to app bar that navigates to parent activity defined in manifest
+        //(parent activity is main)
+        //getActionBar().setDisplayHomeAsUpEnabled(true);
+
         Intent intent = getIntent();
         final int i = intent.getIntExtra("getString(R.string.pass_location_key)", -1);
         Log.d("intent","int i in location = " + i);

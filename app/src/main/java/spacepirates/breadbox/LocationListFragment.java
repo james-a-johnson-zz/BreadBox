@@ -1,6 +1,7 @@
 package spacepirates.breadbox;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.List;
 
@@ -52,6 +54,15 @@ public class LocationListFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         LocationRecyclerAdapter adapter = new LocationRecyclerAdapter(locations);
         recyclerView.setAdapter(adapter);
+
+        Button mapButton = view.findViewById(R.id.map_activity_button);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Context context = view.getContext();
+                Intent intent = new Intent(context, LocationMapActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
         return view;
     }

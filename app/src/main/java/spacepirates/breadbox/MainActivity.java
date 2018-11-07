@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
 
                 //MapFragment mapFragment = new MapFragment();
                 //return mapFragment;
-                return new LocationListFragment();
+                return new LocationMapActivity();
 
             case 1:
                 // locations list
