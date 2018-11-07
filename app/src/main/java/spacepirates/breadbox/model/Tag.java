@@ -1,7 +1,11 @@
 package spacepirates.breadbox.model;
 
+import java.util.Arrays;
 import java.util.List;
 
+/**
+ * All possible tags that are subcategories of the category enum are listed below (as an enum :O)
+ */
 public enum Tag{
     TOPS("Tops", Category.APPAREL), BOTTOMS("Bottoms", Category.APPAREL),
     JEWELRY("Jewelry", Category.APPAREL), FOOTWEAR("Footwear", Category.APPAREL),
@@ -24,12 +28,10 @@ public enum Tag{
 
     Tag(String name, Category... categoryArr){
         this.name = name;
-
-        for(Category c: categoryArr){
-            this.categories.add(c);
-        }
+        this.categories.addAll(Arrays.asList(categoryArr));
     }
 
+    @Override
     public String toString(){
         return this.name;
     }
