@@ -132,7 +132,8 @@ public class DonationItemDatabase {
                 (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
                 - b.getName().compareTo(name));
                 */
-        PriorityQueue<DonationItem> ret = new PriorityQueue<>(list.size(), new Comparator<DonationItem>() {
+        PriorityQueue<DonationItem> ret = new PriorityQueue<>(list.size(),
+                new Comparator<DonationItem>() {
             @Override
             public int compare(DonationItem donationItem, DonationItem t1) {
                 return donationItem.getName().compareTo(name) - (t1.getName().compareTo(name));

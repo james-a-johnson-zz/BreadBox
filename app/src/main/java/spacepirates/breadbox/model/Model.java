@@ -70,7 +70,8 @@ public class Model {
     /**
      * Get locations stored in the system. Works with location database
      * @return The stored locations
-     * @throws DatabaseNotInitializedException
+     * @throws DatabaseNotInitializedException Simple exception that represents a nonexistent
+     *                                         Database since it never got initialized
      */
     public List<Location> getLocations() throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
@@ -100,7 +101,7 @@ public class Model {
 
     /**
      * Get all donation items from Donation Item database
-     * @return
+     * @return The donation items from the database
      */
     public List<DonationItem> getDonationItems() {
         return donationItemDatabase.getDonations();
@@ -147,7 +148,8 @@ public class Model {
 
     /**
      * Identical to filter by category above but returns an ArrayList
-     * @param list Donation item list to filter
+     * Also does not need to have a list of donation items passed in,
+     * relies on the system's collection of all donation items in the database
      * @param cat  Category to filter by
      * @return     The filtered list
      */
@@ -219,12 +221,14 @@ public class Model {
     // }
 
     /**
-     * add a location to the app.  checks if the location is already entered
+     * Add a location to the app.  checks if the location is already entered
      *
-     * uses O(n) linear search for course
+     * Ases O(n) linear search for course
      *
      * @param location  the course to be added
      * @return true if added, false if a duplicate
+     * @throws DatabaseNotInitializedException Simple exception that represents a nonexistent
+     *                                         Database since it never got initialized
      */
     public boolean addLocation(Location location) throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
@@ -240,6 +244,8 @@ public class Model {
 
     /**
      * @return  the currently selected location
+     * @throws DatabaseNotInitializedException Simple exception that represents a nonexistent
+     *                                         Database since it never got initialized
      */
     public Location getCurrentLocation() throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
@@ -257,7 +263,8 @@ public class Model {
      *
      * @param name the name of the location to find
      * @return  the location with that name or the NullLocation if no such name exists.
-     *
+     * @throws DatabaseNotInitializedException Simple exception that represents a nonexistent
+     *                                         Database since it never got initialized
      */
     public Location getLocationByName(String name) throws DatabaseNotInitializedException{
         if (locationDatabase == null) {
@@ -288,6 +295,13 @@ public class Model {
         return _currentUser;
     }
 
+    /**
+     * Gets all donation items unless the database is empty
+     * If it is, then return a list with the null donation (sentinel value)
+     * @return An ArrayList of donation items from the database
+     * @throws DatabaseNotInitializedException Simple exception that represents a nonexistent
+     *                                         Database since it never got initialized
+     */
     public ArrayList<DonationItem> getDonations() throws DatabaseNotInitializedException{
         if (donationItemDatabase == null) {
             throw new DatabaseNotInitializedException();

@@ -15,9 +15,14 @@ public class Admin extends BasicUser {
         super(user, UserType.ADMINISTRATOR);
     }
 
-//    public Admin(String user, UserType ut) {
-//        super(user, ut);
-//    }
+    /**
+     * Creates admin with usertype passed in
+     * @param user      Username
+     * @param ut        User type which will be Admin
+     */
+    public Admin(String user, UserType ut) {
+        super(user, ut);
+    }
 
 //    //Add and remove manager are booleans dependent on whether or not they execute properly
 //    public boolean addManager(Manager man) {
