@@ -99,13 +99,18 @@ public class Model {
         return srt;
     }
 
-    public ArrayList<DonationItem> filterDonationItems(String name) {
-        PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
-        ArrayList<DonationItem> srt = new ArrayList<>();
-        for (DonationItem d: donationItemDatabase.getDonations()) {
-            if (d.getName().equals(name)) {
-                ret.add(d);
+    public ArrayList<DonationItem> filterDonationItems(final String name) {
+        List<DonationItem> dd = donationItemDatabase.getDonations();
+        PriorityQueue<DonationItem>ret = new PriorityQueue<DonationItem>(dd.size(), new Comparator<DonationItem>() {
+            @Override
+            public int compare(DonationItem donationItem, DonationItem t1) {
+                return Math.abs(donationItem.getName().toLowerCase().compareTo(name.toLowerCase()))
+                        - Math.abs((t1.getName().toLowerCase().compareTo(name.toLowerCase())));
             }
+        });
+        ArrayList<DonationItem> srt = new ArrayList<>();
+        for (DonationItem d: dd) {
+                ret.add(d);
         }
         while(!ret.isEmpty()) {
             srt.add(ret.poll());
@@ -155,7 +160,8 @@ public class Model {
         PriorityQueue<DonationItem>ret = new PriorityQueue<>(list.size(), new Comparator<DonationItem>() {
             @Override
             public int compare(DonationItem donationItem, DonationItem t1) {
-                return donationItem.getName().compareTo(input) - (t1.getName().compareTo(input));
+                return Math.abs(donationItem.getName().toLowerCase().compareTo(input.toLowerCase()))
+                        - Math.abs((t1.getName().toLowerCase().compareTo(input.toLowerCase())));
             }
         });
         ArrayList<DonationItem> srt = new ArrayList<>();
