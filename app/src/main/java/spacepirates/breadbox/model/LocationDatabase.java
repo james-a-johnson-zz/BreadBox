@@ -22,8 +22,9 @@ public class LocationDatabase {
     private List<Location> locations;
     private DatabaseReference db;
 
-    //TODO Initialize database without context from an Activity?
-    //public LocationDatabase() {}
+    private final Location theNullLocation =
+            new Location("No Locations", "none", 0, 0,
+                    "Not Found", "000-000-0000");
 
     /**
      * Initializes the database
@@ -85,11 +86,18 @@ public class LocationDatabase {
 
     /**
      * Add an already existing location to the database
+     *
      * @param location Location to be added
+     * @return Boolean if location successfully added
      */
-    public void addLocation(Location location) {
+    public boolean addLocation(Location location) {
+        if (location == null)
+            return false;
+        if (locations.contains(location))
+            return false;
         locations.add(location);
         db.child(location.getAddress()).setValue(location);
+        return true;
     }
 
     /**
@@ -102,13 +110,18 @@ public class LocationDatabase {
             if (l.getAddress().equals(address))
                 return l;
 
-        return null;
+        return theNullLocation;
     }
 
     /**
      * @return All locations being stored in the database
      */
     public List<Location> getLocations() {
+        if (locations.size() == 0) {
+            List<Location> none = new ArrayList<>();
+            none.add(theNullLocation);
+            return none;
+        }
         return locations;
     }
 
@@ -131,6 +144,17 @@ public class LocationDatabase {
     }
 
     /**
+     * Updates a location to now include the given donation item
+     *
+     * @param di The donation item to add
+     */
+    public void updateLocation(DonationItem di) {
+        Location l = this.getLocationByAddress(di.getAddress());
+        l.addItem(di);
+        updateLocation(l);
+    }
+
+    /**
      * Performs the above method on all locations in database
      */
     public void updateAllLocations() {
@@ -138,4 +162,16 @@ public class LocationDatabase {
             this.updateLocation(l);
     }
 
+    /**
+     * Finds a location by given name
+     *
+     * @param name Name of location to find
+     * @return Location with given name or null location
+     */
+    public Location getLocationByName(String name) {
+        for (Location l : locations)
+            if (name.equals(l.getName()))
+                return l;
+        return theNullLocation;
+    }
 }
