@@ -55,11 +55,13 @@ public class SearchActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         //Currently setting to display all items. I feel it should initially be initialized empty
-        DonationItemRecyclerAdapter adapter = new DonationItemRecyclerAdapter(Model.getInstance().getDonations());
+        DonationItemRecyclerAdapter adapter =
+                new DonationItemRecyclerAdapter(Model.getInstance().getDonations());
         recyclerView.setAdapter(adapter);
 
         //Set Spinner with values of category enum.
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Category.values());
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(
+                this, android.R.layout.simple_spinner_item, Category.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
 

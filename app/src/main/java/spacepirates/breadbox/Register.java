@@ -54,7 +54,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         registerText.setText("Register a User");
 
-        userType.setAdapter(new ArrayAdapter<UserType>(this, android.R.layout.simple_spinner_item, UserType.values()));
+        userType.setAdapter(new ArrayAdapter<UserType>(
+                this, android.R.layout.simple_spinner_item, UserType.values()));
         register.setOnClickListener(this);
     }
 

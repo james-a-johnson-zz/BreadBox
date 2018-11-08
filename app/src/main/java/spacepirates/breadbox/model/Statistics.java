@@ -55,9 +55,9 @@ public class Statistics{
 
     }
 
-    public Statistics(Business business) {
-
-    }
+//    public Statistics(Business business) {
+//
+//    }
 
     public void addUpdate(DonationItem item){
         /*

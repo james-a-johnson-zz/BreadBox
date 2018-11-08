@@ -22,6 +22,15 @@ import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 import spacepirates.breadbox.model.Tag;
 
+/**
+ * This activity allows users to add donation items to a location's inventory
+ * Options include:
+ * Naming the item
+ * Categorizing the item and giving it relevant tags
+ * Giving the item a price
+ * Adding the donor of the item to its data
+ * Adding a short description of the item
+ */
 public class AddDonationItemActivity extends AppCompatActivity {
 
     EditText nameView;
@@ -38,12 +47,8 @@ public class AddDonationItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // adds up navigation button to app bar that navigates to parent activity defined in manifest
-        //(parent activity is LocationActivity)
-        //getActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //Location location = (Location) i.getParcelableExtra(getString(R.string.pass_location_key));
-        //location = (Location) this.getIntent().getSerializableExtra("location");
+        //Location location = (Location)i.getParcelableExtra(getString(R.string.pass_location_key));
+        //location = (Location)this.getIntent().getSerializableExtra("location");
         i = this.getIntent().getIntExtra("location_index", -1);
         List<Location> locations;
         locations = Model.getInstance().getLocations();
@@ -62,10 +67,10 @@ public class AddDonationItemActivity extends AppCompatActivity {
         donorView = findViewById(R.id.add_donation_input_donor);
         categorySpinner = findViewById(R.id.add_donation_category_spinner);
 
-        /**
-         * Category spinner uses the category enum to populate the spinner.
-         */
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, Category.values());
+
+        // Category spinner uses the category enum to populate the spinner.
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(this,
+                android.R.layout.simple_spinner_item, Category.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
 
@@ -115,7 +120,6 @@ public class AddDonationItemActivity extends AppCompatActivity {
             validDonation = false;
             failureMessage += "Must select a Category.";
         }
-        //TODO decision for valid donation should be made by donation class.
         if (validDonation) {
             //Create new Donation Item. DonationItem constructor adds it to the location inventory.
             DonationItem newItem = new DonationItem(name, price, category, description,
