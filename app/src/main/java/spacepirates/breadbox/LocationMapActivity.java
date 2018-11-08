@@ -35,8 +35,10 @@ public class LocationMapActivity extends Fragment implements OnMapReadyCallback 
         // Inflate the layout for this fragment
         //activity_location_map is actually a fragment?
         View view = inflater.inflate(R.layout.activity_location_map, container, false);
-
-
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment)
+                getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
         return view;
     }
     /**
