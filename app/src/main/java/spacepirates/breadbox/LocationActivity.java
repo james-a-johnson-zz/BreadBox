@@ -23,7 +23,8 @@ public class LocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        final int i = intent.getIntExtra("getString(R.string.pass_location_key)", -1);
+        final int i = intent.getIntExtra(
+                "getString(R.string.pass_location_key)", -1);
         Log.d("intent","int i in location = " + i);
 
         setContentView(R.layout.activity_location);
@@ -48,8 +49,10 @@ public class LocationActivity extends AppCompatActivity {
         addressView.setText(location.getAddress());
         phoneNumberView.setText(location.getPhoneNumber());
 
-        //Populates recycler view with cards containng information about all the donations at a location.
-        RecyclerView.Adapter donationsAdapter = new DonationItemRecyclerAdapter(location.getInventory());
+        //Populates recycler view with cards containng
+        //information about all the donations at a location.
+        RecyclerView.Adapter donationsAdapter =
+                new DonationItemRecyclerAdapter(location.getInventory());
         donationsRV.setAdapter(donationsAdapter);
         donationsRV.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 

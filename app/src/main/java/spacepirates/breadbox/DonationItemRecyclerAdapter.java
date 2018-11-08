@@ -13,11 +13,13 @@ import java.util.List;
 import spacepirates.breadbox.model.DonationItem;
 import spacepirates.breadbox.model.Tag;
 
-public class DonationItemRecyclerAdapter extends RecyclerView.Adapter<DonationItemRecyclerAdapter.DonationViewHolder> {
+public class DonationItemRecyclerAdapter extends
+        RecyclerView.Adapter<DonationItemRecyclerAdapter.DonationViewHolder> {
 
     List<DonationItem> donations;
 
-    //recycler allows a total of one card to be expanded, and uses this refernce to collapse old expanded card
+    //recycler allows a total of one card to be expanded,
+    //and uses this refernce to collapse old expanded card
     private DonationViewHolder expandedViewHolder;
 
     DonationItemRecyclerAdapter(List<DonationItem> donations) {
@@ -46,7 +48,8 @@ public class DonationItemRecyclerAdapter extends RecyclerView.Adapter<DonationIt
 
     @Override
     public DonationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.donation_item_card, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.donation_item_card, viewGroup, false);
         DonationViewHolder dvh = new DonationViewHolder(view);
         return dvh;
     }
@@ -81,7 +84,8 @@ public class DonationItemRecyclerAdapter extends RecyclerView.Adapter<DonationIt
                     collapseDonationView(expandedViewHolder);
 
                     if (expandedViewHolder.equals(donationViewHolder)) {
-                        //If this is view was expanded. Set expanded null. All cards should be collapsed.
+                        //If this is view was expanded. Set expanded null.
+                        //All cards should be collapsed.
                         expandedViewHolder = null;
                     } else {
                         //expand new view and relocate flag
