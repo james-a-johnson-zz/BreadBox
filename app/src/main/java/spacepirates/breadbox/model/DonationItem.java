@@ -194,6 +194,18 @@ public class DonationItem implements Comparable<DonationItem> {
     }
 
     @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof DonationItem)) return false;
+        DonationItem d = (DonationItem) other;
+        return this.getName().equals(d.getName())
+                && this.getPrice() == d.getPrice()
+                && this.getCategory() == d.getCategory()
+                && this.getAddress().equals(d.getAddress())
+                && this.getDescription().equals(d.getDescription())
+                && this.getTags().equals(d.getTags());
+    }
+
+    @Override
     public int compareTo(DonationItem other) {
         return this.getName().compareTo(other.getName());
     }
