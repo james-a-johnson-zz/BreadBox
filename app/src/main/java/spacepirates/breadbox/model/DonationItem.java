@@ -200,9 +200,7 @@ public class DonationItem implements Comparable<DonationItem> {
         return this.getName().equals(d.getName())
                 && this.getPrice() == d.getPrice()
                 && this.getCategory() == d.getCategory()
-                && this.getAddress().equals(d.getAddress())
-                && this.getDescription().equals(d.getDescription())
-                && this.getTags().equals(d.getTags());
+                && this.getDescription().equals(d.getDescription());
     }
 
     @Override
