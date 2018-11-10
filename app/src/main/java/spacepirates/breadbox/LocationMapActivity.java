@@ -1,8 +1,16 @@
 package spacepirates.breadbox;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,10 +25,23 @@ import java.util.List;
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 
-public class LocationMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class LocationMapActivity extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        //activity_location_map is actually a fragment?
+        View view = inflater.inflate(R.layout.activity_location_map, container, false);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment)
+                getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        return view;
+    }
+    /**
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +51,7 @@ public class LocationMapActivity extends FragmentActivity implements OnMapReadyC
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
+    */
 
     /**
      * Manipulates the map once available.
