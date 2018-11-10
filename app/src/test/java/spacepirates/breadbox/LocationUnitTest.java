@@ -8,6 +8,7 @@ import spacepirates.breadbox.model.DonationItem;
 
 /**
  * JUnit Test(s) for the Location class
+ * @author Michaelb
  */
 public class LocationUnitTest {
 
