@@ -18,8 +18,8 @@ public class LocationDatabase {
     private List<Location> locations;
     private DatabaseReference db;
 
-    //TODO It would be convenient if the database could be initialized without context from an Activity
-    //public LocationDatabase() {}
+    /** Null Location pattern, returned when no course is found */
+    private final Location theNullLocation = new Location("No Locations", "none", 0, 0, "Not Found", "000-000-0000");
 
     public LocationDatabase() {
         db = FirebaseDatabase.getInstance().getReference("locations");
@@ -70,10 +70,24 @@ public class LocationDatabase {
             if (l.getAddress().equals(address))
                 return l;
 
-        return null;
+        return theNullLocation;
+    }
+
+    public Location getLocationByName(String name) {
+        for (Location l : locations ) {
+            //TODO need some way to find a specific location index? number? name?
+            if (l.getName().equals(name)) return l;
+        }
+        return theNullLocation;
     }
 
     public List<Location> getLocations() {
+        // If locationDatabsae is empty, return list with the null location.
+        if (locations.size() == 0) {
+            ArrayList<Location> noLocations = new ArrayList<>();
+            noLocations.add(theNullLocation);
+            return noLocations;
+        }
         return locations;
     }
 
@@ -84,6 +98,12 @@ public class LocationDatabase {
 
     public void updateLocation(Location l) {
         db.child(l.getAddress()).setValue(l);
+    }
+
+    public void updateLocation(DonationItem d) {
+        Location l = getLocationByAddress(d.getAddress());
+        l.addItem(d);
+        this.updateLocation(l);
     }
 
     public void updateAllLocations() {

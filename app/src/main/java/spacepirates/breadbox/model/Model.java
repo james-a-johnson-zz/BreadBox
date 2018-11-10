@@ -32,15 +32,7 @@ public class Model {
     /** the currently selected course, defaults to first course */
     private Location _currentLocation;
 
-    /** Null Location pattern, returned when no course is found */
-    private final Location theNullLocation = new Location("No Locations", "none", 0, 0, "Not Found", "000-000-0000");
-
     private DonationItemDatabase donationItemDatabase;
-
-    /** Null Donation pattern, returned when no donations are found.
-     *  Current default category is apparel. Fails curing run if category is null.
-     */
-    private DonationItem theNullDonation = new DonationItem("No Donations Found", 0, Category.APPAREL);
 
     /**
      * make a new model
@@ -49,10 +41,6 @@ public class Model {
         Log.d("Model", "Initialized Model, without context");
         this.initializeDatabases();
         _currentUser = nullUser;
-    }
-
-    private Model(Context context) {
-        this();
     }
 
     private void initializeDatabases() {
@@ -64,21 +52,11 @@ public class Model {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
-        // If locationDatabsae is empty, return list with the null location.
-        if (locationDatabase.getLocations().size() == 0) {
-            ArrayList<Location> noLocations = new ArrayList<>();
-            noLocations.add(theNullLocation);
-            return noLocations;
-        }
         return locationDatabase.getLocations();
-    }
+}
 
     public Location getLocationByAddress(String address) {
-        Location l = locationDatabase.getLocationByAddress(address);
-        if (l == null)
-            return theNullLocation;
-        else
-            return l;
+        return locationDatabase.getLocationByAddress(address);
     }
 
     public List<DonationItem> getDonationItems() {
@@ -109,9 +87,7 @@ public class Model {
             }
         });
         ArrayList<DonationItem> srt = new ArrayList<>();
-        for (DonationItem d: dd) {
-                ret.add(d);
-        }
+        ret.addAll(dd);
         while(!ret.isEmpty()) {
             srt.add(ret.poll());
         }
@@ -165,9 +141,7 @@ public class Model {
             }
         });
         ArrayList<DonationItem> srt = new ArrayList<>();
-        for (DonationItem d: list) {
-            ret.add(d);
-        }
+        ret.addAll(list);
         while(!ret.isEmpty()) {
             srt.add(ret.poll());
         }
@@ -219,7 +193,7 @@ public class Model {
      * Return a location that has matching number.
      * This uses an O(n) linear search.
      *
-     * @param number the number of the location to find
+     * @param name the number of the location to find
      * @return  the location with that number or the NullLocation if no such number exists.
      *
      */
@@ -227,11 +201,7 @@ public class Model {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
-        for (Location l : locationDatabase.getLocations() ) {
-            //TODO need some way to find a specific location index? number? name?
-            if (l.getName().equals(name)) return l;
-        }
-        return theNullLocation;
+        return locationDatabase.getLocationByName(name);
     }
 
     /**
@@ -255,13 +225,6 @@ public class Model {
     public ArrayList<DonationItem> getDonations() throws DatabaseNotInitializedException{
         if (donationItemDatabase == null) {
             throw new DatabaseNotInitializedException();
-        }
-
-        // If donationDatabase is empty, return list with the null donation.
-        if (donationItemDatabase.getDonations().size() == 0) {
-            ArrayList<DonationItem> noDonations = new ArrayList<>();
-            noDonations.add(theNullDonation);
-            return noDonations;
         }
         return (ArrayList<DonationItem>) donationItemDatabase.getDonations();
     }

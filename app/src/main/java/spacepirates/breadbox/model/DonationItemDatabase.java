@@ -20,6 +20,11 @@ public class DonationItemDatabase {
     private List<DonationItem> database;
     private DatabaseReference db;
 
+    /** Null Donation pattern, returned when no donations are found.
+     *  Current default category is apparel. Fails curing run if category is null.
+     */
+    private final DonationItem theNullDonation = new DonationItem("No Donations Found", 0, Category.APPAREL);
+
     public DonationItemDatabase() {
         database = new ArrayList<>();
 
@@ -63,7 +68,12 @@ public class DonationItemDatabase {
     }
 
     public List<DonationItem> getDonations() {
-        Log.d("DonationDB", "Size is: " + database.size());
+        // If donationDatabase is empty, return list with the null donation.
+        if (database.size() == 0) {
+            ArrayList<DonationItem> noDonations = new ArrayList<>();
+            noDonations.add(theNullDonation);
+            return noDonations;
+        }
         return database;
     }
 
