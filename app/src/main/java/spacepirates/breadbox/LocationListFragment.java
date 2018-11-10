@@ -34,7 +34,8 @@ public class LocationListFragment extends Fragment {
 
         recyclerView = findViewById(R.id.locations_recycler);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager linearLayoutManager =
+                                    new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         LocationRecyclerAdapter adapter = new LocationRecyclerAdapter(locations);
         recyclerView.setAdapter(adapter);

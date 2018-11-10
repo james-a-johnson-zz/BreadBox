@@ -22,7 +22,8 @@ public class LocationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // adds up navigation button to app bar that navigates to parent activity defined in manifest
+        // adds up navigation button to app bar that
+        // navigates to parent activity defined in manifest
         //(parent activity is main)
         //getActionBar().setDisplayHomeAsUpEnabled(true);
 

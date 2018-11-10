@@ -59,7 +59,8 @@ public class DonationItemFilterFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         //Set Spinner with values of category enum.
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_item, Category.values());
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(view.getContext(),
+                android.R.layout.simple_spinner_item, Category.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
 
