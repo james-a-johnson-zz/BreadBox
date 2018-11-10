@@ -1,8 +1,16 @@
 package spacepirates.breadbox;
 
+import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -17,10 +25,23 @@ import java.util.List;
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 
-public class LocationMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class LocationMapActivity extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        //activity_location_map is actually a fragment?
+        View view = inflater.inflate(R.layout.activity_location_map, container, false);
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment)
+                getChildFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        return view;
+    }
+    /**
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +51,7 @@ public class LocationMapActivity extends FragmentActivity implements OnMapReadyC
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
-
+    */
 
     /**
      * Manipulates the map once available.
@@ -44,6 +65,10 @@ public class LocationMapActivity extends FragmentActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        final double ATL_LAT = 33.7490;
+        final double ATL_LONG = -84.3880;
+        final float ZOOM = 10.0f;
 
         Model model = Model.getInstance();
         List<Location> locations;
@@ -59,10 +84,9 @@ public class LocationMapActivity extends FragmentActivity implements OnMapReadyC
         }
 
         // Add a marker in Atlanta and move the camera to it because Atlanta is where it's at
-        LatLng atlanta = new LatLng(33.7490, -84.3880);
-        float zoom = 10.0f;
+        LatLng atlanta = new LatLng(ATL_LAT, ATL_LONG);
 //        mMap.addMarker(new MarkerOptions().position(atlanta).title("Marker in Atlanta"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(atlanta, zoom));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(atlanta, ZOOM));
 
 //        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 //            @Override
