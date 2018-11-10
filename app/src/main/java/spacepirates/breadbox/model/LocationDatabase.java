@@ -40,7 +40,7 @@ public class LocationDatabase {
      */
     private void initializeLocations() {
         Log.d("LocationDB", "Initializing Database.");
-        final List<Location> locations = new ArrayList<Location>();
+        final List<Location> locations = new ArrayList<>();
 
         ValueEventListener initLocations = new ValueEventListener() {
             @Override

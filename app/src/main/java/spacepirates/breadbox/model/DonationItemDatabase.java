@@ -115,7 +115,7 @@ public class DonationItemDatabase {
      * @return          A queue of all items that fall under the given category
      */
     public Queue<DonationItem> getItemsByCategory(List<DonationItem> list, Category cat) {
-        PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
+        PriorityQueue<DonationItem> ret = new PriorityQueue<>();
         for (DonationItem d : list) {
             if (d.getCategory() == cat) {
                 ret.add(d);

@@ -43,7 +43,7 @@ public class Location implements Parcelable, Serializable {
         this.longitude = Double.NaN;
         this.address = "Invalid";
         this.phoneNumber = "Invalid";
-        inventory = new ArrayList<DonationItem>();
+        inventory = new ArrayList<>();
         inventoryMax = 100;
         //yearlyStats = new ArrayList<Statistics>();
         /*
@@ -69,7 +69,7 @@ public class Location implements Parcelable, Serializable {
         this.longitude = longitude;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        inventory = new ArrayList<DonationItem>();
+        inventory = new ArrayList<>();
         inventoryMax = 100;
         //yearlyStats = new ArrayList<Statistics>();
         /*
