@@ -18,6 +18,9 @@ import spacepirates.breadbox.model.DonationItem;
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 
+/**
+ * Works with location recycler to display locations to the user
+ */
 public class LocationsActivity extends AppCompatActivity {
 
     @Override

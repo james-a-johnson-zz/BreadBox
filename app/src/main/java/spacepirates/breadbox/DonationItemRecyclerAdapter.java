@@ -13,6 +13,9 @@ import java.util.List;
 import spacepirates.breadbox.model.DonationItem;
 import spacepirates.breadbox.model.Tag;
 
+/**
+ * Class that assists obtaining Donation Items for display from donation item database
+ */
 public class DonationItemRecyclerAdapter extends
         RecyclerView.Adapter<DonationItemRecyclerAdapter.DonationViewHolder> {
 

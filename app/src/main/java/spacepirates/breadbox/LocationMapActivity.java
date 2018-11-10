@@ -25,6 +25,11 @@ import java.util.List;
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 
+/**
+ * Fragment activity that resides in the navigational view like location view and search activities
+ * Takes the user to a map view of all locations where they can click to view names
+ * and phone numbers of locations
+ */
 public class LocationMapActivity extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;

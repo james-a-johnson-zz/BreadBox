@@ -17,6 +17,9 @@ import java.util.List;
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 
+/**
+ * Allows users to view locations within the system
+ */
 public class LocationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

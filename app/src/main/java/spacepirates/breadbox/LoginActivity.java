@@ -31,6 +31,9 @@ import spacepirates.breadbox.model.Model;
 import spacepirates.breadbox.model.User;
 import spacepirates.breadbox.model.UserType;
 
+/**
+ * Login activity for all type of users and guests to the system
+ */
 public class LoginActivity extends AppCompatActivity {
     final String tag = "LoginActivity";
     FirebaseAuth firebaseAuth;

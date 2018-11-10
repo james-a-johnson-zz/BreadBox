@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import spacepirates.breadbox.model.DonationItem;
 import spacepirates.breadbox.model.Model;
 
+/**
+ * Activity that allows a user to add a donation item to the system
+ */
 public class DonationsActivity extends AppCompatActivity {
 
     @Override

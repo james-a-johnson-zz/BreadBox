@@ -15,6 +15,10 @@ import spacepirates.breadbox.model.Location;
 
 import java.util.List;
 
+/**
+ * Extracts locations from their respective database and helps prepare them into the card view
+ * that is presented in the location list view
+ */
 public class LocationRecyclerAdapter
         extends RecyclerView.Adapter<LocationRecyclerAdapter.LocationViewHolder> {
 

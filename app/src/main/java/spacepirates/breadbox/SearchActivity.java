@@ -19,6 +19,9 @@ import spacepirates.breadbox.model.Category;
 import spacepirates.breadbox.model.DonationItem;
 import spacepirates.breadbox.model.Model;
 
+/**
+ * Allows users to search/filter for donation items by name and category
+ */
 public class SearchActivity extends AppCompatActivity {
 
 

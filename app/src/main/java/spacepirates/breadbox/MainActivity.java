@@ -26,6 +26,10 @@ import android.support.v7.widget.Toolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Runs all relevant activities on startup such as login. Also creates clickable options such
+ * as all buttons on login screen and navigational view
+ */
 public class MainActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
@@ -350,6 +354,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
+     * @return String a string that is a string which may or may not be different from some other
+     *         string. Potentially returns an array of characters
      */
     public native String stringFromJNI();
 }

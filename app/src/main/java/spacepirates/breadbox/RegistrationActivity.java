@@ -3,6 +3,9 @@ package spacepirates.breadbox;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+/**
+ * Creates the Register activity
+ */
 public class RegistrationActivity extends AppCompatActivity {
 
     @Override

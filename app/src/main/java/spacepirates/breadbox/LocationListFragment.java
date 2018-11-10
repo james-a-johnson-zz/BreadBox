@@ -19,13 +19,14 @@ import java.util.List;
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 
-
-
+/**
+ * Fragment that fits into the Navigational view in the top left of the app
+ * Takes the user to the location list view on click
+ */
 public class LocationListFragment extends Fragment {
     RecyclerView recyclerView;
 
     /**
-     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.fragment_location_list);

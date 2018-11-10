@@ -30,6 +30,10 @@ import spacepirates.breadbox.model.Model;
 import spacepirates.breadbox.model.User;
 import spacepirates.breadbox.model.UserType;
 
+/**
+ * Registration activity for a new user to enter their email and password
+ * The user's information and type are then stored in the user database
+ */
 public class Register extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private DatabaseReference db;
