@@ -102,12 +102,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /***
+    /*
      * Load navigation menu header information
      * like background image, profile image
      * name, website, notifications action view (dot)
-     */
-    /**
+     *
      * Not Currently using a header
     private void loadNavHeader() {
         // name, website
@@ -131,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
         // showing dot next to notifications label
         navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
     }
-     **/
+     */
 
     /***
      * Returns respected fragment that user
@@ -330,12 +329,12 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        /**
+        /*
         if (id == R.id.action_logout) {
             Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
             return true;
         }
-         **/
+         */
 
         return super.onOptionsItemSelected(item);
     }

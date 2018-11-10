@@ -55,9 +55,10 @@ public class LocationRecyclerAdapter
 
     @Override
     public void onBindViewHolder(LocationViewHolder locationViewHolder, final int i) {
-        locationViewHolder.locationName.setText(locations.get(i).getName());
-        locationViewHolder.address.setText(locations.get(i).getAddress());
-        locationViewHolder.locationType.setText("- " + locations.get(i).getType());
+        Location loc = locations.get(i);
+        locationViewHolder.locationName.setText(loc.getName());
+        locationViewHolder.address.setText(loc.getAddress());
+        locationViewHolder.locationType.setText("- " + loc.getType());
 
         locationViewHolder.cv.setOnClickListener((new View.OnClickListener() {
             @Override

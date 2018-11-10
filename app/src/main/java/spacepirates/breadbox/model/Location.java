@@ -226,7 +226,7 @@ public class Location implements Parcelable, Serializable {
         if (!(l instanceof Location)) {
             return false;
         }
-        return (((Location) l).getAddress().compareTo(this.getAddress()) == 0);
+        return ((Location) l).getAddress().equals(this.getAddress());
     }
 
       //not sure what return type should be here (could be bool)

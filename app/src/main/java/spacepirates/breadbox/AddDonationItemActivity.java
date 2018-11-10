@@ -105,7 +105,7 @@ public class AddDonationItemActivity extends AppCompatActivity {
         }
 
         //TODO tag view should be a multi selection spinner or similar, because tags are enums;
-        ArrayList<Tag> tags = new ArrayList<Tag>();
+        List<Tag> tags = new ArrayList<>();
         //splits the string in the tags box into words, and places in String array tags
         //( tagView.getText().toString()).split("\\W+");
         String description = descriptionview.getText().toString();

@@ -41,7 +41,7 @@ public class LocationMapActivity extends Fragment implements OnMapReadyCallback 
         mapFragment.getMapAsync(this);
         return view;
     }
-    /**
+    /*
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
