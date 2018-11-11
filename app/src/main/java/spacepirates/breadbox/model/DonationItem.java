@@ -90,6 +90,13 @@ public class DonationItem implements Comparable<DonationItem> {
     }
 
     /**
+     * Empty constructor for testing
+     */
+    public DonationItem() {
+        id = UUID.randomUUID().toString();
+    }
+
+    /**
      * Constructor for items without description, tags, or address
      * @param name      The name of the item
      * @param price     The price
