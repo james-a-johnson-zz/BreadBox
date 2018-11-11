@@ -32,10 +32,10 @@ public class LocationRecyclerAdapter
 
         LocationViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView)itemView.findViewById(R.id.location_card);
-            locationName = (TextView)itemView.findViewById(R.id.location_name);
-            address = (TextView)itemView.findViewById(R.id.address);
-            locationType = (TextView) itemView.findViewById(R.id.location_type);
+            cv = itemView.findViewById(R.id.location_card);
+            locationName = itemView.findViewById(R.id.location_name);
+            address = itemView.findViewById(R.id.address);
+            locationType = itemView.findViewById(R.id.location_type);
         }
     }
 

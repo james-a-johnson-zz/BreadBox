@@ -68,14 +68,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mHandler = new Handler();
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        fab = findViewById(R.id.fab);
 
 
         // load toolbar titles from string resources
@@ -295,16 +295,13 @@ public class MainActivity extends AppCompatActivity {
         // This code loads home fragment when back key is pressed
         // when user is in other fragment than home
         // flag to load home fragment when user presses back key
-        boolean shouldLoadHomeFragOnBackPress = true;
-        if (shouldLoadHomeFragOnBackPress) {
-            // checking if user is on other navigation menu
-            // rather than home
-            if (navItemIndex != 0) {
-                navItemIndex = 0;
-                CURRENT_TAG = TAG_MAIN;
-                loadHomeFragment();
-                return;
-            }
+        // checking if user is on other navigation menu
+        // rather than home
+        if (navItemIndex != 0) {
+            navItemIndex = 0;
+            CURRENT_TAG = TAG_MAIN;
+            loadHomeFragment();
+            return;
         }
 
         super.onBackPressed();

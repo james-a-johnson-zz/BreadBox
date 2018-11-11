@@ -109,9 +109,8 @@ public final class Model {
      * @return     The filtered ArrayList
      */
     public List<DonationItem> filterDonationItems(String name) {
-        Queue<DonationItem> ret = new PriorityQueue<>();
         List<DonationItem> srt = new ArrayList<>();
-        ret.addAll(donationItemDatabase.getDonations());
+        Queue<DonationItem> ret = new PriorityQueue<>(donationItemDatabase.getDonations());
         while(!ret.isEmpty()) {
             srt.add(ret.poll());
         }
