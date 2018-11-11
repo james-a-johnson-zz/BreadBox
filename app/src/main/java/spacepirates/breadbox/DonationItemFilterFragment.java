@@ -52,7 +52,8 @@ public class DonationItemFilterFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         //Currently setting to display all items. I feel it should initially be initialized empty
-        DonationItemRecyclerAdapter adapter = new DonationItemRecyclerAdapter(Model.getInstance().getDonations());
+        DonationItemRecyclerAdapter adapter =
+                new DonationItemRecyclerAdapter(Model.getInstance().getDonations());
         recyclerView.setAdapter(adapter);
 
         //Set Spinner with values of category enum.

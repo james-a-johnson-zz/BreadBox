@@ -23,7 +23,15 @@ class LocationDatabase {
     private final DatabaseReference db;
 
     /** Null Location pattern, returned when no course is found */
-    private final Location theNullLocation = new Location("No Locations", "none", 0, 0, "Not Found", "000-000-0000");
+//    private final Location theNullLocation =
+//          new Location("No Locations", "none", 0, 0, "Not Found", "000-000-0000");
+    private final Location theNullLocation = new Location.LocationBuilder("No Locations")
+            .type("None")
+            .latitude(0.0)
+            .longitude(0.0)
+            .address("Not Found")
+            .phoneNumber("000-000-0000")
+            .build();
     /**
      * Initializes the database
      * Location additions are handled in initializeLocations
