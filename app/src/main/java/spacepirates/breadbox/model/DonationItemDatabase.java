@@ -1,7 +1,6 @@
 package spacepirates.breadbox.model;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,7 +20,7 @@ import java.util.Queue;
  * Uses firebase to store all of the items
  */
 public class DonationItemDatabase {
-    private List<DonationItem> database;
+    private final List<DonationItem> database;
     private DatabaseReference db;
 
     /** Null Donation pattern, returned when no donations are found.
@@ -44,7 +43,7 @@ public class DonationItemDatabase {
      * Method to handle technicalities of initializing database on firebase's end
      * Includes adding every element of data as well as the case where data does not exist
      */
-    public void initializeDatabase() {
+    private void initializeDatabase() {
         ValueEventListener addItems = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -97,8 +96,8 @@ public class DonationItemDatabase {
      */
     public List<DonationItem> getDonations() {
         // If donationDatabase is empty, return list with the null donation.
-        if (database.size() == 0) {
-            ArrayList<DonationItem> noDonations = new ArrayList<>();
+        if (database.isEmpty()) {
+            List<DonationItem> noDonations = new ArrayList<>();
             noDonations.add(theNullDonation);
             return noDonations;
         }
@@ -112,7 +111,7 @@ public class DonationItemDatabase {
      * @return          A queue of all items that fall under the given category
      */
     public Queue<DonationItem> getItemsByCategory(List<DonationItem> list, Category cat) {
-        PriorityQueue<DonationItem> ret = new PriorityQueue<>();
+        Queue<DonationItem> ret = new PriorityQueue<>();
         for (DonationItem d : list) {
             if (d.getCategory() == cat) {
                 ret.add(d);
@@ -142,7 +141,7 @@ public class DonationItemDatabase {
                 (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
                 - b.getName().compareTo(name));
                 */
-        PriorityQueue<DonationItem> ret = new PriorityQueue<>(list.size(),
+        Queue<DonationItem> ret = new PriorityQueue<>(list.size(),
                 new Comparator<DonationItem>() {
             @Override
             public int compare(DonationItem donationItem, DonationItem t1) {

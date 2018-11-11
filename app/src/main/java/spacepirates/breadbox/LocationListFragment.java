@@ -2,13 +2,10 @@ package spacepirates.breadbox;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +21,7 @@ import spacepirates.breadbox.model.Model;
  * Takes the user to the location list view on click
  */
 public class LocationListFragment extends Fragment {
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     /**
     public void onCreate(Bundle savedInstance) {
@@ -59,6 +56,7 @@ public class LocationListFragment extends Fragment {
 
         Button mapButton = view.findViewById(R.id.map_activity_button);
         mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, LocationMapActivity.class);

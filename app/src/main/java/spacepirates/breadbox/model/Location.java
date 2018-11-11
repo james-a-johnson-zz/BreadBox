@@ -303,11 +303,13 @@ public class Location implements Parcelable, Serializable {
     // this is used to regenerate your object.
     // All Parcelables must have a CREATOR that implements these two methods
     public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
+        @Override
         public Location createFromParcel(Parcel in) {
             Log.d("Location", "Creating from Parcel");
             return new Location(in);
         }
 
+        @Override
         public Location[] newArray(int size) {
             return new Location[size];
         }

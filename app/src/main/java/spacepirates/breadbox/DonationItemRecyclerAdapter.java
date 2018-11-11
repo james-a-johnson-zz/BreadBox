@@ -19,7 +19,7 @@ import spacepirates.breadbox.model.Tag;
 public class DonationItemRecyclerAdapter extends
         RecyclerView.Adapter<DonationItemRecyclerAdapter.DonationViewHolder> {
 
-    List<DonationItem> donations;
+    private List<DonationItem> donations;
 
     //recycler allows a total of one card to be expanded,
     //and uses this refernce to collapse old expanded card
@@ -53,8 +53,7 @@ public class DonationItemRecyclerAdapter extends
     public DonationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.donation_item_card, viewGroup, false);
-        DonationViewHolder dvh = new DonationViewHolder(view);
-        return dvh;
+        return new DonationViewHolder(view);
     }
 
     @Override

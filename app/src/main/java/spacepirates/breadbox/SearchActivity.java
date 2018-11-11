@@ -25,12 +25,12 @@ import spacepirates.breadbox.model.Model;
 public class SearchActivity extends AppCompatActivity {
 
 
-    TextView noMatchesView;
-    TextView nameInput;
-    Spinner categorySpinner;
-    RecyclerView recyclerView;
-    Button nameFilterButton;
-    Button categoryFilterButton;
+    private TextView noMatchesView;
+    private TextView nameInput;
+    private Spinner categorySpinner;
+    private RecyclerView recyclerView;
+    private Button nameFilterButton;
+    private Button categoryFilterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +95,7 @@ public class SearchActivity extends AppCompatActivity {
     private void setRecycler(List<DonationItem> donationItems) {
         DonationItemRecyclerAdapter adapter = new DonationItemRecyclerAdapter(donationItems);
         recyclerView.setAdapter(adapter);
-        if (donationItems.size() == 0) {
+        if (donationItems.isEmpty()) {
             noMatchesView.setVisibility(View.VISIBLE);
         } else {
             noMatchesView.setVisibility(View.GONE);

@@ -197,10 +197,8 @@ public class DonationItem implements Comparable<DonationItem> {
     public boolean equals(Object other) {
         if (!(other instanceof DonationItem)) return false;
         DonationItem d = (DonationItem) other;
-        return this.getName().equals(d.getName())
-                && this.getPrice() == d.getPrice()
-                && this.getCategory() == d.getCategory()
-                && this.getDescription().equals(d.getDescription());
+        return (this.getPrice() == d.getPrice())
+                && (this.getCategory() == d.getCategory());
     }
 
     @Override

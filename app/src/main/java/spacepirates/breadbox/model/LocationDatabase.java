@@ -17,10 +17,10 @@ import java.util.List;
  * Like DonationItemDatabase, this is a DB for all of the company locations
  * Also uses Firebase to externally store data
  */
-public class LocationDatabase {
+class LocationDatabase {
 
     private List<Location> locations;
-    private DatabaseReference db;
+    private final DatabaseReference db;
 
     /** Null Location pattern, returned when no course is found */
     private final Location theNullLocation = new Location("No Locations", "none", 0, 0, "Not Found", "000-000-0000");
@@ -115,7 +115,7 @@ public class LocationDatabase {
      * @return All locations being stored in the database
      */
     public List<Location> getLocations() {
-        if (locations.size() == 0) {
+        if (locations.isEmpty()) {
             List<Location> none = new ArrayList<>();
             none.add(theNullLocation);
             return none;
@@ -137,7 +137,7 @@ public class LocationDatabase {
      * Update a location's data
      * @param l A given location with the data to update
      */
-    public void updateLocation(Location l) {
+    private void updateLocation(Location l) {
         db.child(l.getAddress()).setValue(l);
     }
 

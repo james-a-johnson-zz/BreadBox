@@ -33,15 +33,15 @@ import spacepirates.breadbox.model.Tag;
  */
 public class AddDonationItemActivity extends AppCompatActivity {
 
-    EditText nameView;
-    EditText priceView;
-    EditText tagView;
-    EditText descriptionview;
-    EditText donorView;
-    Spinner categorySpinner;
+    private EditText nameView;
+    private EditText priceView;
+    private EditText tagView;
+    private EditText descriptionview;
+    private EditText donorView;
+    private Spinner categorySpinner;
 
-    Location location;
-    int i; //used for keeping track of the location while navigating between activities
+    private Location location;
+    private int i; //used for keeping track of the location while navigating between activities
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

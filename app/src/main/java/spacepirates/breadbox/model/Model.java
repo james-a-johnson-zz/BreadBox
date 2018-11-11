@@ -1,7 +1,6 @@
 package spacepirates.breadbox.model;
 
 
-import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.PriorityQueue;
  *
  * Model Acts as a liaison between system and databases
  */
-public class Model {
+public final class Model {
     /** Singleton instance */
     private static final Model _instance = new Model();
 
@@ -30,8 +29,6 @@ public class Model {
 
     //user logged in and operating app
     private User _currentUser;
-
-    private final User nullUser = new GuestUser();
 
     //instance of location database
     private LocationDatabase locationDatabase;
@@ -47,6 +44,7 @@ public class Model {
     private Model() {
         Log.d("Model", "Initialized Model, without context");
         this.initializeDatabases();
+        User nullUser = new GuestUser();
         _currentUser = nullUser;
     }
 
@@ -93,7 +91,7 @@ public class Model {
      */
     public List<DonationItem> filterDonationItems(List<DonationItem> list, Category cat) {
         PriorityQueue<DonationItem> ret = new PriorityQueue<>();
-        ArrayList<DonationItem> srt = new ArrayList<>();
+        List<DonationItem> srt = new ArrayList<>();
         for (DonationItem d: list) {
             if (d.getCategory() == cat) {
                 ret.add(d);
@@ -110,9 +108,9 @@ public class Model {
      * @param name The name filter
      * @return     The filtered ArrayList
      */
-    public ArrayList<DonationItem> filterDonationItems(String name) {
-        PriorityQueue<DonationItem> ret = new PriorityQueue<>();
-        ArrayList<DonationItem> srt = new ArrayList<>();
+    public List<DonationItem> filterDonationItems(String name) {
+        Queue<DonationItem> ret = new PriorityQueue<>();
+        List<DonationItem> srt = new ArrayList<>();
         ret.addAll(donationItemDatabase.getDonations());
         while(!ret.isEmpty()) {
             srt.add(ret.poll());
@@ -127,9 +125,9 @@ public class Model {
      * @param cat  Category to filter by
      * @return     The filtered list
      */
-    public ArrayList<DonationItem> filterDonationItems(Category cat) {
+    public List<DonationItem> filterDonationItems(Category cat) {
         PriorityQueue<DonationItem> ret = new PriorityQueue<>();
-        ArrayList<DonationItem> srt = new ArrayList<>();
+        List<DonationItem> srt = new ArrayList<>();
         for (DonationItem d: donationItemDatabase.getDonations()) {
             if (d.getCategory() == cat) {
                 ret.add(d);
@@ -170,14 +168,14 @@ public class Model {
         // PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
         //     (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
         //     - b.getName().compareTo(name));
-        PriorityQueue<DonationItem>ret = new PriorityQueue<>(list.size(),
+        Queue<DonationItem>ret = new PriorityQueue<>(list.size(),
                 new Comparator<DonationItem>() {
             @Override
             public int compare(DonationItem donationItem, DonationItem t1) {
                 return donationItem.getName().compareTo(input) - (t1.getName().compareTo(input));
             }
         });
-        ArrayList<DonationItem> srt = new ArrayList<>();
+        List<DonationItem> srt = new ArrayList<>();
         ret.addAll(list);
         while(!ret.isEmpty()) {
             srt.add(ret.poll());

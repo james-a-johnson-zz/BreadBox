@@ -13,8 +13,6 @@ import android.widget.Button;
 
 import java.util.List;
 
-import spacepirates.breadbox.model.Category;
-import spacepirates.breadbox.model.DonationItem;
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 

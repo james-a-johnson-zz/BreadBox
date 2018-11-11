@@ -37,7 +37,6 @@ import spacepirates.breadbox.model.UserType;
 public class Register extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private DatabaseReference db;
-    private Button register;
     private Spinner userType;
     private EditText emailText;
     private EditText passwordText;
@@ -50,7 +49,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         db = FirebaseDatabase.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
-        register = findViewById(R.id.RegisterButton);
+        Button register = findViewById(R.id.RegisterButton);
         userType = findViewById(R.id.UserTypeSpinner);
         emailText = findViewById(R.id.EmailText);
         passwordText = findViewById(R.id.PasswordText);
