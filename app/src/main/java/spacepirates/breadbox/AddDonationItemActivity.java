@@ -121,10 +121,17 @@ public class AddDonationItemActivity extends AppCompatActivity {
             failureMessage += "Must select a Category.";
         }
         if (validDonation) {
-            //Create new Donation Item. DonationItem constructor adds it to the location inventory.
-            DonationItem newItem = new DonationItem(name, price, category, description,
-                    tags, location.getAddress());
-            //Add donation item to donation item datbase
+            //Create new Donation Item. DonationItem builder
+            //generates new donation item and adds it to the location inventory.
+            DonationItem newItem = new DonationItem
+                    .DonationItemBuilder(name)
+                    .price(price)
+                    .category(category).tags(tags)
+                    .description(description)
+                    .address(location.getAddress())
+                    .build();
+
+            //Add donation item to donation item database
             Model.getInstance().addDonationItem(newItem);
 
             //create and display a toast to indicate success.

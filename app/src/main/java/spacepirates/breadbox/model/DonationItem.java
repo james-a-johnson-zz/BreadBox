@@ -22,11 +22,71 @@ public class DonationItem implements Comparable<DonationItem> {
     // private Location currentLocation;
     // private History history;
 
-    /**
-     * Empty constructor for testing
-     */
-    public DonationItem() {
-        this(null, -1, null);
+    public static class DonationItemBuilder {
+        private String builderName;
+        private double builderPrice;
+        private Category builderCategory;
+        private List<Tag> builderTags;
+        private String builderDescription;
+        private String builderAddress;
+
+        public DonationItemBuilder(
+                String newName,
+                Double newPrice,
+                Category newCategory,
+                List<Tag> newTags,
+                String newDescription,
+                String newAddress) {
+            builderName = newName;
+            builderPrice = newPrice;
+            builderCategory = newCategory;
+            builderTags = newTags;
+            builderDescription = newDescription;
+            builderAddress = newAddress;
+        }
+
+        public DonationItemBuilder(String newName) {
+            builderName = newName;
+        }
+
+        public DonationItemBuilder price(Double newPrice) {
+            builderPrice = newPrice;
+            return this;
+        }
+
+        public DonationItemBuilder category(Category newCategory) {
+            builderCategory = newCategory;
+            return this;
+        }
+
+        public DonationItemBuilder tags(List<Tag> newTags) {
+            builderTags = newTags;
+            return this;
+        }
+
+        public DonationItemBuilder description(String newDescription) {
+            builderDescription = newDescription;
+            return this;
+        }
+
+        public DonationItemBuilder address(String newAddress) {
+            builderAddress = newAddress;
+            return this;
+        }
+
+        public DonationItem build() {
+            return new DonationItem(this);
+        }
+    }
+
+    public DonationItem(DonationItemBuilder builder) {
+        name = builder.builderName;
+        price = builder.builderPrice;
+        category = builder.builderCategory;
+        tags = builder.builderTags;
+        description = builder.builderDescription;
+        address = builder. builderAddress;
+        id = UUID.randomUUID().toString();
     }
 
     /**
