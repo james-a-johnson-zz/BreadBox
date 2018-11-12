@@ -5,7 +5,7 @@ package spacepirates.breadbox.model;
  */
 public class LocationEmployee extends BasicUser {
 
-    private Location location;
+    private final Location location;
 
     /**
      * Constructor that takes in a type. User for calls from below by manager class.

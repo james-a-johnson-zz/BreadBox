@@ -32,8 +32,6 @@ public class DonationItemFilterFragment extends Fragment {
     private TextView nameInput;
     private Spinner categorySpinner;
     private RecyclerView recyclerView;
-    private Button nameFilterButton;
-    private Button categoryFilterButton;
 
 
     @Override
@@ -47,8 +45,8 @@ public class DonationItemFilterFragment extends Fragment {
         nameInput = view.findViewById(R.id.name_filter_input);
         categorySpinner = view.findViewById(R.id.category_filter_spinner);
         recyclerView = view.findViewById(R.id.filter_display_rv);
-        nameFilterButton = view.findViewById(R.id.name_filter_button);
-        categoryFilterButton = view.findViewById(R.id.category_filter_button);
+        Button nameFilterButton = view.findViewById(R.id.name_filter_button);
+        Button categoryFilterButton = view.findViewById(R.id.category_filter_button);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         //Currently setting to display all items. I feel it should initially be initialized empty

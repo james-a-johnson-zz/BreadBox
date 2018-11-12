@@ -34,7 +34,7 @@ public class Location implements Parcelable, Serializable {
     private int mData;
 
     public static class LocationBuilder {
-        private String builderName;
+        private final String builderName;
         private String builderType;
         private double builderLatitude;
         private double builderLongitude;
@@ -42,6 +42,16 @@ public class Location implements Parcelable, Serializable {
         private String builderPhone;
         private List<DonationItem> builderInventory;
 
+        /**
+         * Builder for custom construction of locations
+         * @param newName name
+         * @param newType type
+         * @param newLatitude latitude
+         * @param newLongitude longitude
+         * @param newAddress address
+         * @param newPhone phone number
+         * @param newInventory inventory/list of items
+         */
         public LocationBuilder(
                 String newName,
                 String newType,
@@ -59,40 +69,77 @@ public class Location implements Parcelable, Serializable {
             builderInventory = newInventory;
         }
 
+        /**
+         * Initial constructor starts with the name
+         * @param newName name
+         */
         public LocationBuilder(String newName) {
             builderName = newName;
         }
 
+        /**
+         * Adds the respective variable to the builder
+         * @param newType type
+         * @return this so that builder methods (assigning variables) can be chained
+         */
         public LocationBuilder type(String newType) {
             builderType = newType;
             return this;
         }
 
+        /**
+         * Adds the respective variable to the builder
+         * @param newLatitude latitude
+         * @return this so that builder methods (assigning variables) can be chained
+         */
         public LocationBuilder latitude(double newLatitude) {
             builderLatitude = newLatitude;
             return this;
         }
 
+        /**
+         * Adds the respective variable to the builder
+         * @param newLongitude longitude
+         * @return this so that builder methods (assigning variables) can be chained
+         */
         public LocationBuilder longitude(double newLongitude) {
             builderLongitude = newLongitude;
             return this;
         }
 
+        /**
+         * Adds the respective variable to the builder
+         * @param newAddress address
+         * @return this so that builder methods (assigning variables) can be chained
+         */
         public LocationBuilder address(String newAddress) {
             builderAddress = newAddress;
             return this;
         }
 
+        /**
+         * Adds the respective variable to the builder
+         * @param newPhone phone number
+         * @return this so that builder methods (assigning variables) can be chained
+         */
         public LocationBuilder phoneNumber(String newPhone) {
             builderPhone = newPhone;
             return this;
         }
 
+        /**
+         * This builds and returns a new location based on the chain of variables passed in
+         * @return a newly custom constructed location
+         */
         public Location build() {
             return new Location(this);
         }
     }
 
+    /**
+     * Constructor that takes a location builder to assign its instance variables
+     * @param builder the location builder
+     */
     public Location(LocationBuilder builder) {
         name = builder.builderName;
         type = builder.builderType;

@@ -21,14 +21,14 @@ import java.util.List;
 public class LocationRecyclerAdapter
         extends RecyclerView.Adapter<LocationRecyclerAdapter.LocationViewHolder> {
 
-    private List<Location> locations;
+    private final List<Location> locations;
 
     public static class LocationViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cv;
-        TextView locationName;
-        TextView address;
-        TextView locationType;
+        final CardView cv;
+        final TextView locationName;
+        final TextView address;
+        final TextView locationType;
 
         LocationViewHolder(View itemView) {
             super(itemView);
@@ -80,7 +80,7 @@ public class LocationRecyclerAdapter
                     // pass_location_key holds the key pair, must be referenced to pull location
                     //intent.putExtra(getString(R.string.pass_location_key), new Integer(i));
                 Log.d("intent","int i in recycler = " + i);
-                intent.putExtra("getString(R.string.pass_location_key)", new Integer(i));
+                intent.putExtra("getString(R.string.pass_location_key)", Integer.valueOf(i));
                 context.startActivity(intent);
             }
         }));

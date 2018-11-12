@@ -55,9 +55,9 @@ public class LocationsActivity extends AppCompatActivity {
             }
         });
 
-        Button mapDisp = findViewById(R.id.map_activity_button);
-        mapDisp.setText("Display Map");
-        mapDisp.setOnClickListener(new View.OnClickListener() {
+        Button mapDisplay = findViewById(R.id.map_activity_button);
+        mapDisplay.setText("Display Map");
+        mapDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Context context = view.getContext();

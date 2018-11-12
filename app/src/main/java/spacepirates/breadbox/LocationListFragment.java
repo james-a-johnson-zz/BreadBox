@@ -21,7 +21,6 @@ import spacepirates.breadbox.model.Model;
  * Takes the user to the location list view on click
  */
 public class LocationListFragment extends Fragment {
-    private RecyclerView recyclerView;
 
     /**
     public void onCreate(Bundle savedInstance) {
@@ -47,7 +46,7 @@ public class LocationListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_location_list, container, false);
         List<Location> locations = Model.getInstance().getLocations();
 
-        recyclerView = view.findViewById(R.id.locations_recycler);
+        RecyclerView recyclerView = view.findViewById(R.id.locations_recycler);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);

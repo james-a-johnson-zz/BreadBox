@@ -10,7 +10,7 @@ class NavigationMenuActivity {
      * Very useful class's very useful method
      * @param context The thing currently missing here
      */
-    public void intitializeMenu(Context context) {
+    public void initializeMenu(Context context) {
 
     }
 }

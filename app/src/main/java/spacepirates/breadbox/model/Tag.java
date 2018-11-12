@@ -32,7 +32,7 @@ public enum Tag{
     BIOGRAPHY("Biography", Category.BOOK),
     COOKBOOK("CookBook", Category.BOOK, Category.KITCHENWARE);
 
-    private String name;
+    private final String name;
     private List<Category> categories;
 
     Tag(String name, Category... categoryArr){

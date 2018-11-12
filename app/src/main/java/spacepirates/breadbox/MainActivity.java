@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
 
     // index to identify current nav menu item
-    private static int navItemIndex = 0;
+    private static int navItemIndex;
 
     // tags used to attach the fragments
     private static final String TAG_MAP = "map";
@@ -338,10 +338,11 @@ public class MainActivity extends AppCompatActivity {
 
     // show or hide the fab
     private void toggleFab() {
-        if (navItemIndex == 0)
+        if (navItemIndex == 0) {
             fab.show();
-        else
+        } else {
             fab.hide();
+        }
     }
 
     /**

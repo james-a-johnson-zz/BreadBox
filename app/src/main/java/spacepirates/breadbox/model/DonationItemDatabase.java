@@ -17,11 +17,11 @@ import java.util.Queue;
 
 /**
  * Database of all donation items for the company
- * Uses firebase to store all of the items
+ * Uses Fire base to store all of the items
  */
 public class DonationItemDatabase {
     private final List<DonationItem> database;
-    private DatabaseReference db;
+    private final DatabaseReference db;
 
     /** Null Donation pattern, returned when no donations are found.
      *  Current default category is apparel. Fails curing run if category is null.
@@ -41,15 +41,16 @@ public class DonationItemDatabase {
     }
 
     /**
-     * Method to handle technicalities of initializing database on firebase's end
+     * Method to handle technicalities of initializing database on Fire base's end
      * Includes adding every element of data as well as the case where data does not exist
      */
     private void initializeDatabase() {
         ValueEventListener addItems = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (!dataSnapshot.exists())
+                if (!dataSnapshot.exists()) {
                     throw new DatabaseException("Could not load donations");
+                }
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     database.add(child.getValue(DonationItem.class));
@@ -70,8 +71,9 @@ public class DonationItemDatabase {
      * @param list List of items (inventory) from a location
      */
     public void addInventory(List<DonationItem> list) {
-        for (DonationItem di : list)
+        for (DonationItem di : list) {
             this.addItem(di);
+        }
     }
 
     /**

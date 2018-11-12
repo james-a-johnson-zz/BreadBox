@@ -31,9 +31,9 @@ public class LoganTest {
         item = new DonationItem();
         item.setName("Whisk");
         item.setCategory(Category.KITCHENWARE);
-        Queue<DonationItem> filt = dd.getItemsByCategory(d, Category.APPAREL);
-        assertEquals(filt.poll().getName(), "Shirt");
-        assertEquals(filt.poll().getName(), "Shorts");
-        assertTrue(filt.isEmpty());
+        Queue<DonationItem> filter = dd.getItemsByCategory(d, Category.APPAREL);
+        assertEquals(filter.poll().getName(), "Shirt");
+        assertEquals(filter.poll().getName(), "Shorts");
+        assertTrue(filter.isEmpty());
     }
 }

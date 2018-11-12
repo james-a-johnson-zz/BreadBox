@@ -55,7 +55,7 @@ public class DatabaseUser {
     }
 
     /**
-     * @param type Set the usertype to a new type
+     * @param type Set the user type to a new type
      */
     public void setType(UserType type) {
         this.type = type;

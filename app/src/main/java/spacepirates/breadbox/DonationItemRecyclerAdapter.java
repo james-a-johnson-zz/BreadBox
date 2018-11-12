@@ -19,10 +19,10 @@ import spacepirates.breadbox.model.Tag;
 public class DonationItemRecyclerAdapter extends
         RecyclerView.Adapter<DonationItemRecyclerAdapter.DonationViewHolder> {
 
-    private List<DonationItem> donations;
+    private final List<DonationItem> donations;
 
     //recycler allows a total of one card to be expanded,
-    //and uses this refernce to collapse old expanded card
+    //and uses this reference to collapse old expanded card
     private DonationViewHolder expandedViewHolder;
 
     DonationItemRecyclerAdapter(List<DonationItem> donations) {
@@ -95,7 +95,7 @@ public class DonationItemRecyclerAdapter extends
                         expandedViewHolder = donationViewHolder;
                     }
                 } else {
-                    //a differnt view is expanded
+                    //a different view is expanded
                     //expand this description and mark as expanded
                     expandedViewHolder = donationViewHolder;
                     expandDonationView(donationViewHolder);
@@ -113,12 +113,12 @@ public class DonationItemRecyclerAdapter extends
 
     public static class DonationViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cv;
-        TextView itemName;
-        TextView description;
-        TextView price;
-        TextView category;
-        TextView tags;
+        final CardView cv;
+        final TextView itemName;
+        final TextView description;
+        final TextView price;
+        final TextView category;
+        final TextView tags;
 
 
         DonationViewHolder(View itemView) {

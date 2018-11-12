@@ -1,7 +1,7 @@
 package spacepirates.breadbox.model;
 
 /**
- * Specifies types of categories available to classify donation itemss
+ * Specifies types of categories available to classify donation items
  */
 public enum Category{
     APPAREL("Apparel"), FURNITURE("Furniture"), KITCHENWARE("Kitchenware"),

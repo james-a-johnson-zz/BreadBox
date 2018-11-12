@@ -37,11 +37,11 @@ import spacepirates.breadbox.model.UserType;
 public class LoginActivity extends AppCompatActivity {
     private final String tag = "LoginActivity";
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+    private final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //FirebaseAPP.initializeApp(this);
+        //Fire base APP.initializeApp(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Model.getInstance();
