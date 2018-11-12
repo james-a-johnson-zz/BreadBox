@@ -1,6 +1,8 @@
 package spacepirates.breadbox;
 
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +25,7 @@ public class DonationItemRecyclerAdapter extends
 
     //recycler allows a total of one card to be expanded,
     //and uses this reference to collapse old expanded card
+    @Nullable
     private DonationViewHolder expandedViewHolder;
 
     DonationItemRecyclerAdapter(List<DonationItem> donations) {
@@ -45,19 +48,20 @@ public class DonationItemRecyclerAdapter extends
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    @NonNull
     @Override
-    public DonationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public DonationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.donation_item_card, viewGroup, false);
         return new DonationViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final DonationViewHolder donationViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull final DonationViewHolder donationViewHolder, final int i) {
         DonationItem donation = donations.get(i);
         String tags = "";
         if (donation.getTags() != null) {

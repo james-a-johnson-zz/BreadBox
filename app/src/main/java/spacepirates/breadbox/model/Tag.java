@@ -1,5 +1,7 @@
 package spacepirates.breadbox.model;
 
+import android.support.annotation.NonNull;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,6 +42,7 @@ public enum Tag{
         this.categories.addAll(Arrays.asList(categoryArr));
     }
 
+    @NonNull
     @Override
     public String toString(){
         return this.name;

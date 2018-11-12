@@ -56,7 +56,7 @@ public class DonationItem implements Comparable<DonationItem> {
         }
 
         /**
-         * Beinning constructor that takes the name
+         * Beginning constructor that takes the name
          * @param newName name
          */
         public DonationItemBuilder(String newName) {

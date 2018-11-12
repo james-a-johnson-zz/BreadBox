@@ -1,5 +1,7 @@
 package spacepirates.breadbox.model;
 
+import android.support.annotation.NonNull;
+
 /**
  * Specifies types of categories available to classify donation items
  */
@@ -13,6 +15,7 @@ public enum Category{
         this.name = name;
     }
 
+    @NonNull
     @Override
     public String toString(){
         return this.name;

@@ -2,6 +2,7 @@ package spacepirates.breadbox.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -210,6 +211,7 @@ public class Location implements Parcelable, Serializable {
         this(name, type, Double.valueOf(latitude), Double.valueOf(longitude), address, phoneNumber);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return (type + ": " + name + " at " + address + ". Call " + phoneNumber);

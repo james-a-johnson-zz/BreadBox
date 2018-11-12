@@ -3,6 +3,7 @@ package spacepirates.breadbox;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,19 +45,20 @@ public class LocationRecyclerAdapter
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    @NonNull
     @Override
-    public LocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.location_card, viewGroup, false);
         return new LocationViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(LocationViewHolder locationViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull LocationViewHolder locationViewHolder, final int i) {
         Location loc = locations.get(i);
         locationViewHolder.locationName.setText(loc.getName());
         locationViewHolder.address.setText(loc.getAddress());
