@@ -42,6 +42,7 @@ public class DonationItemDatabase {
 
     public DonationItemDatabase(ArrayList<DonationItem> dd) {
         database = dd;
+        db = null;
     }
 
     /**

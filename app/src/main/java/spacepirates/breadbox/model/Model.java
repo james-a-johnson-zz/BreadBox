@@ -38,16 +38,6 @@ public final class Model {
 
     private DonationItemDatabase donationItemDatabase;
 
-    /**
-     * make a new model
-     */
-    /**
-    private Model() {
-        Log.d("Model", "Initialized Model, without context");
-        this.initializeDatabases();
-        _currentUser = new GuestUser();
-    }
-     **/
 
     //public model used for testing
     public Model() {
@@ -285,9 +275,15 @@ public final class Model {
      *
      * @param donation item to be added
      */
-    public void addDonationItem(DonationItem donation) {
-        donationItemDatabase.addItem(donation);
-        locationDatabase.updateLocation(donation);
+    public boolean addDonationItem(DonationItem donation) {
+        if (donation.getName().length() == 0
+                || donation.getPrice() == 0) {
+            return false;
+        } else {
+            donationItemDatabase.addItem(donation);
+            locationDatabase.updateLocation(donation);
+            return true;
+        }
     }
 
     /**

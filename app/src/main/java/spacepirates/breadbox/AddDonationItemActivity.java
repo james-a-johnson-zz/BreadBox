@@ -92,7 +92,7 @@ public class AddDonationItemActivity extends AppCompatActivity {
         boolean validDonation;
         String name;
         Category category;
-        double price = 0;
+        double price;
         //Category must be entered, because it might be used for mapping in the database
         category = (Category) categorySpinner.getSelectedItem();
 
