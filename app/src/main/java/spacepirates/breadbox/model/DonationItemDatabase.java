@@ -41,10 +41,19 @@ public class DonationItemDatabase {
     }
 
     /**
+     * Constructor that initializes the database
+     * @param list the list of initial donationItems (for testing purposes)
+     */
+    public DonationItemDatabase(List<DonationItem> list) {
+        database = list;
+    }
+
+
+    /**
      * Method to handle technicalities of initializing database on firebase's end
      * Includes adding every element of data as well as the case where data does not exist
      */
-    private void initializeDatabase() {
+    public void initializeDatabase() {
         ValueEventListener addItems = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -150,6 +159,9 @@ public class DonationItemDatabase {
             }
         });
         ret.addAll(list);
+            for (DonationItem d : list) {
+                ret.add(d);
+            }
             return ret;
         }
 }
