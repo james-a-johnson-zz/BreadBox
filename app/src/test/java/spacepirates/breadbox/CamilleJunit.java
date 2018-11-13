@@ -18,7 +18,6 @@ import static org.junit.Assert.*;
 
 public class CamilleJunit {
 
-
     @Test
     public void getItemsByNameTest() {
         DonationItem sweatshirt = new DonationItem("sweatshirt", 10, Category.APPAREL);
@@ -27,7 +26,7 @@ public class CamilleJunit {
         DonationItem brownie_pan = new DonationItem("brownie pan", 6, Category.KITCHENWARE);
         DonationItem jeans = new DonationItem("jeans", 5, Category.APPAREL);
 
-        List<DonationItem> itemList= new ArrayList<>();
+        List<DonationItem> itemList = new ArrayList<>();
         itemList.add(sweatshirt);
         itemList.add(tanktop);
         itemList.add(iron);
@@ -39,6 +38,7 @@ public class CamilleJunit {
 
         Queue<DonationItem> trueQ =  donationItemDB.getItemsByName(donationItemDB.getDatabase(),
                 "brownie pan");
+
         Collections.sort(itemList, new Comparator<DonationItem>(){
             @Override
             public int compare(DonationItem item1, DonationItem item2){
@@ -47,11 +47,12 @@ public class CamilleJunit {
              }
         });
 
+
         Queue<DonationItem> testQ = new PriorityQueue<>();
         testQ.addAll(itemList);
 
         while(!testQ.isEmpty()){
-            assertEquals(testQ.poll(), trueQ.poll());
+            assertEquals(testQ.poll().getName(), trueQ.poll().getName());
         }
 
         //System.out.println(testQ.poll().getName());

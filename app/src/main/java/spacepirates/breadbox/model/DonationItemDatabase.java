@@ -165,10 +165,8 @@ public class DonationItemDatabase {
                 return donationItem.getName().compareTo(name) - (t1.getName().compareTo(name));
             }
         });
+
         ret.addAll(list);
-            for (DonationItem d : list) {
-                ret.add(d);
-            }
-            return ret;
+        return ret;
         }
 }
