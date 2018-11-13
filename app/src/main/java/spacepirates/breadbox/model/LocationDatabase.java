@@ -30,7 +30,8 @@ public class LocationDatabase {
      * Location additions are handled in initializeLocations
      */
     public LocationDatabase() {
-        db = FirebaseDatabase.getInstance().getReference("locations");
+        //Commented out for unit testing
+        //db = FirebaseDatabase.getInstance().getReference("locations");
         this.locations = new ArrayList<>();
         initializeLocations();
     }
@@ -40,7 +41,8 @@ public class LocationDatabase {
      * Handles cases where location data is invalid or does not exist
      */
     private void initializeLocations() {
-        Log.d("LocationDB", "Initializing Database.");
+        //commented out for unit testing
+        //Log.d("LocationDB", "Initializing Database.");
         final List<Location> locations = new ArrayList<Location>();
 
         ValueEventListener initLocations = new ValueEventListener() {
@@ -62,8 +64,9 @@ public class LocationDatabase {
             }
         };
 
-        db.addListenerForSingleValueEvent(initLocations);
-        Log.d("LocationDB", "Size: " + locations.size());
+        //commented out for unit tests
+        //db.addListenerForSingleValueEvent(initLocations);
+        //Log.d("LocationDB", "Size: " + locations.size());
         this.locations = locations;
     }
 
@@ -89,7 +92,8 @@ public class LocationDatabase {
      */
     public void addLocation(Location location) {
         locations.add(location);
-        db.child(location.getAddress()).setValue(location);
+        //commented out for unit testing
+        //db.child(location.getAddress()).setValue(location);
     }
 
     /**
@@ -127,7 +131,8 @@ public class LocationDatabase {
      * @param l A given location with the data to update
      */
     public void updateLocation(Location l) {
-        db.child(l.getAddress()).setValue(l);
+        //commented out for unit testing
+        //db.child(l.getAddress()).setValue(l);
     }
 
     /**

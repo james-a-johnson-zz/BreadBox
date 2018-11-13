@@ -55,8 +55,16 @@ public class Model {
     /**
      * make a new model
      */
+    /**
     private Model() {
         Log.d("Model", "Initialized Model, without context");
+        this.initializeDatabases();
+        _currentUser = nullUser;
+    }
+     **/
+
+    //public model used for testing
+    public Model() {
         this.initializeDatabases();
         _currentUser = nullUser;
     }

@@ -31,7 +31,8 @@ public class DonationItemDatabase {
     public DonationItemDatabase() {
         database = new ArrayList<>();
 
-        db = FirebaseDatabase.getInstance().getReference("donations");
+        //commented out for unit testing
+        //db = FirebaseDatabase.getInstance().getReference("donations");
         initializeDatabase();
     }
 
@@ -57,7 +58,8 @@ public class DonationItemDatabase {
             }
         };
 
-        db.addListenerForSingleValueEvent(addItems);
+        //commented out for unit testing
+        //db.addListenerForSingleValueEvent(addItems);
     }
 
     /**
@@ -74,8 +76,9 @@ public class DonationItemDatabase {
      * @param item The item to be added
      */
     public void addItem(DonationItem item) {
-        db.child(item.getId()).setValue(item);
-        database.add(item);
+        //Writing to firebase disabled for purpose of testing addDonationItem method
+        //db.child(item.getId()).setValue(item);
+        //database.add(item);
     }
 
     /**
@@ -91,7 +94,8 @@ public class DonationItemDatabase {
      * @return List of donation items
      */
     public List<DonationItem> getDonations() {
-        Log.d("DonationDB", "Size is: " + database.size());
+        //commented out for unit testing
+        //Log.d("DonationDB", "Size is: " + database.size());
         return database;
     }
 
