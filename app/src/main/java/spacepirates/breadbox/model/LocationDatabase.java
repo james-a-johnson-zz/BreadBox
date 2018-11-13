@@ -20,7 +20,7 @@ import java.util.List;
 class LocationDatabase {
 
     private List<Location> locations;
-    private final DatabaseReference db;
+    private DatabaseReference db;
 
     /** Null Location pattern, returned when no course is found */
 //    private final Location theNullLocation =

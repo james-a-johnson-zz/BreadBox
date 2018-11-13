@@ -21,7 +21,7 @@ import java.util.Queue;
  */
 public class DonationItemDatabase {
     private final List<DonationItem> database;
-    private final DatabaseReference db;
+    private DatabaseReference db;
 
     /** Null Donation pattern, returned when no donations are found.
      *  Current default category is apparel. Fails curing run if category is null.
@@ -42,7 +42,6 @@ public class DonationItemDatabase {
 
     public DonationItemDatabase(ArrayList<DonationItem> dd) {
         database = dd;
-        db = null;
     }
 
     /**
@@ -51,7 +50,6 @@ public class DonationItemDatabase {
      */
     public DonationItemDatabase(List<DonationItem> list) {
         database = list;
-        db = null;
     }
 
 
