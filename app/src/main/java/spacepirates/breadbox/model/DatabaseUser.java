@@ -10,6 +10,15 @@ public class DatabaseUser {
     private String locus;
 
     /**
+     * No argument constructor that is used for Firebase.
+     */
+    public DatabaseUser() {
+        username = null;
+        type = null;
+        locus = null;
+    }
+
+    /**
      * Constructor for a user that utilizes the databases and is not provided a location
      * @param username      Self explanatory
      * @param type          User type
