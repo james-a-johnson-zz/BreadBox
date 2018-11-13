@@ -30,10 +30,13 @@ import spacepirates.breadbox.model.Model;
 import spacepirates.breadbox.model.User;
 import spacepirates.breadbox.model.UserType;
 
+/**
+ * Registration activity for a new user to enter their email and password
+ * The user's information and type are then stored in the user database
+ */
 public class Register extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private DatabaseReference db;
-    private Button register;
     private Spinner userType;
     private EditText emailText;
     private EditText passwordText;
@@ -46,7 +49,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         db = FirebaseDatabase.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
-        register = findViewById(R.id.RegisterButton);
+        Button register = findViewById(R.id.RegisterButton);
         userType = findViewById(R.id.UserTypeSpinner);
         emailText = findViewById(R.id.EmailText);
         passwordText = findViewById(R.id.PasswordText);
@@ -54,7 +57,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
         registerText.setText("Register a User");
 
-        userType.setAdapter(new ArrayAdapter<UserType>(
+        userType.setAdapter(new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, UserType.values()));
         register.setOnClickListener(this);
     }

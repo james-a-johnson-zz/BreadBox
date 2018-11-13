@@ -1,7 +1,6 @@
 package spacepirates.breadbox.model;
 
 
-import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.PriorityQueue;
  *
  * Model Acts as a liaison between system and databases
  */
-public class Model {
+public final class Model {
     /** Singleton instance */
     private static final Model _instance = new Model();
 
@@ -31,27 +30,14 @@ public class Model {
     //user logged in and operating app
     private User _currentUser;
 
-    private final User nullUser = new GuestUser();
-
     //instance of location database
     private LocationDatabase locationDatabase;
 
     /** the currently selected course, defaults to first course */
     private Location _currentLocation;
 
-    /** Null Location pattern, returned when no course is found */
-    private final Location theNullLocation =
-            new Location("No Locations", "none", 0, 0,
-                    "Not Found", "000-000-0000");
-
     private DonationItemDatabase donationItemDatabase;
-
-    /** Null Donation pattern, returned when no donations are found.
-     *  Current default category is apparel. Fails curing run if category is null.
-     */
-    private DonationItem theNullDonation =
-            new DonationItem("No Donations Found", 0, Category.APPAREL);
-
+    
     /**
      * make a new model
      */
@@ -59,6 +45,7 @@ public class Model {
     private Model() {
         Log.d("Model", "Initialized Model, without context");
         this.initializeDatabases();
+        User nullUser = new GuestUser();
         _currentUser = nullUser;
     }
      **/
@@ -67,10 +54,6 @@ public class Model {
     public Model() {
         this.initializeDatabases();
         _currentUser = nullUser;
-    }
-
-    private Model(Context context) {
-        this();
     }
 
     private void initializeDatabases() {
@@ -88,14 +71,8 @@ public class Model {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
-        // If locationDatabsae is empty, return list with the null location.
-        if (locationDatabase.getLocations().size() == 0) {
-            ArrayList<Location> noLocations = new ArrayList<>();
-            noLocations.add(theNullLocation);
-            return noLocations;
-        }
         return locationDatabase.getLocations();
-    }
+}
 
     /**
      * Searches for a location by address using getLocationByAddress in LocationDatabase
@@ -103,11 +80,7 @@ public class Model {
      * @return The location if it is found, otherwise a nullLocation sentinel value
      */
     public Location getLocationByAddress(String address) {
-        Location l = locationDatabase.getLocationByAddress(address);
-        if (l == null)
-            return theNullLocation;
-        else
-            return l;
+        return locationDatabase.getLocationByAddress(address);
     }
 
     /**
@@ -125,8 +98,8 @@ public class Model {
      * @return     The filtered list
      */
     public List<DonationItem> filterDonationItems(List<DonationItem> list, Category cat) {
-        PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
-        ArrayList<DonationItem> srt = new ArrayList<>();
+        PriorityQueue<DonationItem> ret = new PriorityQueue<>();
+        List<DonationItem> srt = new ArrayList<>();
         for (DonationItem d: list) {
             if (d.getCategory() == cat) {
                 ret.add(d);
@@ -143,14 +116,9 @@ public class Model {
      * @param name The name filter
      * @return     The filtered ArrayList
      */
-    public ArrayList<DonationItem> filterDonationItems(String name) {
-        PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
-        ArrayList<DonationItem> srt = new ArrayList<>();
-        for (DonationItem d: donationItemDatabase.getDonations()) {
-            if (d.getName().equals(name)) {
-                ret.add(d);
-            }
-        }
+    public List<DonationItem> filterDonationItems(String name) {
+        List<DonationItem> srt = new ArrayList<>();
+        Queue<DonationItem> ret = new PriorityQueue<>(donationItemDatabase.getDonations());
         while(!ret.isEmpty()) {
             srt.add(ret.poll());
         }
@@ -164,9 +132,9 @@ public class Model {
      * @param cat  Category to filter by
      * @return     The filtered list
      */
-    public ArrayList<DonationItem> filterDonationItems(Category cat) {
-        PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
-        ArrayList<DonationItem> srt = new ArrayList<>();
+    public List<DonationItem> filterDonationItems(Category cat) {
+        PriorityQueue<DonationItem> ret = new PriorityQueue<>();
+        List<DonationItem> srt = new ArrayList<>();
         for (DonationItem d: donationItemDatabase.getDonations()) {
             if (d.getCategory() == cat) {
                 ret.add(d);
@@ -207,17 +175,15 @@ public class Model {
         // PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
         //     (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
         //     - b.getName().compareTo(name));
-        PriorityQueue<DonationItem>ret = new PriorityQueue<>(list.size(),
+        Queue<DonationItem>ret = new PriorityQueue<>(list.size(),
                 new Comparator<DonationItem>() {
             @Override
             public int compare(DonationItem donationItem, DonationItem t1) {
                 return donationItem.getName().compareTo(input) - (t1.getName().compareTo(input));
             }
         });
-        ArrayList<DonationItem> srt = new ArrayList<>();
-        for (DonationItem d: list) {
-            ret.add(d);
-        }
+        List<DonationItem> srt = new ArrayList<>();
+        ret.addAll(list);
         while(!ret.isEmpty()) {
             srt.add(ret.poll());
         }
@@ -246,12 +212,7 @@ public class Model {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
-        for (Location l : locationDatabase.getLocations() ) {
-            if (l.equals(location)) return false;
-        }
-        //TODO write method in location database to add locations
-        locationDatabase.addLocation(location);
-        return true;
+        return locationDatabase.addLocation(location);
     }
 
     /**
@@ -259,15 +220,16 @@ public class Model {
      * @throws DatabaseNotInitializedException Simple exception that represents a nonexistent
      *                                         Database since it never got initialized
      */
-    public Location getCurrentLocation() throws DatabaseNotInitializedException {
-        if (locationDatabase == null) {
-            throw new DatabaseNotInitializedException();
-        }
-
+    public Location getCurrentLocation() {
         return _currentLocation;
     }
 
-//    public void setCurrentLocation(Location location) { _currentLocation = location; }
+    /**
+     * Sets current location being used by the model
+     *
+     * @param location The current location that the model should use
+     */
+    public void setCurrentLocation(Location location) { _currentLocation = location; }
 
     /**
      * Return a location that has matching name.
@@ -278,15 +240,11 @@ public class Model {
      * @throws DatabaseNotInitializedException Simple exception that represents a nonexistent
      *                                         Database since it never got initialized
      */
-    public Location getLocationByName(String name) throws DatabaseNotInitializedException{
+    public Location getLocationByName(String name) throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
-        for (Location l : locationDatabase.getLocations() ) {
-            //TODO need some way to find a specific location index? number? name?
-            if (l.getName().equals(name)) return l;
-        }
-        return theNullLocation;
+        return locationDatabase.getLocationByName(name);
     }
 
     /**
@@ -318,13 +276,6 @@ public class Model {
         if (donationItemDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
-
-        // If donationDatabase is empty, return list with the null donation.
-        if (donationItemDatabase.getDonations().size() == 0) {
-            ArrayList<DonationItem> noDonations = new ArrayList<>();
-            noDonations.add(theNullDonation);
-            return noDonations;
-        }
         return (ArrayList<DonationItem>) donationItemDatabase.getDonations();
     }
 
@@ -337,9 +288,7 @@ public class Model {
      */
     public void addDonationItem(DonationItem donation) {
         donationItemDatabase.addItem(donation);
-        Location addedTo = this.getLocationByAddress(donation.getAddress());
-        addedTo.addItem(donation);
-        locationDatabase.updateLocation(addedTo);
+        locationDatabase.updateLocation(donation);
     }
 
     /**

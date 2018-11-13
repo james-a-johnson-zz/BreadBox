@@ -1,7 +1,6 @@
 package spacepirates.breadbox.model;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,8 +20,14 @@ import java.util.Queue;
  * Uses firebase to store all of the items
  */
 public class DonationItemDatabase {
-    private List<DonationItem> database;
+    private final List<DonationItem> database;
     private DatabaseReference db;
+
+    /** Null Donation pattern, returned when no donations are found.
+     *  Current default category is apparel. Fails curing run if category is null.
+     */
+    private final DonationItem theNullDonation =
+            new DonationItem("No Donations Found", 0, Category.APPAREL);
 
     /**
      * Constructor that initializes the database
@@ -31,8 +36,7 @@ public class DonationItemDatabase {
     public DonationItemDatabase() {
         database = new ArrayList<>();
 
-        //commented out for unit testing
-        //db = FirebaseDatabase.getInstance().getReference("donations");
+        db = FirebaseDatabase.getInstance().getReference("donations");
         initializeDatabase();
     }
 
@@ -40,7 +44,7 @@ public class DonationItemDatabase {
      * Method to handle technicalities of initializing database on firebase's end
      * Includes adding every element of data as well as the case where data does not exist
      */
-    public void initializeDatabase() {
+    private void initializeDatabase() {
         ValueEventListener addItems = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -58,8 +62,7 @@ public class DonationItemDatabase {
             }
         };
 
-        //commented out for unit testing
-        //db.addListenerForSingleValueEvent(addItems);
+        db.addListenerForSingleValueEvent(addItems);
     }
 
     /**
@@ -76,9 +79,8 @@ public class DonationItemDatabase {
      * @param item The item to be added
      */
     public void addItem(DonationItem item) {
-        //Writing to firebase disabled for purpose of testing addDonationItem method
-        //db.child(item.getId()).setValue(item);
-        //database.add(item);
+        db.child(item.getId()).setValue(item);
+        database.add(item);
     }
 
     /**
@@ -94,8 +96,12 @@ public class DonationItemDatabase {
      * @return List of donation items
      */
     public List<DonationItem> getDonations() {
-        //commented out for unit testing
-        //Log.d("DonationDB", "Size is: " + database.size());
+        // If donationDatabase is empty, return list with the null donation.
+        if (database.isEmpty()) {
+            List<DonationItem> noDonations = new ArrayList<>();
+            noDonations.add(theNullDonation);
+            return noDonations;
+        }
         return database;
     }
 
@@ -106,7 +112,7 @@ public class DonationItemDatabase {
      * @return          A queue of all items that fall under the given category
      */
     public Queue<DonationItem> getItemsByCategory(List<DonationItem> list, Category cat) {
-        PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
+        Queue<DonationItem> ret = new PriorityQueue<>();
         for (DonationItem d : list) {
             if (d.getCategory() == cat) {
                 ret.add(d);
@@ -136,16 +142,14 @@ public class DonationItemDatabase {
                 (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
                 - b.getName().compareTo(name));
                 */
-        PriorityQueue<DonationItem> ret = new PriorityQueue<>(list.size(),
+        Queue<DonationItem> ret = new PriorityQueue<>(list.size(),
                 new Comparator<DonationItem>() {
             @Override
             public int compare(DonationItem donationItem, DonationItem t1) {
                 return donationItem.getName().compareTo(name) - (t1.getName().compareTo(name));
             }
         });
-            for (DonationItem d: list) {
-                ret.add(d);
-            }
+        ret.addAll(list);
             return ret;
         }
 }

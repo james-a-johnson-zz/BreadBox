@@ -19,24 +19,27 @@ import spacepirates.breadbox.model.Category;
 import spacepirates.breadbox.model.DonationItem;
 import spacepirates.breadbox.model.Model;
 
+/**
+ * Allows users to search/filter for donation items by name and category
+ */
 public class SearchActivity extends AppCompatActivity {
 
 
-    TextView noMatchesView;
-    TextView nameInput;
-    Spinner categorySpinner;
-    RecyclerView recyclerView;
-    Button nameFilterButton;
-    Button categoryFilterButton;
+    private TextView noMatchesView;
+    private TextView nameInput;
+    private Spinner categorySpinner;
+    private RecyclerView recyclerView;
+    private Button nameFilterButton;
+    private Button categoryFilterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +95,7 @@ public class SearchActivity extends AppCompatActivity {
     private void setRecycler(List<DonationItem> donationItems) {
         DonationItemRecyclerAdapter adapter = new DonationItemRecyclerAdapter(donationItems);
         recyclerView.setAdapter(adapter);
-        if (donationItems.size() == 0) {
+        if (donationItems.isEmpty()) {
             noMatchesView.setVisibility(View.VISIBLE);
         } else {
             noMatchesView.setVisibility(View.GONE);

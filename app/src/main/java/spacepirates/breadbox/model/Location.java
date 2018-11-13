@@ -33,6 +33,76 @@ public class Location implements Parcelable, Serializable {
     //used for implementing Parcelable
     private int mData;
 
+    public static class LocationBuilder {
+        private String builderName;
+        private String builderType;
+        private double builderLatitude;
+        private double builderLongitude;
+        private String builderAddress;
+        private String builderPhone;
+        private List<DonationItem> builderInventory;
+
+        public LocationBuilder(
+                String newName,
+                String newType,
+                double newLatitude,
+                double newLongitude,
+                String newAddress,
+                String newPhone,
+                List<DonationItem> newInventory) {
+            builderName = newName;
+            builderType = newType;
+            builderLatitude = newLatitude;
+            builderLongitude = newLongitude;
+            builderAddress = newAddress;
+            builderPhone = newPhone;
+            builderInventory = newInventory;
+        }
+
+        public LocationBuilder(String newName) {
+            builderName = newName;
+        }
+
+        public LocationBuilder type(String newType) {
+            builderType = newType;
+            return this;
+        }
+
+        public LocationBuilder latitude(double newLatitude) {
+            builderLatitude = newLatitude;
+            return this;
+        }
+
+        public LocationBuilder longitude(double newLongitude) {
+            builderLongitude = newLongitude;
+            return this;
+        }
+
+        public LocationBuilder address(String newAddress) {
+            builderAddress = newAddress;
+            return this;
+        }
+
+        public LocationBuilder phoneNumber(String newPhone) {
+            builderPhone = newPhone;
+            return this;
+        }
+
+        public Location build() {
+            return new Location(this);
+        }
+    }
+
+    public Location(LocationBuilder builder) {
+        name = builder.builderName;
+        type = builder.builderType;
+        latitude = builder.builderLatitude;
+        longitude = builder.builderLongitude;
+        address = builder. builderAddress;
+        phoneNumber = builder.builderPhone;
+        inventory = builder.builderInventory;
+    }
+
     /**
      * Default constructor
      */
@@ -43,7 +113,7 @@ public class Location implements Parcelable, Serializable {
         this.longitude = Double.NaN;
         this.address = "Invalid";
         this.phoneNumber = "Invalid";
-        inventory = new ArrayList<DonationItem>();
+        inventory = new ArrayList<>();
         inventoryMax = 100;
         //yearlyStats = new ArrayList<Statistics>();
         /*
@@ -69,7 +139,7 @@ public class Location implements Parcelable, Serializable {
         this.longitude = longitude;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        inventory = new ArrayList<DonationItem>();
+        inventory = new ArrayList<>();
         inventoryMax = 100;
         //yearlyStats = new ArrayList<Statistics>();
         /*
@@ -226,7 +296,7 @@ public class Location implements Parcelable, Serializable {
         if (!(l instanceof Location)) {
             return false;
         }
-        return (((Location) l).getAddress().compareTo(this.getAddress()) == 0);
+        return ((Location) l).getAddress().equals(this.getAddress());
     }
 
       //not sure what return type should be here (could be bool)
@@ -303,11 +373,13 @@ public class Location implements Parcelable, Serializable {
     // this is used to regenerate your object.
     // All Parcelables must have a CREATOR that implements these two methods
     public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
+        @Override
         public Location createFromParcel(Parcel in) {
             Log.d("Location", "Creating from Parcel");
             return new Location(in);
         }
 
+        @Override
         public Location[] newArray(int size) {
             return new Location[size];
         }

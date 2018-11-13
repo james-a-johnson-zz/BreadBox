@@ -1,7 +1,5 @@
 package spacepirates.breadbox;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,25 +16,24 @@ import java.util.List;
 
 import spacepirates.breadbox.model.Category;
 import spacepirates.breadbox.model.DonationItem;
-import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DonationItemFilterFragment.OnFragmentInteractionListener} interface
+ * {@link DonationItemFilterFragment} interface
  * to handle interaction events.
- * Use the {@link DonationItemFilterFragment#newInstance} factory method to
+ * Use the {@link DonationItemFilterFragment} factory method to
  * create an instance of this fragment.
  */
 public class DonationItemFilterFragment extends Fragment {
 
-    TextView noMatchesView;
-    TextView nameInput;
-    Spinner categorySpinner;
-    RecyclerView recyclerView;
-    Button nameFilterButton;
-    Button categoryFilterButton;
+    private TextView noMatchesView;
+    private TextView nameInput;
+    private Spinner categorySpinner;
+    private RecyclerView recyclerView;
+    private Button nameFilterButton;
+    private Button categoryFilterButton;
 
 
     @Override
@@ -55,11 +52,13 @@ public class DonationItemFilterFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         //Currently setting to display all items. I feel it should initially be initialized empty
-        DonationItemRecyclerAdapter adapter = new DonationItemRecyclerAdapter(Model.getInstance().getDonations());
+        DonationItemRecyclerAdapter adapter =
+                new DonationItemRecyclerAdapter(Model.getInstance().getDonations());
         recyclerView.setAdapter(adapter);
 
         //Set Spinner with values of category enum.
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(view.getContext(), android.R.layout.simple_spinner_item, Category.values());
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter(view.getContext(),
+                android.R.layout.simple_spinner_item, Category.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
 
@@ -91,7 +90,7 @@ public class DonationItemFilterFragment extends Fragment {
     private void setRecycler(List<DonationItem> donationItems) {
         DonationItemRecyclerAdapter adapter = new DonationItemRecyclerAdapter(donationItems);
         recyclerView.setAdapter(adapter);
-        if (donationItems.size() == 0) {
+        if (donationItems.isEmpty()) {
             noMatchesView.setVisibility(View.VISIBLE);
         } else {
             noMatchesView.setVisibility(View.GONE);

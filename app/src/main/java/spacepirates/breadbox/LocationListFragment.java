@@ -2,13 +2,10 @@ package spacepirates.breadbox;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +16,14 @@ import java.util.List;
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 
-
-
+/**
+ * Fragment that fits into the Navigational view in the top left of the app
+ * Takes the user to the location list view on click
+ */
 public class LocationListFragment extends Fragment {
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
 
     /**
-     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.fragment_location_list);
@@ -34,7 +32,8 @@ public class LocationListFragment extends Fragment {
 
         recyclerView = findViewById(R.id.locations_recycler);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager linearLayoutManager =
+                                    new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         LocationRecyclerAdapter adapter = new LocationRecyclerAdapter(locations);
         recyclerView.setAdapter(adapter);
@@ -57,6 +56,7 @@ public class LocationListFragment extends Fragment {
 
         Button mapButton = view.findViewById(R.id.map_activity_button);
         mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
             public void onClick(View view) {
                 Context context = view.getContext();
                 Intent intent = new Intent(context, LocationMapActivity.class);

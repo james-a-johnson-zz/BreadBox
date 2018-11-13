@@ -31,10 +31,13 @@ import spacepirates.breadbox.model.Model;
 import spacepirates.breadbox.model.User;
 import spacepirates.breadbox.model.UserType;
 
+/**
+ * Login activity for all type of users and guests to the system
+ */
 public class LoginActivity extends AppCompatActivity {
-    final String tag = "LoginActivity";
-    FirebaseAuth firebaseAuth;
-    DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+    private final String tag = "LoginActivity";
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,12 +124,16 @@ public class LoginActivity extends AppCompatActivity {
                             current = new Manager(username, ut, new Location());
                             m.setCurrentUser(current);
                             break;
-                        case BASIC:
-                            current = new BasicUser(username, ut);
-                            m.setCurrentUser(current);
-                            break;
+//                        case BASIC:
+//                            current = new BasicUser(username, ut);
+//                            m.setCurrentUser(current);
+//                            break;
                         case LOCATION_EMPLOYEE:
                             current = new LocationEmployee(username, ut, new Location());
+                            m.setCurrentUser(current);
+                            break;
+                        default:
+                            current = new BasicUser(username, ut);
                             m.setCurrentUser(current);
                             break;
                     }

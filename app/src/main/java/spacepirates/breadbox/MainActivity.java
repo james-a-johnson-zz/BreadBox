@@ -1,8 +1,6 @@
 package spacepirates.breadbox;
 
 import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,12 +17,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Runs all relevant activities on startup such as login. Also creates clickable options such
+ * as all buttons on login screen and navigational view
+ */
 public class MainActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
@@ -34,24 +34,20 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
 
     // index to identify current nav menu item
-    public static int navItemIndex = 0;
+    private static int navItemIndex = 0;
 
     // tags used to attach the fragments
     private static final String TAG_MAP = "map";
     private static final String TAG_LOCATIONS = "locations";
     private static final String TAG_FILTER = "filter";
-    public static String CURRENT_TAG = TAG_MAP;
+    private static String CURRENT_TAG = TAG_MAP;
     private static final String TAG_MAIN = TAG_MAP;
 
     // toolbar titles respected to selected nav menu item
     private String[] activityTitles;
 
-    // flag to load home fragment when user presses back key
-    private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
 
-    private FirebaseUser user;
-    private FirebaseAuth mAuth;
     private Button logoutButton;
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -66,17 +62,20 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Example of a call to a native method
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+
+
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         mHandler = new Handler();
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        fab = findViewById(R.id.fab);
 
 
         // load toolbar titles from string resources
@@ -102,12 +101,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /***
+    /*
      * Load navigation menu header information
      * like background image, profile image
      * name, website, notifications action view (dot)
-     */
-    /**
+     *
      * Not Currently using a header
     private void loadNavHeader() {
         // name, website
@@ -131,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         // showing dot next to notifications label
         navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
     }
-     **/
+     */
 
     /***
      * Returns respected fragment that user
@@ -163,7 +161,8 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 // update the main content by replacing fragments
                 Fragment fragment = getHomeFragment();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction =
+                        getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
                         android.R.anim.fade_out);
                 fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
@@ -218,8 +217,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpNavigationView() {
-        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        //Setting Navigation View Item Selected Listener
+        //to handle the item click of the navigation menu
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
 
             // This method will trigger on item Click of navigation menu
             @Override
@@ -259,17 +260,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                // Code here will be triggered once the drawer closes as we
+                // don't want anything to happen so we leave this blank
                 super.onDrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+                // Code here will be triggered once the drawer open as we
+                // don't want anything to happen so we leave this blank
                 super.onDrawerOpened(drawerView);
             }
         };
@@ -290,15 +294,14 @@ public class MainActivity extends AppCompatActivity {
 
         // This code loads home fragment when back key is pressed
         // when user is in other fragment than home
-        if (shouldLoadHomeFragOnBackPress) {
-            // checking if user is on other navigation menu
-            // rather than home
-            if (navItemIndex != 0) {
-                navItemIndex = 0;
-                CURRENT_TAG = TAG_MAIN;
-                loadHomeFragment();
-                return;
-            }
+        // flag to load home fragment when user presses back key
+        // checking if user is on other navigation menu
+        // rather than home
+        if (navItemIndex != 0) {
+            navItemIndex = 0;
+            CURRENT_TAG = TAG_MAIN;
+            loadHomeFragment();
+            return;
         }
 
         super.onBackPressed();
@@ -323,13 +326,12 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        /**
+        /*
         if (id == R.id.action_logout) {
             Toast.makeText(getApplicationContext(), "Logout user!", Toast.LENGTH_LONG).show();
             return true;
         }
-         **/
+         */
 
         return super.onOptionsItemSelected(item);
     }
@@ -345,6 +347,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
+     * @return String a string that is a string which may or may not be different from some other
+     *         string. Potentially returns an array of characters
      */
     public native String stringFromJNI();
 }

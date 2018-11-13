@@ -5,9 +5,9 @@ package spacepirates.breadbox.model;
  * Items and database
  */
 public class DatabaseUser {
-    public String username;
-    public UserType type;
-    public String locus;
+    private String username;
+    private UserType type;
+    private String locus;
 
     /**
      * Constructor for a user that utilizes the databases and is not provided a location

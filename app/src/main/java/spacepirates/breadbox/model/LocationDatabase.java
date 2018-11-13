@@ -17,21 +17,27 @@ import java.util.List;
  * Like DonationItemDatabase, this is a DB for all of the company locations
  * Also uses Firebase to externally store data
  */
-public class LocationDatabase {
+class LocationDatabase {
 
     private List<Location> locations;
-    private DatabaseReference db;
+    private final DatabaseReference db;
 
-    //TODO Initialize database without context from an Activity?
-    //public LocationDatabase() {}
-
+    /** Null Location pattern, returned when no course is found */
+//    private final Location theNullLocation =
+//          new Location("No Locations", "none", 0, 0, "Not Found", "000-000-0000");
+    private final Location theNullLocation = new Location.LocationBuilder("No Locations")
+            .type("None")
+            .latitude(0.0)
+            .longitude(0.0)
+            .address("Not Found")
+            .phoneNumber("000-000-0000")
+            .build();
     /**
      * Initializes the database
      * Location additions are handled in initializeLocations
      */
     public LocationDatabase() {
-        //Commented out for unit testing
-        //db = FirebaseDatabase.getInstance().getReference("locations");
+        db = FirebaseDatabase.getInstance().getReference("locations");
         this.locations = new ArrayList<>();
         initializeLocations();
     }
@@ -41,9 +47,8 @@ public class LocationDatabase {
      * Handles cases where location data is invalid or does not exist
      */
     private void initializeLocations() {
-        //commented out for unit testing
-        //Log.d("LocationDB", "Initializing Database.");
-        final List<Location> locations = new ArrayList<Location>();
+        Log.d("LocationDB", "Initializing Database.");
+        final List<Location> locations = new ArrayList<>();
 
         ValueEventListener initLocations = new ValueEventListener() {
             @Override
@@ -64,9 +69,8 @@ public class LocationDatabase {
             }
         };
 
-        //commented out for unit tests
-        //db.addListenerForSingleValueEvent(initLocations);
-        //Log.d("LocationDB", "Size: " + locations.size());
+        db.addListenerForSingleValueEvent(initLocations);
+        Log.d("LocationDB", "Size: " + locations.size());
         this.locations = locations;
     }
 
@@ -88,12 +92,18 @@ public class LocationDatabase {
 
     /**
      * Add an already existing location to the database
+     *
      * @param location Location to be added
+     * @return Boolean if location successfully added
      */
-    public void addLocation(Location location) {
+    public boolean addLocation(Location location) {
+        if (location == null)
+            return false;
+        if (locations.contains(location))
+            return false;
         locations.add(location);
-        //commented out for unit testing
-        //db.child(location.getAddress()).setValue(location);
+        db.child(location.getAddress()).setValue(location);
+        return true;
     }
 
     /**
@@ -106,13 +116,18 @@ public class LocationDatabase {
             if (l.getAddress().equals(address))
                 return l;
 
-        return null;
+        return theNullLocation;
     }
 
     /**
      * @return All locations being stored in the database
      */
     public List<Location> getLocations() {
+        if (locations.isEmpty()) {
+            List<Location> none = new ArrayList<>();
+            none.add(theNullLocation);
+            return none;
+        }
         return locations;
     }
 
@@ -130,9 +145,19 @@ public class LocationDatabase {
      * Update a location's data
      * @param l A given location with the data to update
      */
-    public void updateLocation(Location l) {
-        //commented out for unit testing
-        //db.child(l.getAddress()).setValue(l);
+    private void updateLocation(Location l) {
+        db.child(l.getAddress()).setValue(l);
+    }
+
+    /**
+     * Updates a location to now include the given donation item
+     *
+     * @param di The donation item to add
+     */
+    public void updateLocation(DonationItem di) {
+        Location l = this.getLocationByAddress(di.getAddress());
+        l.addItem(di);
+        updateLocation(l);
     }
 
     /**
@@ -143,4 +168,16 @@ public class LocationDatabase {
             this.updateLocation(l);
     }
 
+    /**
+     * Finds a location by given name
+     *
+     * @param name Name of location to find
+     * @return Location with given name or null location
+     */
+    public Location getLocationByName(String name) {
+        for (Location l : locations)
+            if (name.equals(l.getName()))
+                return l;
+        return theNullLocation;
+    }
 }

@@ -33,15 +33,15 @@ import spacepirates.breadbox.model.Tag;
  */
 public class AddDonationItemActivity extends AppCompatActivity {
 
-    EditText nameView;
-    EditText priceView;
-    EditText tagView;
-    EditText descriptionview;
-    EditText donorView;
-    Spinner categorySpinner;
+    private EditText nameView;
+    private EditText priceView;
+    private EditText tagView;
+    private EditText descriptionview;
+    private EditText donorView;
+    private Spinner categorySpinner;
 
-    Location location;
-    int i; //used for keeping track of the location while navigating between activities
+    private Location location;
+    private int i; //used for keeping track of the location while navigating between activities
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +105,7 @@ public class AddDonationItemActivity extends AppCompatActivity {
         }
 
         //TODO tag view should be a multi selection spinner or similar, because tags are enums;
-        ArrayList<Tag> tags = new ArrayList<Tag>();
+        List<Tag> tags = new ArrayList<>();
         //splits the string in the tags box into words, and places in String array tags
         //( tagView.getText().toString()).split("\\W+");
         String description = descriptionview.getText().toString();
@@ -121,10 +121,17 @@ public class AddDonationItemActivity extends AppCompatActivity {
             failureMessage += "Must select a Category.";
         }
         if (validDonation) {
-            //Create new Donation Item. DonationItem constructor adds it to the location inventory.
-            DonationItem newItem = new DonationItem(name, price, category, description,
-                    tags, location.getAddress());
-            //Add donation item to donation item datbase
+            //Create new Donation Item. DonationItem builder
+            //generates new donation item and adds it to the location inventory.
+            DonationItem newItem = new DonationItem
+                    .DonationItemBuilder(name)
+                    .price(price)
+                    .category(category).tags(tags)
+                    .description(description)
+                    .address(location.getAddress())
+                    .build();
+
+            //Add donation item to donation item database
             Model.getInstance().addDonationItem(newItem);
 
             //create and display a toast to indicate success.
