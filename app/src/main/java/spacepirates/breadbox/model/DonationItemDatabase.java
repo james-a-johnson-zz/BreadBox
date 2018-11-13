@@ -25,6 +25,10 @@ public class DonationItemDatabase {
         db = FirebaseDatabase.getInstance().getReference("donations");
     }
 
+    public DonationItemDatabase(List<DonationItem> list) {
+        database = list;
+    }
+
     public void initializeDatabase() {
         ValueEventListener addItems = new ValueEventListener() {
             @Override

@@ -34,8 +34,8 @@ public class CamilleJunit {
         itemList.add(brownie_pan);
         itemList.add(jeans);
 
-        DonationItemDatabase donationItemDB = new DonationItemDatabase();
-        donationItemDB.addInventory(itemList);
+        DonationItemDatabase donationItemDB = new DonationItemDatabase(itemList);
+        //donationItemDB.addInventory(itemList);
 
         Queue<DonationItem> trueQ =  donationItemDB.getItemsByName(donationItemDB.getDatabase(),
                 "brownie pan");
@@ -50,7 +50,12 @@ public class CamilleJunit {
         Queue<DonationItem> testQ = new PriorityQueue<>();
         testQ.addAll(itemList);
 
-        assertEquals(testQ.poll(), trueQ.poll());
+        while(!testQ.isEmpty()){
+            assertEquals(testQ.poll(), trueQ.poll());
+        }
+
+        //System.out.println(testQ.poll().getName());
+        //assertEquals(testQ.poll(), trueQ.poll());
 
 
    }
