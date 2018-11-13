@@ -30,30 +30,30 @@ public class DonationItem implements Comparable<DonationItem> {
         private String builderDescription;
         private String builderAddress;
 
-        /**
-         * Builder that allows for many combinations of constructions of a Donation Item
-         * Parameters are placeholders for instance variables in donation item class
-         * @param newName name
-         * @param newPrice price
-         * @param newCategory category
-         * @param newTags tags
-         * @param newDescription description
-         * @param newAddress address
-         */
-        public DonationItemBuilder(
-                String newName,
-                Double newPrice,
-                Category newCategory,
-                List<Tag> newTags,
-                String newDescription,
-                String newAddress) {
-            builderName = newName;
-            builderPrice = newPrice;
-            builderCategory = newCategory;
-            builderTags = newTags;
-            builderDescription = newDescription;
-            builderAddress = newAddress;
-        }
+//        /**
+//         * Builder that allows for many combinations of constructions of a Donation Item
+//         * Parameters are placeholders for instance variables in donation item class
+//         * @param newName name
+//         * @param newPrice price
+//         * @param newCategory category
+//         * @param newTags tags
+//         * @param newDescription description
+//         * @param newAddress address
+//         */
+//        public DonationItemBuilder(
+//                String newName,
+//                Double newPrice,
+//                Category newCategory,
+//                List<Tag> newTags,
+//                String newDescription,
+//                String newAddress) {
+//            builderName = newName;
+//            builderPrice = newPrice;
+//            builderCategory = newCategory;
+//            builderTags = newTags;
+//            builderDescription = newDescription;
+//            builderAddress = newAddress;
+//        }
 
         /**
          * Beginning constructor that takes the name

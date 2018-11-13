@@ -43,32 +43,32 @@ public class Location implements Parcelable, Serializable {
         private String builderPhone;
         private List<DonationItem> builderInventory;
 
-        /**
-         * Builder for custom construction of locations
-         * @param newName name
-         * @param newType type
-         * @param newLatitude latitude
-         * @param newLongitude longitude
-         * @param newAddress address
-         * @param newPhone phone number
-         * @param newInventory inventory/list of items
-         */
-        public LocationBuilder(
-                String newName,
-                String newType,
-                double newLatitude,
-                double newLongitude,
-                String newAddress,
-                String newPhone,
-                List<DonationItem> newInventory) {
-            builderName = newName;
-            builderType = newType;
-            builderLatitude = newLatitude;
-            builderLongitude = newLongitude;
-            builderAddress = newAddress;
-            builderPhone = newPhone;
-            builderInventory = newInventory;
-        }
+//        /**
+//         * Builder for custom construction of locations
+//         * @param newName name
+//         * @param newType type
+//         * @param newLatitude latitude
+//         * @param newLongitude longitude
+//         * @param newAddress address
+//         * @param newPhone phone number
+//         * @param newInventory inventory/list of items
+//         */
+//        public LocationBuilder(
+//                String newName,
+//                String newType,
+//                double newLatitude,
+//                double newLongitude,
+//                String newAddress,
+//                String newPhone,
+//                List<DonationItem> newInventory) {
+//            builderName = newName;
+//            builderType = newType;
+//            builderLatitude = newLatitude;
+//            builderLongitude = newLongitude;
+//            builderAddress = newAddress;
+//            builderPhone = newPhone;
+//            builderInventory = newInventory;
+//        }
 
         /**
          * Initial constructor starts with the name
