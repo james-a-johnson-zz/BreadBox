@@ -22,12 +22,13 @@ import java.util.Queue;
  */
 public class DonationItemDatabase {
     private final List<DonationItem> database;
-    private final DatabaseReference db;
+    private DatabaseReference db;
 
     /** Null Donation pattern, returned when no donations are found.
      *  Current default category is apparel. Fails curing run if category is null.
      */
-    private final DonationItem theNullDonation = new DonationItem("No Donations Found", 0, null);
+    private final DonationItem theNullDonation =
+            new DonationItem("No Donations Found", 0, Category.APPAREL);
 
     /**
      * Constructor that initializes the database
@@ -51,7 +52,6 @@ public class DonationItemDatabase {
      */
     public DonationItemDatabase(List<DonationItem> list) {
         database = list;
-        db = null;
     }
 
 
@@ -166,10 +166,8 @@ public class DonationItemDatabase {
                 return donationItem.getName().compareTo(name) - (t1.getName().compareTo(name));
             }
         });
+
         ret.addAll(list);
-            for (DonationItem d : list) {
-                ret.add(d);
-            }
-            return ret;
+        return ret;
         }
 }

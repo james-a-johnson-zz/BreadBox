@@ -21,7 +21,7 @@ import java.util.List;
 class LocationDatabase {
 
     private List<Location> locations;
-    private final DatabaseReference db;
+    private DatabaseReference db;
 
     /** Null Location pattern, returned when no course is found */
 //    private final Location theNullLocation =
@@ -44,9 +44,16 @@ class LocationDatabase {
     }
 
     /**
-     * Puts all locations into the database as packages of data
-     * Handles cases where location data is invalid or does not exist
+     * Initializes the database to a specific list
+     *
+     * To be used for junit tests only
+     *
+     * @param l Locations to be used in the database
      */
+    public LocationDatabase(List<Location> l) {
+        locations = l;
+    }
+
     private void initializeLocations() {
         Log.d("LocationDB", "Initializing Database.");
         final List<Location> locations = new ArrayList<>();
