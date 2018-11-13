@@ -9,6 +9,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 //Implements parcelable, so activities bundle and put
@@ -317,7 +318,7 @@ public class Location implements Parcelable, Serializable {
      * @return The location's collection of items
      */
     public List<DonationItem> getInventory() {
-        return inventory;
+        return Collections.unmodifiableList(inventory);
     }
 
     /**
@@ -346,6 +347,11 @@ public class Location implements Parcelable, Serializable {
             return false;
         }
         return ((Location) l).getAddress().equals(this.getAddress());
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
       //not sure what return type should be here (could be bool)

@@ -44,11 +44,6 @@ public class LocationRecyclerAdapter
         this.locations = locations;
     }
 
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
     @NonNull
     @Override
     public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

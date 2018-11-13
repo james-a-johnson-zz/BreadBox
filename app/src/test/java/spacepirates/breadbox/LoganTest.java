@@ -1,6 +1,7 @@
 package spacepirates.breadbox;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class LoganTest {
     @Test
     public void getItemsByCategory_isCorrect() {
         DonationItemDatabase dd = new DonationItemDatabase();
-        ArrayList<DonationItem> d = new ArrayList<>();
+        List<DonationItem> d = new ArrayList<>();
         DonationItem item = new DonationItem();
         item.setName("Shirt");
         item.setCategory(Category.APPAREL);

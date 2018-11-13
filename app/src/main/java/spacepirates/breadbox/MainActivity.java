@@ -110,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
      * Not Currently using a header
     private void loadNavHeader() {
         // name, website
-        txtName.setText("Ravi Tamada");
-        txtWebsite.setText("www.androidhive.info");
+        txtName.setText("Name");
+        txtWebsite.setText("www.knowledge.com");
 
         // loading header background image
         Glide.with(this).load(urlNavHeaderBg)
@@ -264,6 +264,8 @@ public class MainActivity extends AppCompatActivity {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
+            //These classes are necessary to be redefined here, so The drawer knows which methods
+            //to call when it is interacted with.
             @Override
             public void onDrawerClosed(View drawerView) {
                 // Code here will be triggered once the drawer closes as we
@@ -271,6 +273,8 @@ public class MainActivity extends AppCompatActivity {
                 super.onDrawerClosed(drawerView);
             }
 
+            //These classes are necessary to be redefined here, so The drawer knows which methods
+            //to call when it is interacted with.
             @Override
             public void onDrawerOpened(View drawerView) {
                 // Code here will be triggered once the drawer open as we
@@ -280,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         //Setting the actionbarToggle to drawer layout
-        drawer.setDrawerListener(actionBarDrawerToggle);
+        drawer.addDrawerListener(actionBarDrawerToggle);
 
         //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();

@@ -11,7 +11,6 @@ import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 import spacepirates.breadbox.model.Tag;
 
-import static org.junit.Assert.*;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

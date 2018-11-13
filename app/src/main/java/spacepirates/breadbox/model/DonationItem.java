@@ -324,6 +324,11 @@ public class DonationItem implements Comparable<DonationItem> {
         return this.getName().compareTo(other.getName());
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     //toStrings for tests, can delete/comment out later
 //    public String toString(){
 //        String histString = this.history.toString();

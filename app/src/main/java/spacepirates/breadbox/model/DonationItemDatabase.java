@@ -10,6 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -70,7 +71,7 @@ public class DonationItemDatabase {
      * Method for quick adding of an entire inventory if necessary
      * @param list List of items (inventory) from a location
      */
-    public void addInventory(List<DonationItem> list) {
+    public void addInventory(Iterable<DonationItem> list) {
         for (DonationItem di : list) {
             this.addItem(di);
         }
@@ -90,7 +91,7 @@ public class DonationItemDatabase {
      * @return A list of donation items
      */
     public List<DonationItem> getDatabase() {
-        return database;
+        return Collections.unmodifiableList(database);
     }
 
     /**

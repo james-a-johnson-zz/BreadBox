@@ -114,6 +114,9 @@ public class LoginActivity extends AppCompatActivity {
                     String username = currentUser.getUsername();
                     UserType ut = currentUser.getType();
                     User current;
+                    //Switch statement does not cover all cases of User enum, because
+                    //only ADMINISTRATOR, MANAGER, AND LOCATION_EMPLOYEE Need to be handled
+                    //differntly where all other uses may take the default.
                     switch (ut) {
                         case ADMINISTRATOR:
                             current = new Admin(username, ut);

@@ -1,8 +1,6 @@
 package spacepirates.breadbox.model;
 
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -37,17 +35,6 @@ public final class Model {
     private Location _currentLocation;
 
     private DonationItemDatabase donationItemDatabase;
-    
-    /**
-     * make a new model
-     */
-    /**
-    private Model() {
-        Log.d("Model", "Initialized Model, without context");
-        this.initializeDatabases();
-        _currentUser = new GuestUser();
-    }
-     **/
 
     //public model used for testing
     public Model() {
@@ -96,7 +83,7 @@ public final class Model {
      * @param cat  Category to filter by
      * @return     The filtered list
      */
-    public List<DonationItem> filterDonationItems(List<DonationItem> list, Category cat) {
+    public List<DonationItem> filterDonationItems(Iterable<DonationItem> list, Category cat) {
         PriorityQueue<DonationItem> ret = new PriorityQueue<>();
         List<DonationItem> srt = new ArrayList<>();
         for (DonationItem d: list) {
@@ -207,11 +194,13 @@ public final class Model {
      * @throws DatabaseNotInitializedException Simple exception that represents a nonexistent
      *                                         Database since it never got initialized
      */
-    public boolean addLocation(Location location) throws DatabaseNotInitializedException {
+    public void addLocation(Location location) throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
-        return locationDatabase.addLocation(location);
+        locationDatabase.addLocation(location);
+        //Used to return a boolean on whether it was a succussful add.
+        //return locationDatabase.addLocation(location);
     }
 
     /**
@@ -284,10 +273,17 @@ public final class Model {
      * That should likely be done by this method.
      *
      * @param donation item to be added
+     * @return boolean whether or not the donation was valid and added.
      */
-    public void addDonationItem(DonationItem donation) {
-        donationItemDatabase.addItem(donation);
-        locationDatabase.updateLocation(donation);
+    public boolean addDonationItem(DonationItem donation) {
+        if (donation.getName().length() == 0
+                || donation.getPrice() == 0) {
+            return false;
+        } else {
+            donationItemDatabase.addItem(donation);
+            locationDatabase.updateLocation(donation);
+            return true;
+        }
     }
 
     /**

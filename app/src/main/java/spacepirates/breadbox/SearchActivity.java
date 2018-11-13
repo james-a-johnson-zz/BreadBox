@@ -61,6 +61,8 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         //Set Spinner with values of category enum.
+        // Cast cannot be checked, because in the conversion from enum to list, java loses track
+        // of the type and only sees Category and therefor can' be cast to String.
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter(
                 this, android.R.layout.simple_spinner_item, Category.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
