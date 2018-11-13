@@ -37,7 +37,7 @@ public final class Model {
     private Location _currentLocation;
 
     private DonationItemDatabase donationItemDatabase;
-    
+
     /**
      * make a new model
      */

@@ -21,7 +21,7 @@ import java.util.Queue;
  */
 public class DonationItemDatabase {
     private final List<DonationItem> database;
-    private final DatabaseReference db;
+    private DatabaseReference db;
 
     /** Null Donation pattern, returned when no donations are found.
      *  Current default category is apparel. Fails curing run if category is null.
@@ -40,22 +40,21 @@ public class DonationItemDatabase {
         initializeDatabase();
     }
 
+    public DonationItemDatabase(ArrayList<DonationItem> dd) {
+        database = dd;
+    }
+
     /**
-<<<<<<< HEAD
      * Constructor that initializes the database
      * @param list the list of initial donationItems (for testing purposes)
      */
     public DonationItemDatabase(List<DonationItem> list) {
         database = list;
-        db = null;
     }
 
 
     /**
-     * Method to handle technicalities of initializing database on firebase's end
-=======
      * Method to handle technicalities of initializing database on Fire base's end
->>>>>>> 6b2ec49a3e8487574dd9aab640cf7576d524e80c
      * Includes adding every element of data as well as the case where data does not exist
      */
     public void initializeDatabase() {
