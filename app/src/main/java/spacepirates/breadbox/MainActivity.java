@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
 
     // index to identify current nav menu item
-    private static int navItemIndex = 0;
+    private static int navItemIndex;
 
     // tags used to attach the fragments
     private static final String TAG_MAP = "map";
@@ -224,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
 
             // This method will trigger on item Click of navigation menu
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()) {
@@ -338,10 +339,11 @@ public class MainActivity extends AppCompatActivity {
 
     // show or hide the fab
     private void toggleFab() {
-        if (navItemIndex == 0)
+        if (navItemIndex == 0) {
             fab.show();
-        else
+        } else {
             fab.hide();
+        }
     }
 
     /**

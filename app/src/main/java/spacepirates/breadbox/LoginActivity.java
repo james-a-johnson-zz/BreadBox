@@ -37,14 +37,14 @@ import spacepirates.breadbox.model.UserType;
 public class LoginActivity extends AppCompatActivity {
     private final String tag = "LoginActivity";
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+    private final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //FirebaseAPP.initializeApp(this);
+        //Fire base APP.initializeApp(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Model.getInstance();
+//        Model.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         final EditText usernameField = findViewById(R.id.UsernameField);
         final EditText passwordField = findViewById(R.id.PasswordField);
@@ -55,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
         //Test button
         Button testButton = findViewById(R.id.testButton);
 
-        //TODO move this string.
         //These sorts of app level final strings should be in the resource String xml,
         //and then referenced,
         final String failedLoginMessage = getString(R.string.login_fail_message);

@@ -3,6 +3,7 @@ package spacepirates.breadbox;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,14 +22,14 @@ import java.util.List;
 public class LocationRecyclerAdapter
         extends RecyclerView.Adapter<LocationRecyclerAdapter.LocationViewHolder> {
 
-    private List<Location> locations;
+    private final List<Location> locations;
 
     public static class LocationViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cv;
-        TextView locationName;
-        TextView address;
-        TextView locationType;
+        final CardView cv;
+        final TextView locationName;
+        final TextView address;
+        final TextView locationType;
 
         LocationViewHolder(View itemView) {
             super(itemView);
@@ -44,19 +45,20 @@ public class LocationRecyclerAdapter
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    @NonNull
     @Override
-    public LocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.location_card, viewGroup, false);
         return new LocationViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(LocationViewHolder locationViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull LocationViewHolder locationViewHolder, final int i) {
         Location loc = locations.get(i);
         locationViewHolder.locationName.setText(loc.getName());
         locationViewHolder.address.setText(loc.getAddress());
