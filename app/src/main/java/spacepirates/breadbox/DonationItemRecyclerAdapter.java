@@ -83,7 +83,7 @@ public class DonationItemRecyclerAdapter extends
         donationViewHolder.cv.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO navigate to Donation detail view.
+                //navigate to Donation detail view.
 
                 //On expand
                 if (expandedViewHolder != null) {

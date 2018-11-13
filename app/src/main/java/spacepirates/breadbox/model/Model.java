@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.PriorityQueue;
 
-//TODO Make sure classes and methods are implemented good.
+//We need to make sure classes and methods are implemented good.
 /** Prof talks about message chains being bad
  * ie: model.getLocations.getLocation.getName
  * We should write our model so that we don't do that.
@@ -137,7 +137,7 @@ public final class Model {
         return srt;
     }
 
-    //TODO Decide how to implement the filter.
+    //Decide how to implement the filter:
 //     Idea: What if the filter was an interface? Then locations and DonationItems could implement
 //      the same filter, and Filter using their own sets of data?
 //
@@ -161,7 +161,7 @@ public final class Model {
      * @param input     Name to filter by
      * @return          The filtered result
      */
-    //TODO There should be filterDonationItem methods implemented for every way we can filter.
+    //There should be filterDonationItem methods implemented for every way we can filter.
     public List<DonationItem> filterDonationItems(List<DonationItem> list, final String input) {
         // PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
         //     (DonationItem a, DonationItem b) -> a.getName().compareTo(name)

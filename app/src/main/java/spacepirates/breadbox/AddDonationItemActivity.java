@@ -102,13 +102,13 @@ public class AddDonationItemActivity extends AppCompatActivity {
             failureMessage += "Price must be a number. ";
         }
 
-        //TODO tag view should be a multi selection spinner or similar, because tags are enums;
+        //tag view should be a multi selection spinner or similar, because tags are enums
         List<Tag> tags = new ArrayList<>();
         //splits the string in the tags box into words, and places in String array tags
         //( tagView.getText().toString()).split("\\W+");
         String description = descriptionView.getText().toString();
 
-        //TODO implement adding users to donation items
+        //implement adding users to donation items
         //User donor = donorView.getText().toString();
 
         //Category must be entered, because it might be used for mapping in the database
