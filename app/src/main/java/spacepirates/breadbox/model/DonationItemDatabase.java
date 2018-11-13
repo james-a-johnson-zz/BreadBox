@@ -27,7 +27,7 @@ public class DonationItemDatabase {
     /** Null Donation pattern, returned when no donations are found.
      *  Current default category is apparel. Fails curing run if category is null.
      */
-    private final DonationItem theNullDonation = new DonationItem("No Donations Found", 0, Category.APPAREL);
+    private final DonationItem theNullDonation = new DonationItem("No Donations Found", 0, null);
 
     /**
      * Constructor that initializes the database
