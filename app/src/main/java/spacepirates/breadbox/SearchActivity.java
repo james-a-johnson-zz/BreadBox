@@ -29,8 +29,6 @@ public class SearchActivity extends AppCompatActivity {
     private TextView nameInput;
     private Spinner categorySpinner;
     private RecyclerView recyclerView;
-    private Button nameFilterButton;
-    private Button categoryFilterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +51,8 @@ public class SearchActivity extends AppCompatActivity {
         nameInput = findViewById(R.id.name_filter_input);
         categorySpinner = findViewById(R.id.category_filter_spinner);
         recyclerView = findViewById(R.id.filter_display_rv);
-        nameFilterButton = findViewById(R.id.name_filter_button);
-        categoryFilterButton = findViewById(R.id.category_filter_button);
+        Button nameFilterButton = findViewById(R.id.name_filter_button);
+        Button categoryFilterButton = findViewById(R.id.category_filter_button);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         //Currently setting to display all items. I feel it should initially be initialized empty

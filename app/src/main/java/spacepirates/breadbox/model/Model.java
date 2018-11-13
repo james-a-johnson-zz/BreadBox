@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Queue;
 import java.util.PriorityQueue;
 
-//TODO Make sure classes and methods are implmented good.
+//We need to make sure classes and methods are implemented good.
 /** Prof talks about message chains being bad
  * ie: model.getLocations.getLocation.getName
  * We should write our model so that we don't do that.
- * alluded to M10  being where message chains are checked by an autograder.
+ * alluded to M10  being where message chains are checked by an auto-grader.
  *
  * Model Acts as a liaison between system and databases
  */
@@ -41,11 +41,18 @@ public final class Model {
     /**
      * make a new model
      */
+    /**
     private Model() {
         Log.d("Model", "Initialized Model, without context");
         this.initializeDatabases();
-        User nullUser = new GuestUser();
-        _currentUser = nullUser;
+        _currentUser = new GuestUser();
+    }
+     **/
+
+    //public model used for testing
+    public Model() {
+        this.initializeDatabases();
+        //_currentUser = nullUser;
     }
 
     private void initializeDatabases() {
@@ -138,12 +145,12 @@ public final class Model {
         return srt;
     }
 
-    //TODO Decide how to implement the filter.
+    //Decide how to implement the filter:
 //     Idea: What if the filter was an interface? Then locations and DonationItems could implement
 //      the same filter, and Filter using their own sets of data?
 //
-//      Seems like a pointless excersise, I feel that the Model should probably just handle all the
-//      filtering. Overcomplicates by spreading out filtering duty, for a gain I don't see.
+//      Seems like a pointless exercise, I feel that the Model should probably just handle all the
+//      filtering. Over-complicates by spreading out filtering duty, for a gain I don't see.
 
 //    /**
 //     * Filters DonationItems.
@@ -162,7 +169,7 @@ public final class Model {
      * @param input     Name to filter by
      * @return          The filtered result
      */
-    //TODO There should be filterDonationItem methods implmented for every way we can filter.
+    //There should be filterDonationItem methods implemented for every way we can filter.
     public List<DonationItem> filterDonationItems(List<DonationItem> list, final String input) {
         // PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
         //     (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
@@ -193,7 +200,7 @@ public final class Model {
     /**
      * Add a location to the app.  checks if the location is already entered
      *
-     * Ases O(n) linear search for course
+     * Uses O(n) linear search for course
      *
      * @param location  the course to be added
      * @return true if added, false if a duplicate

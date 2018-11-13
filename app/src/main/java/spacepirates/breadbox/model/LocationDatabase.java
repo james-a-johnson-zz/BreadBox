@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * Like DonationItemDatabase, this is a DB for all of the company locations
- * Also uses Firebase to externally store data
+ * Also uses Fire base to externally store data
  */
 class LocationDatabase {
 
@@ -97,10 +97,12 @@ class LocationDatabase {
      * @return Boolean if location successfully added
      */
     public boolean addLocation(Location location) {
-        if (location == null)
+        if (location == null) {
             return false;
-        if (locations.contains(location))
+        }
+        if (locations.contains(location)) {
             return false;
+        }
         locations.add(location);
         db.child(location.getAddress()).setValue(location);
         return true;
@@ -112,9 +114,11 @@ class LocationDatabase {
      * @return The location if it is found, null otherwise
      */
     public Location getLocationByAddress(String address) {
-        for (Location l : locations)
-            if (l.getAddress().equals(address))
+        for (Location l : locations) {
+            if (l.getAddress().equals(address)) {
                 return l;
+            }
+        }
 
         return theNullLocation;
     }
@@ -164,8 +168,9 @@ class LocationDatabase {
      * Performs the above method on all locations in database
      */
     public void updateAllLocations() {
-        for (Location l : locations)
+        for (Location l : locations) {
             this.updateLocation(l);
+        }
     }
 
     /**
@@ -175,9 +180,11 @@ class LocationDatabase {
      * @return Location with given name or null location
      */
     public Location getLocationByName(String name) {
-        for (Location l : locations)
-            if (name.equals(l.getName()))
+        for (Location l : locations) {
+            if (name.equals(l.getName())) {
                 return l;
+            }
+        }
         return theNullLocation;
     }
 }

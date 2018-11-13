@@ -17,7 +17,7 @@ public class Manager extends LocationEmployee {
     }
 
     /**
-     * Constructor for different usertypes?
+     * Constructor for different user types?
      * @param user      Username
      * @param ut        User type
      * @param locus     Location that they supervise

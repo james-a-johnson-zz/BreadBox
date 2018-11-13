@@ -1,5 +1,7 @@
 package spacepirates.breadbox.model;
 
+import android.support.annotation.NonNull;
+
 /**
  * Specifies possible types of users
  * These users will have different permissions and abilities when dealing with the system
@@ -16,6 +18,7 @@ public enum UserType {
         this.repr = repr;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return repr;
