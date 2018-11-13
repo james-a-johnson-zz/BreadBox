@@ -80,7 +80,7 @@ public class LocationRecyclerAdapter
                     // pass_location_key holds the key pair, must be referenced to pull location
                     //intent.putExtra(getString(R.string.pass_location_key), new Integer(i));
                 Log.d("intent","int i in recycler = " + i);
-                intent.putExtra("getString(R.string.pass_location_key)", new Integer(i));
+                intent.putExtra("getString(R.string.pass_location_key)", Integer.valueOf(i));
                 context.startActivity(intent);
             }
         }));

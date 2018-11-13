@@ -112,7 +112,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                             db.child("users").child(userID).setValue(dbUser);
                             Model.getInstance().setCurrentUser(newUser);
                             Context context = getApplicationContext();
-                            Intent intent = new Intent(context, LocationsActivity.class);
+                            Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.

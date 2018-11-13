@@ -29,27 +29,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LocationsActivity"
-            android:label="LocationsActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".LocationActivity"
             android:label="@string/title_activity_location"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".MainActivity"/>
         <activity
-            android:name=".DonationsActivity"
-            android:label="@string/title_activity_donations"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".AddDonationItemActivity"
             android:label="@string/title_activity_add_donation_item"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".LocationActivity"/>
-        <activity
-            android:name=".LocationMapActivity"
-            android:label="LocationMapActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDO2P4QoHnHP9QI6CL6aXP_58nIGZmMt-0"/>
         <activity
             android:name=".SearchActivity"

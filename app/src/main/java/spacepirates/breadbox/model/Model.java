@@ -53,7 +53,7 @@ public final class Model {
     //public model used for testing
     public Model() {
         this.initializeDatabases();
-        _currentUser = nullUser;
+        //_currentUser = nullUser;
     }
 
     private void initializeDatabases() {

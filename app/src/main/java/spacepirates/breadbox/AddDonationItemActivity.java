@@ -141,7 +141,7 @@ public class AddDonationItemActivity extends AppCompatActivity {
 
             //navigate back to LocationActivity
             Intent intent = new Intent(context, LocationActivity.class);
-            intent.putExtra("getString(R.string.pass_location_key)", new Integer(i));
+            intent.putExtra("getString(R.string.pass_location_key)", Integer.valueOf(i));
             context.startActivity(intent);
         } else {
             //Display a toast if the Donation is not valid with an explanation.
