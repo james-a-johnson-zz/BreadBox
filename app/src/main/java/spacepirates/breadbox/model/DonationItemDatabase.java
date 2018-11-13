@@ -27,8 +27,7 @@ public class DonationItemDatabase {
     /** Null Donation pattern, returned when no donations are found.
      *  Current default category is apparel. Fails curing run if category is null.
      */
-    private final DonationItem theNullDonation =
-            new DonationItem("No Donations Found", 0, Category.APPAREL);
+    private final DonationItem theNullDonation = new DonationItem("No Donations Found", 0, null);
 
     /**
      * Constructor that initializes the database
@@ -41,11 +40,25 @@ public class DonationItemDatabase {
         initializeDatabase();
     }
 
+    public DonationItemDatabase(ArrayList<DonationItem> dd) {
+        database = dd;
+    }
+
+    /**
+     * Constructor that initializes the database
+     * @param list the list of initial donationItems (for testing purposes)
+     */
+    public DonationItemDatabase(List<DonationItem> list) {
+        database = list;
+        db = null;
+    }
+
+
     /**
      * Method to handle technicalities of initializing database on Fire base's end
      * Includes adding every element of data as well as the case where data does not exist
      */
-    private void initializeDatabase() {
+    public void initializeDatabase() {
         ValueEventListener addItems = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -153,6 +166,9 @@ public class DonationItemDatabase {
             }
         });
         ret.addAll(list);
+            for (DonationItem d : list) {
+                ret.add(d);
+            }
             return ret;
         }
 }
