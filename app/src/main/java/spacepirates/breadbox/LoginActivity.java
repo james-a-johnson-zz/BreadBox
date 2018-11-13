@@ -31,17 +31,20 @@ import spacepirates.breadbox.model.Model;
 import spacepirates.breadbox.model.User;
 import spacepirates.breadbox.model.UserType;
 
+/**
+ * Login activity for all type of users and guests to the system
+ */
 public class LoginActivity extends AppCompatActivity {
-    final String tag = "LoginActivity";
-    FirebaseAuth firebaseAuth;
-    DatabaseReference db = FirebaseDatabase.getInstance().getReference();
+    private final String tag = "LoginActivity";
+    private FirebaseAuth firebaseAuth;
+    private final DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //FirebaseAPP.initializeApp(this);
+        //Fire base APP.initializeApp(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Model.getInstance();
+//        Model.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         final EditText usernameField = findViewById(R.id.UsernameField);
         final EditText passwordField = findViewById(R.id.PasswordField);
@@ -52,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
         //Test button
         Button testButton = findViewById(R.id.testButton);
 
-        //TODO move this string.
         //These sorts of app level final strings should be in the resource String xml,
         //and then referenced,
         final String failedLoginMessage = getString(R.string.login_fail_message);
@@ -121,17 +123,21 @@ public class LoginActivity extends AppCompatActivity {
                             current = new Manager(username, ut, new Location());
                             m.setCurrentUser(current);
                             break;
-                        case BASIC:
-                            current = new BasicUser(username, ut);
-                            m.setCurrentUser(current);
-                            break;
+//                        case BASIC:
+//                            current = new BasicUser(username, ut);
+//                            m.setCurrentUser(current);
+//                            break;
                         case LOCATION_EMPLOYEE:
                             current = new LocationEmployee(username, ut, new Location());
                             m.setCurrentUser(current);
                             break;
+                        default:
+                            current = new BasicUser(username, ut);
+                            m.setCurrentUser(current);
+                            break;
                     }
                     Context c = getApplicationContext();
-                    Intent i = new Intent(c, LocationsActivity.class);
+                    Intent i = new Intent(c, MainActivity.class);
                     c.startActivity(i);
                 } else {
                     Log.d(tag, "Fetch unsuccessful");

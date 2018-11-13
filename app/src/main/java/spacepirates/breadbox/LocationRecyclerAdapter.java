@@ -3,7 +3,7 @@ package spacepirates.breadbox;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,24 +15,28 @@ import spacepirates.breadbox.model.Location;
 
 import java.util.List;
 
+/**
+ * Extracts locations from their respective database and helps prepare them into the card view
+ * that is presented in the location list view
+ */
 public class LocationRecyclerAdapter
         extends RecyclerView.Adapter<LocationRecyclerAdapter.LocationViewHolder> {
 
-    List<Location> locations;
+    private final List<Location> locations;
 
     public static class LocationViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cv;
-        TextView locationName;
-        TextView address;
-        TextView locationType;
+        final CardView cv;
+        final TextView locationName;
+        final TextView address;
+        final TextView locationType;
 
         LocationViewHolder(View itemView) {
             super(itemView);
-            cv = (CardView)itemView.findViewById(R.id.location_card);
-            locationName = (TextView)itemView.findViewById(R.id.location_name);
-            address = (TextView)itemView.findViewById(R.id.address);
-            locationType = (TextView) itemView.findViewById(R.id.location_type);
+            cv = itemView.findViewById(R.id.location_card);
+            locationName = itemView.findViewById(R.id.location_name);
+            address = itemView.findViewById(R.id.address);
+            locationType = itemView.findViewById(R.id.location_type);
         }
     }
 
@@ -41,23 +45,24 @@ public class LocationRecyclerAdapter
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    @NonNull
     @Override
-    public LocationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public LocationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.location_card, viewGroup, false);
-        LocationViewHolder lvh = new LocationViewHolder(view);
-        return lvh;
+        return new LocationViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(LocationViewHolder locationViewHolder, final int i) {
-        locationViewHolder.locationName.setText(locations.get(i).getName());
-        locationViewHolder.address.setText(locations.get(i).getAddress());
-        locationViewHolder.locationType.setText("- " + locations.get(i).getType());
+    public void onBindViewHolder(@NonNull LocationViewHolder locationViewHolder, final int i) {
+        Location loc = locations.get(i);
+        locationViewHolder.locationName.setText(loc.getName());
+        locationViewHolder.address.setText(loc.getAddress());
+        locationViewHolder.locationType.setText("- " + loc.getType());
 
         locationViewHolder.cv.setOnClickListener((new View.OnClickListener() {
             @Override
@@ -77,7 +82,7 @@ public class LocationRecyclerAdapter
                     // pass_location_key holds the key pair, must be referenced to pull location
                     //intent.putExtra(getString(R.string.pass_location_key), new Integer(i));
                 Log.d("intent","int i in recycler = " + i);
-                intent.putExtra("getString(R.string.pass_location_key)", new Integer(i));
+                intent.putExtra("getString(R.string.pass_location_key)", Integer.valueOf(i));
                 context.startActivity(intent);
             }
         }));

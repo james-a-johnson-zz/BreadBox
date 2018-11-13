@@ -33,15 +33,13 @@ import spacepirates.breadbox.model.Tag;
  */
 public class AddDonationItemActivity extends AppCompatActivity {
 
-    EditText nameView;
-    EditText priceView;
-    EditText tagView;
-    EditText descriptionview;
-    EditText donorView;
-    Spinner categorySpinner;
+    private EditText nameView;
+    private EditText priceView;
+    private EditText descriptionView;
+    private Spinner categorySpinner;
 
-    Location location;
-    int i; //used for keeping track of the location while navigating between activities
+    private Location location;
+    private int i; //used for keeping track of the location while navigating between activities
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +60,9 @@ public class AddDonationItemActivity extends AppCompatActivity {
 
         nameView = findViewById(R.id.add_donation_input_name);
         priceView = findViewById(R.id.add_donation_input_price);
-        tagView = findViewById(R.id.add_donation_input_tags);
-        descriptionview = findViewById(R.id.add_donation_input_description);
-        donorView = findViewById(R.id.add_donation_input_donor);
+        EditText tagView = findViewById(R.id.add_donation_input_tags);
+        descriptionView = findViewById(R.id.add_donation_input_description);
+        EditText donorView = findViewById(R.id.add_donation_input_donor);
         categorySpinner = findViewById(R.id.add_donation_category_spinner);
 
 
@@ -104,16 +102,16 @@ public class AddDonationItemActivity extends AppCompatActivity {
             failureMessage += "Price must be a number. ";
         }
 
-        //TODO tag view should be a multi selection spinner or similar, because tags are enums;
-        ArrayList<Tag> tags = new ArrayList<Tag>();
+        //tag view should be a multi selection spinner or similar, because tags are enums
+        List<Tag> tags = new ArrayList<>();
         //splits the string in the tags box into words, and places in String array tags
         //( tagView.getText().toString()).split("\\W+");
-        String description = descriptionview.getText().toString();
+        String description = descriptionView.getText().toString();
 
-        //TODO implement adding users to donation items
+        //implement adding users to donation items
         //User donor = donorView.getText().toString();
 
-        //Category must be entered, because it might be used for mapping in the datbase
+        //Category must be entered, because it might be used for mapping in the database
         category = (Category) categorySpinner.getSelectedItem();
         if (category == null) {
             //If no category, invalidate donation and make a note in the failure message.
@@ -121,10 +119,17 @@ public class AddDonationItemActivity extends AppCompatActivity {
             failureMessage += "Must select a Category.";
         }
         if (validDonation) {
-            //Create new Donation Item. DonationItem constructor adds it to the location inventory.
-            DonationItem newItem = new DonationItem(name, price, category, description,
-                    tags, location.getAddress());
-            //Add donation item to donation item datbase
+            //Create new Donation Item. DonationItem builder
+            //generates new donation item and adds it to the location inventory.
+            DonationItem newItem = new DonationItem
+                    .DonationItemBuilder(name)
+                    .price(price)
+                    .category(category).tags(tags)
+                    .description(description)
+                    .address(location.getAddress())
+                    .build();
+
+            //Add donation item to donation item database
             Model.getInstance().addDonationItem(newItem);
 
             //create and display a toast to indicate success.
@@ -134,7 +139,7 @@ public class AddDonationItemActivity extends AppCompatActivity {
 
             //navigate back to LocationActivity
             Intent intent = new Intent(context, LocationActivity.class);
-            intent.putExtra("getString(R.string.pass_location_key)", new Integer(i));
+            intent.putExtra("getString(R.string.pass_location_key)", Integer.valueOf(i));
             context.startActivity(intent);
         } else {
             //Display a toast if the Donation is not valid with an explanation.

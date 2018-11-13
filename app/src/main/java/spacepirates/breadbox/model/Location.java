@@ -2,6 +2,7 @@ package spacepirates.breadbox.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -33,6 +34,123 @@ public class Location implements Parcelable, Serializable {
     //used for implementing Parcelable
     private int mData;
 
+    public static class LocationBuilder {
+        private final String builderName;
+        private String builderType;
+        private double builderLatitude;
+        private double builderLongitude;
+        private String builderAddress;
+        private String builderPhone;
+        private List<DonationItem> builderInventory;
+
+//        /**
+//         * Builder for custom construction of locations
+//         * @param newName name
+//         * @param newType type
+//         * @param newLatitude latitude
+//         * @param newLongitude longitude
+//         * @param newAddress address
+//         * @param newPhone phone number
+//         * @param newInventory inventory/list of items
+//         */
+//        public LocationBuilder(
+//                String newName,
+//                String newType,
+//                double newLatitude,
+//                double newLongitude,
+//                String newAddress,
+//                String newPhone,
+//                List<DonationItem> newInventory) {
+//            builderName = newName;
+//            builderType = newType;
+//            builderLatitude = newLatitude;
+//            builderLongitude = newLongitude;
+//            builderAddress = newAddress;
+//            builderPhone = newPhone;
+//            builderInventory = newInventory;
+//        }
+
+        /**
+         * Initial constructor starts with the name
+         * @param newName name
+         */
+        public LocationBuilder(String newName) {
+            builderName = newName;
+        }
+
+        /**
+         * Adds the respective variable to the builder
+         * @param newType type
+         * @return this so that builder methods (assigning variables) can be chained
+         */
+        public LocationBuilder type(String newType) {
+            builderType = newType;
+            return this;
+        }
+
+        /**
+         * Adds the respective variable to the builder
+         * @param newLatitude latitude
+         * @return this so that builder methods (assigning variables) can be chained
+         */
+        public LocationBuilder latitude(double newLatitude) {
+            builderLatitude = newLatitude;
+            return this;
+        }
+
+        /**
+         * Adds the respective variable to the builder
+         * @param newLongitude longitude
+         * @return this so that builder methods (assigning variables) can be chained
+         */
+        public LocationBuilder longitude(double newLongitude) {
+            builderLongitude = newLongitude;
+            return this;
+        }
+
+        /**
+         * Adds the respective variable to the builder
+         * @param newAddress address
+         * @return this so that builder methods (assigning variables) can be chained
+         */
+        public LocationBuilder address(String newAddress) {
+            builderAddress = newAddress;
+            return this;
+        }
+
+        /**
+         * Adds the respective variable to the builder
+         * @param newPhone phone number
+         * @return this so that builder methods (assigning variables) can be chained
+         */
+        public LocationBuilder phoneNumber(String newPhone) {
+            builderPhone = newPhone;
+            return this;
+        }
+
+        /**
+         * This builds and returns a new location based on the chain of variables passed in
+         * @return a newly custom constructed location
+         */
+        public Location build() {
+            return new Location(this);
+        }
+    }
+
+    /**
+     * Constructor that takes a location builder to assign its instance variables
+     * @param builder the location builder
+     */
+    public Location(LocationBuilder builder) {
+        name = builder.builderName;
+        type = builder.builderType;
+        latitude = builder.builderLatitude;
+        longitude = builder.builderLongitude;
+        address = builder. builderAddress;
+        phoneNumber = builder.builderPhone;
+        inventory = builder.builderInventory;
+    }
+
     /**
      * Default constructor
      */
@@ -43,7 +161,7 @@ public class Location implements Parcelable, Serializable {
         this.longitude = Double.NaN;
         this.address = "Invalid";
         this.phoneNumber = "Invalid";
-        inventory = new ArrayList<DonationItem>();
+        inventory = new ArrayList<>();
         inventoryMax = 100;
         //yearlyStats = new ArrayList<Statistics>();
         /*
@@ -69,7 +187,7 @@ public class Location implements Parcelable, Serializable {
         this.longitude = longitude;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        inventory = new ArrayList<DonationItem>();
+        inventory = new ArrayList<>();
         inventoryMax = 100;
         //yearlyStats = new ArrayList<Statistics>();
         /*
@@ -93,6 +211,7 @@ public class Location implements Parcelable, Serializable {
         this(name, type, Double.valueOf(latitude), Double.valueOf(longitude), address, phoneNumber);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return (type + ": " + name + " at " + address + ". Call " + phoneNumber);
@@ -226,7 +345,7 @@ public class Location implements Parcelable, Serializable {
         if (!(l instanceof Location)) {
             return false;
         }
-        return (((Location) l).getAddress().compareTo(this.getAddress()) == 0);
+        return ((Location) l).getAddress().equals(this.getAddress());
     }
 
       //not sure what return type should be here (could be bool)
@@ -303,11 +422,13 @@ public class Location implements Parcelable, Serializable {
     // this is used to regenerate your object.
     // All Parcelables must have a CREATOR that implements these two methods
     public static final Parcelable.Creator<Location> CREATOR = new Parcelable.Creator<Location>() {
+        @Override
         public Location createFromParcel(Parcel in) {
             Log.d("Location", "Creating from Parcel");
             return new Location(in);
         }
 
+        @Override
         public Location[] newArray(int size) {
             return new Location[size];
         }

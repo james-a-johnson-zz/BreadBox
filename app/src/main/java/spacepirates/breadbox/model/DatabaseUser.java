@@ -5,9 +5,18 @@ package spacepirates.breadbox.model;
  * Items and database
  */
 public class DatabaseUser {
-    public String username;
-    public UserType type;
-    public String locus;
+    private String username;
+    private UserType type;
+    private String locus;
+
+    /**
+     * No argument constructor that is used for Firebase.
+     */
+    public DatabaseUser() {
+        username = null;
+        type = null;
+        locus = null;
+    }
 
     /**
      * Constructor for a user that utilizes the databases and is not provided a location
@@ -55,7 +64,7 @@ public class DatabaseUser {
     }
 
     /**
-     * @param type Set the usertype to a new type
+     * @param type Set the user type to a new type
      */
     public void setType(UserType type) {
         this.type = type;

@@ -1,7 +1,6 @@
 package spacepirates.breadbox.model;
 
 
-import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -10,15 +9,15 @@ import java.util.List;
 import java.util.Queue;
 import java.util.PriorityQueue;
 
-//TODO Make sure classes and methods are implmented good.
+//We need to make sure classes and methods are implemented good.
 /** Prof talks about message chains being bad
  * ie: model.getLocations.getLocation.getName
  * We should write our model so that we don't do that.
- * alluded to M10  being where message chains are checked by an autograder.
+ * alluded to M10  being where message chains are checked by an auto-grader.
  *
  * Model Acts as a liaison between system and databases
  */
-public class Model {
+public final class Model {
     /** Singleton instance */
     private static final Model _instance = new Model();
 
@@ -31,8 +30,6 @@ public class Model {
     //user logged in and operating app
     private User _currentUser;
 
-    private final User nullUser = new GuestUser();
-
     //instance of location database
     private LocationDatabase locationDatabase;
 
@@ -44,10 +41,18 @@ public class Model {
     /**
      * make a new model
      */
+    /**
     private Model() {
         Log.d("Model", "Initialized Model, without context");
         this.initializeDatabases();
-        _currentUser = nullUser;
+        _currentUser = new GuestUser();
+    }
+     **/
+
+    //public model used for testing
+    public Model() {
+        this.initializeDatabases();
+        //_currentUser = nullUser;
     }
 
     private void initializeDatabases() {
@@ -92,8 +97,8 @@ public class Model {
      * @return     The filtered list
      */
     public List<DonationItem> filterDonationItems(List<DonationItem> list, Category cat) {
-        PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
-        ArrayList<DonationItem> srt = new ArrayList<>();
+        PriorityQueue<DonationItem> ret = new PriorityQueue<>();
+        List<DonationItem> srt = new ArrayList<>();
         for (DonationItem d: list) {
             if (d.getCategory() == cat) {
                 ret.add(d);
@@ -110,10 +115,9 @@ public class Model {
      * @param name The name filter
      * @return     The filtered ArrayList
      */
-    public ArrayList<DonationItem> filterDonationItems(String name) {
-        PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
-        ArrayList<DonationItem> srt = new ArrayList<>();
-        ret.addAll(donationItemDatabase.getDonations());
+    public List<DonationItem> filterDonationItems(String name) {
+        List<DonationItem> srt = new ArrayList<>();
+        Queue<DonationItem> ret = new PriorityQueue<>(donationItemDatabase.getDonations());
         while(!ret.isEmpty()) {
             srt.add(ret.poll());
         }
@@ -127,9 +131,9 @@ public class Model {
      * @param cat  Category to filter by
      * @return     The filtered list
      */
-    public ArrayList<DonationItem> filterDonationItems(Category cat) {
-        PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>();
-        ArrayList<DonationItem> srt = new ArrayList<>();
+    public List<DonationItem> filterDonationItems(Category cat) {
+        PriorityQueue<DonationItem> ret = new PriorityQueue<>();
+        List<DonationItem> srt = new ArrayList<>();
         for (DonationItem d: donationItemDatabase.getDonations()) {
             if (d.getCategory() == cat) {
                 ret.add(d);
@@ -141,12 +145,12 @@ public class Model {
         return srt;
     }
 
-    //TODO Decide how to implement the filter.
+    //Decide how to implement the filter:
 //     Idea: What if the filter was an interface? Then locations and DonationItems could implement
 //      the same filter, and Filter using their own sets of data?
 //
-//      Seems like a pointless excersise, I feel that the Model should probably just handle all the
-//      filtering. Overcomplicates by spreading out filtering duty, for a gain I don't see.
+//      Seems like a pointless exercise, I feel that the Model should probably just handle all the
+//      filtering. Over-complicates by spreading out filtering duty, for a gain I don't see.
 
 //    /**
 //     * Filters DonationItems.
@@ -165,19 +169,19 @@ public class Model {
      * @param input     Name to filter by
      * @return          The filtered result
      */
-    //TODO There should be filterDonationItem methods implmented for every way we can filter.
+    //There should be filterDonationItem methods implemented for every way we can filter.
     public List<DonationItem> filterDonationItems(List<DonationItem> list, final String input) {
         // PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
         //     (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
         //     - b.getName().compareTo(name));
-        PriorityQueue<DonationItem>ret = new PriorityQueue<>(list.size(),
+        Queue<DonationItem>ret = new PriorityQueue<>(list.size(),
                 new Comparator<DonationItem>() {
             @Override
             public int compare(DonationItem donationItem, DonationItem t1) {
                 return donationItem.getName().compareTo(input) - (t1.getName().compareTo(input));
             }
         });
-        ArrayList<DonationItem> srt = new ArrayList<>();
+        List<DonationItem> srt = new ArrayList<>();
         ret.addAll(list);
         while(!ret.isEmpty()) {
             srt.add(ret.poll());
@@ -196,7 +200,7 @@ public class Model {
     /**
      * Add a location to the app.  checks if the location is already entered
      *
-     * Ases O(n) linear search for course
+     * Uses O(n) linear search for course
      *
      * @param location  the course to be added
      * @return true if added, false if a duplicate

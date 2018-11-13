@@ -25,9 +25,20 @@ public class LocationUnitTest {
         Assert.assertEquals(item, check);
         Assert.assertTrue(narnia.getInventory().contains(check));
         Assert.assertEquals(1, narnia.getInventory().size());
+    }
 
+    @Test
+    public void checkAddingTwoItems() {
+        DonationItem item = new DonationItem("Bike", 50.0, Category.TOY);
         DonationItem wrongItem = new DonationItem("Used Bike", 25.0, Category.TOY);
+        spacepirates.breadbox.model.Location acrossThePond = new spacepirates.breadbox.model.Location();
+
         Assert.assertNotEquals(item, wrongItem);
-        Assert.assertFalse(narnia.getInventory().contains(wrongItem));
+
+        acrossThePond.addItem(item);
+        Assert.assertFalse(acrossThePond.getInventory().contains(wrongItem));
+
+        acrossThePond.addItem(wrongItem);
+        Assert.assertEquals(2, acrossThePond.getInventory().size());
     }
 }

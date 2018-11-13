@@ -16,7 +16,7 @@ public class Admin extends BasicUser {
     }
 
     /**
-     * Creates admin with usertype passed in
+     * Creates admin with user type passed in
      * @param user      Username
      * @param ut        User type which will be Admin
      */

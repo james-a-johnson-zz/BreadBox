@@ -17,6 +17,9 @@ import java.util.List;
 import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 
+/**
+ * Allows users to view locations within the system
+ */
 public class LocationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class LocationActivity extends AppCompatActivity {
         addressView.setText(location.getAddress());
         phoneNumberView.setText(location.getPhoneNumber());
 
-        //Populates recycler view with cards containng
+        //Populates recycler view with cards containing
         //information about all the donations at a location.
         RecyclerView.Adapter donationsAdapter =
                 new DonationItemRecyclerAdapter(location.getInventory());

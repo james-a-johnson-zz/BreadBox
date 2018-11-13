@@ -30,14 +30,16 @@ import spacepirates.breadbox.model.Model;
 import spacepirates.breadbox.model.User;
 import spacepirates.breadbox.model.UserType;
 
+/**
+ * Registration activity for a new user to enter their email and password
+ * The user's information and type are then stored in the user database
+ */
 public class Register extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
     private DatabaseReference db;
-    private Button register;
     private Spinner userType;
     private EditText emailText;
     private EditText passwordText;
-    private TextView registerText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +48,15 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
         db = FirebaseDatabase.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
-        register = findViewById(R.id.RegisterButton);
+        Button register = findViewById(R.id.RegisterButton);
         userType = findViewById(R.id.UserTypeSpinner);
         emailText = findViewById(R.id.EmailText);
         passwordText = findViewById(R.id.PasswordText);
-        registerText = findViewById(R.id.RegisterText);
+        TextView registerText = findViewById(R.id.RegisterText);
 
         registerText.setText("Register a User");
 
-        userType.setAdapter(new ArrayAdapter<UserType>(
+        userType.setAdapter(new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, UserType.values()));
         register.setOnClickListener(this);
     }
@@ -82,7 +84,7 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                 ut = UserType.ADMINISTRATOR;
                 newUser = new Admin(email, ut);
                 break;
-            // TODO: Disallow registering a guest user
+            //Done: Disallow registering a guest user
                 /*
             case "Guest":
                 ut = UserType.GUEST;
@@ -101,15 +103,15 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // TODO: Need to add user to a user database that includes the type
-                            // TODO: Include name and location depending on employee type?
+                            //We Need to add user to a user database that includes the type
+                            //Also Include name and location depending on employee type?
                             // Sign in success, update UI with the signed-in user's information
                             String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                             // Log.d("Uploading user", "" + userID + newUser.getUsername());
                             db.child("users").child(userID).setValue(dbUser);
                             Model.getInstance().setCurrentUser(newUser);
                             Context context = getApplicationContext();
-                            Intent intent = new Intent(context, LocationsActivity.class);
+                            Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.

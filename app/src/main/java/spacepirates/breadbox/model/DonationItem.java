@@ -22,11 +22,127 @@ public class DonationItem implements Comparable<DonationItem> {
     // private Location currentLocation;
     // private History history;
 
+    public static class DonationItemBuilder {
+        private final String builderName;
+        private double builderPrice;
+        private Category builderCategory;
+        private List<Tag> builderTags;
+        private String builderDescription;
+        private String builderAddress;
+
+//        /**
+//         * Builder that allows for many combinations of constructions of a Donation Item
+//         * Parameters are placeholders for instance variables in donation item class
+//         * @param newName name
+//         * @param newPrice price
+//         * @param newCategory category
+//         * @param newTags tags
+//         * @param newDescription description
+//         * @param newAddress address
+//         */
+//        public DonationItemBuilder(
+//                String newName,
+//                Double newPrice,
+//                Category newCategory,
+//                List<Tag> newTags,
+//                String newDescription,
+//                String newAddress) {
+//            builderName = newName;
+//            builderPrice = newPrice;
+//            builderCategory = newCategory;
+//            builderTags = newTags;
+//            builderDescription = newDescription;
+//            builderAddress = newAddress;
+//        }
+
+        /**
+         * Beginning constructor that takes the name
+         * @param newName name
+         */
+        public DonationItemBuilder(String newName) {
+            builderName = newName;
+        }
+
+        /**
+         * Adds the respective variable to the builder
+         * @param newPrice price
+         * @return this so that the call can be chained
+         */
+        public DonationItemBuilder price(Double newPrice) {
+            builderPrice = newPrice;
+            return this;
+        }
+
+        /**
+         * Adds the respective variable to the builder
+         * @param newCategory category
+         * @return this so that the call can be chained
+         */
+        public DonationItemBuilder category(Category newCategory) {
+            builderCategory = newCategory;
+            return this;
+        }
+
+        /**
+         * Adds the respective variable to the builder
+         * @param newTags tags
+         * @return this so that the call can be chained
+         */
+        public DonationItemBuilder tags(List<Tag> newTags) {
+            builderTags = newTags;
+            return this;
+        }
+
+        /**
+         * Adds the respective variable to the builder
+         * @param newDescription description
+         * @return this so that the call can be chained
+         */
+        public DonationItemBuilder description(String newDescription) {
+            builderDescription = newDescription;
+            return this;
+        }
+
+        /**
+         * Adds the respective variable to the builder
+         * @param newAddress address
+         * @return this so that the call can be chained
+         */
+        public DonationItemBuilder address(String newAddress) {
+            builderAddress = newAddress;
+            return this;
+        }
+
+        /**
+         * Build the donation item based on parameters passed into builder methods
+         * This should always come at the end of the chain
+         * @return A newly constructed donation item
+         */
+        public DonationItem build() {
+            return new DonationItem(this);
+        }
+    }
+
+    /**
+     * Donation item constructor that takes a donation item builder to assign its instance variables
+     * Also assigns a unique random donation id to the item
+     * @param builder the donation item builder
+     */
+    public DonationItem(DonationItemBuilder builder) {
+        name = builder.builderName;
+        price = builder.builderPrice;
+        category = builder.builderCategory;
+        tags = builder.builderTags;
+        description = builder.builderDescription;
+        address = builder. builderAddress;
+        id = UUID.randomUUID().toString();
+    }
+
     /**
      * Empty constructor for testing
      */
     public DonationItem() {
-        this(null, -1, null);
+        id = UUID.randomUUID().toString();
     }
 
     /**
@@ -195,12 +311,12 @@ public class DonationItem implements Comparable<DonationItem> {
 
     @Override
     public boolean equals(Object other) {
-        if (!(other instanceof DonationItem)) return false;
+        if (!(other instanceof DonationItem)) {
+            return false;
+        }
         DonationItem d = (DonationItem) other;
-        return this.getName().equals(d.getName())
-                && this.getPrice() == d.getPrice()
-                && this.getCategory() == d.getCategory()
-                && this.getDescription().equals(d.getDescription());
+        return (this.getPrice() == d.getPrice())
+                && (this.getCategory() == d.getCategory());
     }
 
     @Override

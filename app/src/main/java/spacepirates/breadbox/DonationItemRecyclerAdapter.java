@@ -1,6 +1,8 @@
 package spacepirates.breadbox;
 
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,13 +15,17 @@ import java.util.List;
 import spacepirates.breadbox.model.DonationItem;
 import spacepirates.breadbox.model.Tag;
 
+/**
+ * Class that assists obtaining Donation Items for display from donation item database
+ */
 public class DonationItemRecyclerAdapter extends
         RecyclerView.Adapter<DonationItemRecyclerAdapter.DonationViewHolder> {
 
-    List<DonationItem> donations;
+    private final List<DonationItem> donations;
 
     //recycler allows a total of one card to be expanded,
-    //and uses this refernce to collapse old expanded card
+    //and uses this reference to collapse old expanded card
+    @Nullable
     private DonationViewHolder expandedViewHolder;
 
     DonationItemRecyclerAdapter(List<DonationItem> donations) {
@@ -42,20 +48,21 @@ public class DonationItemRecyclerAdapter extends
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    @NonNull
     @Override
-    public DonationViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public DonationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.donation_item_card, viewGroup, false);
-        DonationViewHolder dvh = new DonationViewHolder(view);
-        return dvh;
+        return new DonationViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final DonationViewHolder donationViewHolder, final int i) {
+    public void onBindViewHolder(
+            @NonNull final DonationViewHolder donationViewHolder, final int i) {
         DonationItem donation = donations.get(i);
         String tags = "";
         if (donation.getTags() != null) {
@@ -76,7 +83,7 @@ public class DonationItemRecyclerAdapter extends
         donationViewHolder.cv.setOnClickListener((new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO navigate to Donation detail view.
+                //navigate to Donation detail view.
 
                 //On expand
                 if (expandedViewHolder != null) {
@@ -93,7 +100,7 @@ public class DonationItemRecyclerAdapter extends
                         expandedViewHolder = donationViewHolder;
                     }
                 } else {
-                    //a differnt view is expanded
+                    //a different view is expanded
                     //expand this description and mark as expanded
                     expandedViewHolder = donationViewHolder;
                     expandDonationView(donationViewHolder);
@@ -111,12 +118,12 @@ public class DonationItemRecyclerAdapter extends
 
     public static class DonationViewHolder extends RecyclerView.ViewHolder {
 
-        CardView cv;
-        TextView itemName;
-        TextView description;
-        TextView price;
-        TextView category;
-        TextView tags;
+        final CardView cv;
+        final TextView itemName;
+        final TextView description;
+        final TextView price;
+        final TextView category;
+        final TextView tags;
 
 
         DonationViewHolder(View itemView) {

@@ -15,15 +15,23 @@ import java.util.List;
 
 /**
  * Like DonationItemDatabase, this is a DB for all of the company locations
- * Also uses Firebase to externally store data
+ * Also uses Fire base to externally store data
  */
-public class LocationDatabase {
+class LocationDatabase {
 
     private List<Location> locations;
-    private DatabaseReference db;
+    private final DatabaseReference db;
 
     /** Null Location pattern, returned when no course is found */
-    private final Location theNullLocation = new Location("No Locations", "none", 0, 0, "Not Found", "000-000-0000");
+//    private final Location theNullLocation =
+//          new Location("No Locations", "none", 0, 0, "Not Found", "000-000-0000");
+    private final Location theNullLocation = new Location.LocationBuilder("No Locations")
+            .type("None")
+            .latitude(0.0)
+            .longitude(0.0)
+            .address("Not Found")
+            .phoneNumber("000-000-0000")
+            .build();
     /**
      * Initializes the database
      * Location additions are handled in initializeLocations
@@ -40,7 +48,7 @@ public class LocationDatabase {
      */
     private void initializeLocations() {
         Log.d("LocationDB", "Initializing Database.");
-        final List<Location> locations = new ArrayList<Location>();
+        final List<Location> locations = new ArrayList<>();
 
         ValueEventListener initLocations = new ValueEventListener() {
             @Override
@@ -89,10 +97,12 @@ public class LocationDatabase {
      * @return Boolean if location successfully added
      */
     public boolean addLocation(Location location) {
-        if (location == null)
+        if (location == null) {
             return false;
-        if (locations.contains(location))
+        }
+        if (locations.contains(location)) {
             return false;
+        }
         locations.add(location);
         db.child(location.getAddress()).setValue(location);
         return true;
@@ -104,9 +114,11 @@ public class LocationDatabase {
      * @return The location if it is found, null otherwise
      */
     public Location getLocationByAddress(String address) {
-        for (Location l : locations)
-            if (l.getAddress().equals(address))
+        for (Location l : locations) {
+            if (l.getAddress().equals(address)) {
                 return l;
+            }
+        }
 
         return theNullLocation;
     }
@@ -115,7 +127,7 @@ public class LocationDatabase {
      * @return All locations being stored in the database
      */
     public List<Location> getLocations() {
-        if (locations.size() == 0) {
+        if (locations.isEmpty()) {
             List<Location> none = new ArrayList<>();
             none.add(theNullLocation);
             return none;
@@ -137,7 +149,7 @@ public class LocationDatabase {
      * Update a location's data
      * @param l A given location with the data to update
      */
-    public void updateLocation(Location l) {
+    private void updateLocation(Location l) {
         db.child(l.getAddress()).setValue(l);
     }
 
@@ -156,8 +168,9 @@ public class LocationDatabase {
      * Performs the above method on all locations in database
      */
     public void updateAllLocations() {
-        for (Location l : locations)
+        for (Location l : locations) {
             this.updateLocation(l);
+        }
     }
 
     /**
@@ -167,9 +180,11 @@ public class LocationDatabase {
      * @return Location with given name or null location
      */
     public Location getLocationByName(String name) {
-        for (Location l : locations)
-            if (name.equals(l.getName()))
+        for (Location l : locations) {
+            if (name.equals(l.getName())) {
                 return l;
+            }
+        }
         return theNullLocation;
     }
 }

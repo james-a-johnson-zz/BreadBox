@@ -4,8 +4,8 @@ package spacepirates.breadbox.model;
  * Extra layer of abstraction for organizing different types of users
  */
 public abstract class User {
-    String username;
-    UserType type;
+    private final String username;
+    private final UserType type;
 
     User (String username, UserType type) {
         this.username = username;
