@@ -61,7 +61,8 @@ public class DonationItemRecyclerAdapter extends
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final DonationViewHolder donationViewHolder, final int i) {
+    public void onBindViewHolder(
+            @NonNull final DonationViewHolder donationViewHolder, final int i) {
         DonationItem donation = donations.get(i);
         String tags = "";
         if (donation.getTags() != null) {
