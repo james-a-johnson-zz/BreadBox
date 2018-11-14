@@ -13,12 +13,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Like DonationItemDatabase, this is a DB for all of the company locations
  * Also uses Fire base to externally store data
  */
-class LocationDatabase {
+public class LocationDatabase {
 
     private List<Location> locations;
     private DatabaseReference db;
@@ -38,7 +39,8 @@ class LocationDatabase {
      * Location additions are handled in initializeLocations
      */
     public LocationDatabase() {
-        db = FirebaseDatabase.getInstance().getReference("locations");
+        FirebaseDatabase instance = FirebaseDatabase.getInstance();
+        db = instance.getReference("locations");
         this.locations = new ArrayList<>();
         initializeLocations();
     }
@@ -66,7 +68,7 @@ class LocationDatabase {
                 }
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     Location curr = ds.getValue(Location.class);
-                    Log.d("LocationDB", "Received: " + curr.getAddress());
+                    Log.d("LocationDB", "Received: " + Objects.requireNonNull(curr).getAddress());
                     locations.add(curr);
                 }
             }
@@ -82,21 +84,21 @@ class LocationDatabase {
         this.locations = locations;
     }
 
-    /**
-     * Add a location to the database.
-     * Includes all necessary parameters for generating a new location
-     * @param name          The name of the location
-     * @param type          A location's type (store, warehouse, etc...)
-     * @param latitude      Latitude position
-     * @param longitude     Longitude position. Both of these are used for the map
-     * @param address       Street address
-     * @param phoneNumber   Phone included for contacting the location
-     */
-    public void addLocation(String name, String type, String latitude, String longitude,
-                            String address, String phoneNumber) {
-        Location l = new Location(name, type, latitude, longitude, address, phoneNumber);
-        this.addLocation(l);
-    }
+//    /**
+//     * Add a location to the database.
+//     * Includes all necessary parameters for generating a new location
+//     * @param name          The name of the location
+//     * @param type          A location's type (store, warehouse, etc...)
+//     * @param latitude      Latitude position
+//     * @param longitude     Longitude position. Both of these are used for the map
+//     * @param address       Street address
+//     * @param phoneNumber   Phone included for contacting the location
+//     */
+//    public void addLocation(String name, String type, String latitude, String longitude,
+//                            String address, String phoneNumber) {
+//        Location l = new Location(name, type, latitude, longitude, address, phoneNumber);
+//        this.addLocation(l);
+//    }
 
     /**
      * Add an already existing location to the database
@@ -104,16 +106,16 @@ class LocationDatabase {
      * @param location Location to be added
      * @return Boolean if location successfully added
      */
-    public boolean addLocation(Location location) {
+    public void addLocation(Location location) {
         if (location == null) {
-            return false;
+            return;
         }
         if (locations.contains(location)) {
-            return false;
+            return;
         }
         locations.add(location);
-        db.child(location.getAddress()).setValue(location);
-        return true;
+        DatabaseReference reference = db.child(location.getAddress());
+        reference.setValue(location);
     }
 
     /**
@@ -123,7 +125,8 @@ class LocationDatabase {
      */
     public Location getLocationByAddress(String address) {
         for (Location l : locations) {
-            if (l.getAddress().equals(address)) {
+            String locationAddress = l.getAddress();
+            if (locationAddress.equals(address)) {
                 return l;
             }
         }
@@ -149,7 +152,8 @@ class LocationDatabase {
      * @return True if the operation was successful, false otherwise
      */
     public boolean removeLocation(Location l) {
-        db.child(l.getAddress()).removeValue();
+        DatabaseReference reference = db.child(l.getAddress());
+        reference.removeValue();
         return locations.remove(l);
     }
 
@@ -158,7 +162,8 @@ class LocationDatabase {
      * @param l A given location with the data to update
      */
     private void updateLocation(Location l) {
-        db.child(l.getAddress()).setValue(l);
+        DatabaseReference reference = db.child(l.getAddress());
+        reference.setValue(l);
     }
 
     /**

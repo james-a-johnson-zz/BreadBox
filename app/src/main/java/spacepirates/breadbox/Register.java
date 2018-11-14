@@ -17,8 +17,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 import spacepirates.breadbox.model.Admin;
 import spacepirates.breadbox.model.BasicUser;
@@ -45,7 +48,8 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        db = FirebaseDatabase.getInstance().getReference();
+        FirebaseDatabase instance = FirebaseDatabase.getInstance();
+        db = instance.getReference();
 
         mAuth = FirebaseAuth.getInstance();
         Button register = findViewById(R.id.RegisterButton);
@@ -63,11 +67,14 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        final String email = emailText.getText().toString();
-        final String pass = passwordText.getText().toString();
+        EditText eText = (EditText) emailText.getText();
+        EditText passText = (EditText) passwordText.getText();
+        final String email = eText.toString();
+        final String pass = passText.getText().toString();
         final UserType ut;
         final User newUser;
-        switch (userType.getSelectedItem().toString()) {
+        Object item = userType.getSelectedItem();
+        switch (item.toString()) {
             case "Basic":
                 ut = UserType.BASIC;
                 newUser = new BasicUser(email, ut);
@@ -106,10 +113,16 @@ public class Register extends AppCompatActivity implements View.OnClickListener 
                             //We Need to add user to a user database that includes the type
                             //Also Include name and location depending on employee type?
                             // Sign in success, update UI with the signed-in user's information
-                            String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                            FirebaseAuth instance = FirebaseAuth.getInstance();
+                            FirebaseUser currentUser = instance.getCurrentUser();
+                            String userID = Objects.requireNonNull(currentUser).getUid();
+
                             // Log.d("Uploading user", "" + userID + newUser.getUsername());
-                            db.child("users").child(userID).setValue(dbUser);
-                            Model.getInstance().setCurrentUser(newUser);
+                            DatabaseReference reference = db.child("users");
+                            reference.child(userID).setValue(dbUser);
+
+                            Model modelInstance = Model.getInstance();
+                            modelInstance.setCurrentUser(newUser);
                             Context context = getApplicationContext();
                             Intent intent = new Intent(context, MainActivity.class);
                             context.startActivity(intent);

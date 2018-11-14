@@ -20,11 +20,31 @@ public class CamilleJunit {
 
     @Test
     public void getItemsByNameTest() {
-        DonationItem sweatshirt = new DonationItem("sweatshirt", 10, Category.APPAREL);
-        DonationItem tanktop = new DonationItem("tanktop", 5, Category.APPAREL);
-        DonationItem iron = new DonationItem("iron", 12, Category.ELECTRONICS);
-        DonationItem brownie_pan = new DonationItem("brownie pan", 6, Category.KITCHENWARE);
-        DonationItem jeans = new DonationItem("jeans", 5, Category.APPAREL);
+        DonationItem sweatshirt = new DonationItem
+                .DonationItemBuilder("swearshirt")
+                .price(10.0)
+                .category(Category.APPAREL)
+                .build();
+        DonationItem tanktop = new DonationItem
+                .DonationItemBuilder("tanktop")
+                .price(5.0)
+                .category(Category.APPAREL)
+                .build();
+        DonationItem iron = new DonationItem
+                .DonationItemBuilder("iron")
+                .price(12.0)
+                .category(Category.ELECTRONICS)
+                .build();
+        DonationItem brownie_pan = new DonationItem
+                .DonationItemBuilder("brownie pan")
+                .price(6.0)
+                .category(Category.KITCHENWARE)
+                .build();
+        DonationItem jeans = new DonationItem
+                .DonationItemBuilder("jeans")
+                .price(5.0)
+                .category(Category.APPAREL)
+                .build();
 
         List<DonationItem> itemList = new ArrayList<>();
         itemList.add(sweatshirt);

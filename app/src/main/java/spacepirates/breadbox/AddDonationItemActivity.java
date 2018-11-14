@@ -47,9 +47,11 @@ public class AddDonationItemActivity extends AppCompatActivity {
 
         //Location location = (Location)i.getParcelableExtra(getString(R.string.pass_location_key));
         //location = (Location)this.getIntent().getSerializableExtra("location");
-        i = this.getIntent().getIntExtra("location_index", -1);
+        Intent intent = this.getIntent();
+        i = intent.getIntExtra("location_index", -1);
         List<Location> locations;
-        locations = Model.getInstance().getLocations();
+        Model instance = Model.getInstance();
+        locations = instance.getLocations();
         location = locations.get(i);
 
         Log.d("AddDonation", "Got Location: " + location);
@@ -97,13 +99,16 @@ public class AddDonationItemActivity extends AppCompatActivity {
         category = (Category) categorySpinner.getSelectedItem();
 
         try {
-            price = Double.parseDouble(priceView.getText().toString());
-        } catch (Exception e) {
+            EditText priceText = (EditText) priceView.getText();
+            price = Double.parseDouble(priceText.toString());
+        } catch (NumberFormatException e) {
             //0 is not a valid price, will fail add
             price = 0;
         }
-        name = nameView.getText().toString();
-        String description = descriptionView.getText().toString();
+        EditText nameText = (EditText) nameView.getText();
+        name = nameText.toString();
+        EditText descriptionText = (EditText) descriptionView.getText();
+        String description = descriptionText.toString();
 
         //tag view should be a multi selection spinner or similar, because tags are enums
         List<Tag> tags = new ArrayList<>();
@@ -123,7 +128,8 @@ public class AddDonationItemActivity extends AppCompatActivity {
                 .build();
 
         //Add donation item to donation item database
-        validDonation = Model.getInstance().addDonationItem(newItem);
+        Model instance = Model.getInstance();
+        validDonation = instance.addDonationItem(newItem);
 
         if (validDonation) {
             //create and display a toast to indicate success.

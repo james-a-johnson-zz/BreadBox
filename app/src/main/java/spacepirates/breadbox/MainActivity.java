@@ -23,6 +23,8 @@ import android.support.v7.widget.Toolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 /**
  * Runs all relevant activities on startup such as login. Also creates clickable options such
  * as all buttons on login screen and navigational view
@@ -172,9 +174,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         // If mPendingRunnable is not null, then add to the message queue
-        if (mPendingRunnable != null) {
-            mHandler.post(mPendingRunnable);
-        }
+        mHandler.post(mPendingRunnable);
 
         // show or hide the fab button
         toggleFab();
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setToolbarTitle() {
-        getSupportActionBar().setTitle(activityTitles[navItemIndex]);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(activityTitles[navItemIndex]);
     }
 
     private void selectNavMenu() {
@@ -264,23 +264,6 @@ public class MainActivity extends AppCompatActivity {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
-            //These classes are necessary to be redefined here, so The drawer knows which methods
-            //to call when it is interacted with.
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we
-                // don't want anything to happen so we leave this blank
-                super.onDrawerClosed(drawerView);
-            }
-
-            //These classes are necessary to be redefined here, so The drawer knows which methods
-            //to call when it is interacted with.
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we
-                // don't want anything to happen so we leave this blank
-                super.onDrawerOpened(drawerView);
-            }
         };
 
         //Setting the actionbarToggle to drawer layout

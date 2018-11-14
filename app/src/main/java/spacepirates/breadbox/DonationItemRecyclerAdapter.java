@@ -62,7 +62,8 @@ public class DonationItemRecyclerAdapter extends
         StringBuilder tags = new StringBuilder();
         if (donation.getTags() != null) {
             for (Tag t : donation.getTags()) {
-                tags.append(t).append(" ");
+                tags.append(t);
+                tags.append(" ");
             }
         }
 

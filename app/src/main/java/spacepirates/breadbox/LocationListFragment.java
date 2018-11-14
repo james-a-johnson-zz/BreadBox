@@ -27,7 +27,8 @@ public class LocationListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_location_list, container, false);
-        List<Location> locations = Model.getInstance().getLocations();
+        Model instance = Model.getInstance();
+        List<Location> locations = instance.getLocations();
 
         RecyclerView recyclerView = view.findViewById(R.id.locations_recycler);
         recyclerView.setHasFixedSize(true);

@@ -171,46 +171,47 @@ public class Location implements Parcelable, Serializable {
         */
     }
 
-    /**
-     * Main constructor for a Location
-     * @param name          The name of the location
-     * @param type          A location's type (store, warehouse, etc...)
-     * @param latitude      Latitude position
-     * @param longitude     Longitude position. Both of these are used for the map
-     * @param address       Street address
-     * @param phoneNumber   Phone included for contacting the location
-     */
-    public Location(String name, String type, double latitude, double longitude,
-                    String address, String phoneNumber) {
-        this.name = name;
-        this.type = type;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        inventory = new ArrayList<>();
-        inventoryMax = 100;
-        //yearlyStats = new ArrayList<Statistics>();
-        /*
-        stats = new Statistics(this);
-        yearlyStats.add(stats);
-        */
-    }
+//    /**
+//     * Main constructor for a Location
+//     * @param name          The name of the location
+//     * @param type          A location's type (store, warehouse, etc...)
+//     * @param latitude      Latitude position
+//     * @param longitude     Longitude position. Both of these are used for the map
+//     * @param address       Street address
+//     * @param phoneNumber   Phone included for contacting the location
+//     */
+//    public Location(String name, String type, double latitude, double longitude,
+//                    String address, String phoneNumber) {
+//        this.name = name;
+//        this.type = type;
+//        this.latitude = latitude;
+//        this.longitude = longitude;
+//        this.address = address;
+//        this.phoneNumber = phoneNumber;
+//        inventory = new ArrayList<>();
+//        inventoryMax = 100;
+//        //yearlyStats = new ArrayList<Statistics>();
+//        /*
+//        stats = new Statistics(this);
+//        yearlyStats.add(stats);
+//        */
+//    }
 
-    /**
-     * This constructor handles the case where latitude and longitude
-     * are not provided as double values but as some other number
-     * @param name          The name of the location
-     * @param type          A location's type (store, warehouse, etc...)
-     * @param latitude      Latitude position
-     * @param longitude     Longitude position. Both of these are used for the map
-     * @param address       Street address
-     * @param phoneNumber   Phone included for contacting the location
-     */
-    public Location(String name, String type, String latitude, String longitude,
-                    String address, String phoneNumber) {
-        this(name, type, Double.valueOf(latitude), Double.valueOf(longitude), address, phoneNumber);
-    }
+//    /**
+//     * This constructor handles the case where latitude and longitude
+//     * are not provided as double values but as some other number
+//     * @param name          The name of the location
+//     * @param type          A location's type (store, warehouse, etc...)
+//     * @param latitude      Latitude position
+//     * @param longitude     Longitude position. Both of these are used for the map
+//     * @param address       Street address
+//     * @param phoneNumber   Phone included for contacting the location
+//     */
+//    public Location(String name, String type, String latitude, String longitude,
+//                    String address, String phoneNumber) {
+//        this(name, type, Double.valueOf(latitude),
+// Double.valueOf(longitude), address, phoneNumber);
+//    }
 
     @NonNull
     @Override
@@ -346,15 +347,12 @@ public class Location implements Parcelable, Serializable {
         if (!(l instanceof Location)) {
             return false;
         }
-        return ((Location) l).getAddress().equals(this.getAddress());
+        String thisAddress = this.getAddress();
+        String thatAddress = ((Location) l).getAddress();
+        return thisAddress.equals(thatAddress);
     }
 
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-      //not sure what return type should be here (could be bool)
+    //not sure what return type should be here (could be bool)
 //    public void sellItem(DonationItem d) {
 //        /*
 //        if (stats.getYearOfStats() != LocalDate.now().getYear()){this.updateYearOfStats();}

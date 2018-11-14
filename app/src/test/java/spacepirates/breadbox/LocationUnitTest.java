@@ -17,11 +17,20 @@ public class LocationUnitTest {
      */
     @Test
     public void checkCorrectlyAddedItem() {
-        DonationItem item = new DonationItem("Bike", 50.0, Category.TOY);
+        DonationItem item = new DonationItem
+                .DonationItemBuilder("Bike")
+                .price(50.0)
+                .category(Category.TOY)
+                .build();
         spacepirates.breadbox.model.Location narnia = new spacepirates.breadbox.model.Location();
         narnia.addItem(item);
 
-        DonationItem check = new DonationItem("Bike", 50.0, Category.TOY);
+        DonationItem check = new DonationItem
+                .DonationItemBuilder("Bike")
+                .price(50.0)
+                .category(Category.TOY)
+                .build();
+
         Assert.assertEquals(item, check);
         Assert.assertTrue(narnia.getInventory().contains(check));
         Assert.assertEquals(1, narnia.getInventory().size());
@@ -29,8 +38,16 @@ public class LocationUnitTest {
 
     @Test
     public void checkAddingTwoItems() {
-        DonationItem item = new DonationItem("Bike", 50.0, Category.TOY);
-        DonationItem wrongItem = new DonationItem("Used Bike", 25.0, Category.TOY);
+        DonationItem item = new DonationItem
+                .DonationItemBuilder("Bike")
+                .price(50.0)
+                .category(Category.TOY)
+                .build();
+        DonationItem wrongItem = new DonationItem
+                .DonationItemBuilder("Used Bike")
+                .price(25.0)
+                .category(Category.TOY)
+                .build();
         spacepirates.breadbox.model.Location acrossThePond = new spacepirates.breadbox.model.Location();
 
         Assert.assertNotEquals(item, wrongItem);
