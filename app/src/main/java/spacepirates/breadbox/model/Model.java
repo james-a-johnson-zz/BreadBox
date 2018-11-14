@@ -1,9 +1,8 @@
 package spacepirates.breadbox.model;
 
 
-import android.util.Log;
-
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Queue;
@@ -38,18 +37,10 @@ public final class Model {
 
     private DonationItemDatabase donationItemDatabase;
 
-    /**
-     * make a new model
-     */
-    /**
-    private Model() {
-        Log.d("Model", "Initialized Model, without context");
-        this.initializeDatabases();
-        _currentUser = new GuestUser();
-    }
-     **/
 
-    //public model used for testing
+    /**
+     * public model used for testing
+     */
     public Model() {
         this.initializeDatabases();
         //_currentUser = nullUser;
@@ -96,7 +87,7 @@ public final class Model {
      * @param cat  Category to filter by
      * @return     The filtered list
      */
-    public List<DonationItem> filterDonationItems(List<DonationItem> list, Category cat) {
+    public List<DonationItem> filterDonationItems(Iterable<DonationItem> list, Category cat) {
         PriorityQueue<DonationItem> ret = new PriorityQueue<>();
         List<DonationItem> srt = new ArrayList<>();
         for (DonationItem d: list) {
@@ -170,7 +161,8 @@ public final class Model {
      * @return          The filtered result
      */
     //There should be filterDonationItem methods implemented for every way we can filter.
-    public List<DonationItem> filterDonationItems(List<DonationItem> list, final String input) {
+    public List<DonationItem> filterDonationItems(
+            Collection<DonationItem> list, final String input) {
         // PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
         //     (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
         //     - b.getName().compareTo(name));
@@ -178,7 +170,9 @@ public final class Model {
                 new Comparator<DonationItem>() {
             @Override
             public int compare(DonationItem donationItem, DonationItem t1) {
-                return donationItem.getName().compareTo(input) - (t1.getName().compareTo(input));
+                String itemText = donationItem.getName();
+                String t1Text = t1.getName();
+                return itemText.compareTo(input) - (t1Text.compareTo(input));
             }
         });
         List<DonationItem> srt = new ArrayList<>();
@@ -203,15 +197,14 @@ public final class Model {
      * Uses O(n) linear search for course
      *
      * @param location  the course to be added
-     * @return true if added, false if a duplicate
      * @throws DatabaseNotInitializedException Simple exception that represents a nonexistent
      *                                         Database since it never got initialized
      */
-    public boolean addLocation(Location location) throws DatabaseNotInitializedException {
+    public void addLocation(Location location) throws DatabaseNotInitializedException {
         if (locationDatabase == null) {
             throw new DatabaseNotInitializedException();
         }
-        return locationDatabase.addLocation(location);
+        locationDatabase.addLocation(location);
     }
 
     /**
@@ -284,10 +277,18 @@ public final class Model {
      * That should likely be done by this method.
      *
      * @param donation item to be added
+     * @return true if the item was added successfully and location database is updated
      */
-    public void addDonationItem(DonationItem donation) {
-        donationItemDatabase.addItem(donation);
-        locationDatabase.updateLocation(donation);
+    public boolean addDonationItem(DonationItem donation) {
+        String name = donation.getName();
+        if ((name.isEmpty())
+                || (donation.getPrice() == 0)) {
+            return false;
+        } else {
+            donationItemDatabase.addItem(donation);
+            locationDatabase.updateLocation(donation);
+            return true;
+        }
     }
 
     /**

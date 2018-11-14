@@ -15,11 +15,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 import spacepirates.breadbox.model.Admin;
 import spacepirates.breadbox.model.BasicUser;
@@ -62,14 +65,17 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                firebaseAuth.signInWithEmailAndPassword(usernameField.getText().toString(),
-                        passwordField.getText().toString())
+                EditText userText = (EditText) usernameField.getText();
+                EditText passText = (EditText) passwordField.getText();
+                firebaseAuth.signInWithEmailAndPassword(userText.toString(),
+                        passText.toString())
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Log.d(tag, "User logged in");
-                                    String userID = firebaseAuth.getCurrentUser().getUid();
+                                    FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                                    String userID = Objects.requireNonNull(currentUser).getUid();
                                     userLoggedIn(userID);
                                 } else {
                                     Toast.makeText(getApplicationContext(),
@@ -103,7 +109,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private void userLoggedIn(String UID) {
         Log.d(tag, "Starting database fetch");
-        db.child("users").child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference reference = db.child("users");
+        reference.child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.d(tag, "Got response from database");
@@ -111,9 +118,12 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d(tag, "Fetch successful");
                     DatabaseUser currentUser = dataSnapshot.getValue(DatabaseUser.class);
                     Model m = Model.getInstance();
-                    String username = currentUser.getUsername();
+                    String username = Objects.requireNonNull(currentUser).getUsername();
                     UserType ut = currentUser.getType();
                     User current;
+                    //Switch statement does not cover all cases of User enum, because
+                    //only ADMINISTRATOR, MANAGER, AND LOCATION_EMPLOYEE Need to be handled
+                    //differntly where all other uses may take the default.
                     switch (ut) {
                         case ADMINISTRATOR:
                             current = new Admin(username, ut);

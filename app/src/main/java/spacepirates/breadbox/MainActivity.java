@@ -23,6 +23,8 @@ import android.support.v7.widget.Toolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 /**
  * Runs all relevant activities on startup such as login. Also creates clickable options such
  * as all buttons on login screen and navigational view
@@ -110,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
      * Not Currently using a header
     private void loadNavHeader() {
         // name, website
-        txtName.setText("Ravi Tamada");
-        txtWebsite.setText("www.androidhive.info");
+        txtName.setText("Name");
+        txtWebsite.setText("www.knowledge.com");
 
         // loading header background image
         Glide.with(this).load(urlNavHeaderBg)
@@ -172,9 +174,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         // If mPendingRunnable is not null, then add to the message queue
-        if (mPendingRunnable != null) {
-            mHandler.post(mPendingRunnable);
-        }
+        mHandler.post(mPendingRunnable);
 
         // show or hide the fab button
         toggleFab();
@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setToolbarTitle() {
-        getSupportActionBar().setTitle(activityTitles[navItemIndex]);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(activityTitles[navItemIndex]);
     }
 
     private void selectNavMenu() {
@@ -264,23 +264,10 @@ public class MainActivity extends AppCompatActivity {
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
 
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we
-                // don't want anything to happen so we leave this blank
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we
-                // don't want anything to happen so we leave this blank
-                super.onDrawerOpened(drawerView);
-            }
         };
 
         //Setting the actionbarToggle to drawer layout
-        drawer.setDrawerListener(actionBarDrawerToggle);
+        drawer.addDrawerListener(actionBarDrawerToggle);
 
         //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();

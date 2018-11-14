@@ -11,7 +11,6 @@ import spacepirates.breadbox.model.Location;
 import spacepirates.breadbox.model.Model;
 import spacepirates.breadbox.model.Tag;
 
-import static org.junit.Assert.*;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -28,7 +27,13 @@ public class addDonationItemTest {
     Model model = new Model();
 
     private void initializeTests() {
-        model.addLocation(new Location("Location", "store", 0, 0, "Its an address","pizza time"));
+        model.addLocation(new Location.LocationBuilder("Location")
+                .type("store")
+                .latitude(0.0)
+                .longitude(0.0)
+                .address("It's an address")
+                .phoneNumber("pizza time")
+                .build());
         location = model.getLocations().get(0);
         //tags.add(Tag.TOPS);
     }
@@ -36,13 +41,13 @@ public class addDonationItemTest {
     @Test
     public void addsValidDonation() {
         initializeTests();
-        donationItem = new DonationItem("Test Item",
-                25.99,
-                Category.APPAREL,
-                "This is a test item.",
-                tags,
-                location.getAddress()
-        );
+        donationItem = new DonationItem.DonationItemBuilder("Test Item")
+                .price(25.99)
+                .category(Category.APPAREL)
+                .description("This is a test item.")
+                .tags(tags)
+                .address(location.getAddress())
+                .build();
         int oldSize = model.getDonations().size();
         model.addDonationItem(donationItem);
 
@@ -54,13 +59,13 @@ public class addDonationItemTest {
     @Test
     public void addsDuplicateDonation() {
         initializeTests();
-        donationItem = new DonationItem("Test Item",
-                25.99,
-                Category.APPAREL,
-                "This is a test item.",
-                tags,
-                location.getAddress()
-        );
+        donationItem = new DonationItem.DonationItemBuilder("Test Item")
+                .price(25.99)
+                .category(Category.APPAREL)
+                .description("This is a test item.")
+                .tags(tags)
+                .address(location.getAddress())
+                .build();
         int oldSize = model.getDonations().size();
         model.addDonationItem(donationItem);
 
@@ -85,13 +90,13 @@ public class addDonationItemTest {
     public void nullName() {
         //Name is Null
         initializeTests();
-        donationItem = new DonationItem(null,
-                25.99,
-                Category.APPAREL,
-                "This is a test item.",
-                tags,
-                location.getAddress()
-        );
+        donationItem = new DonationItem.DonationItemBuilder(null)
+                .price(25.99)
+                .category(Category.APPAREL)
+                .description("This is a test item.")
+                .tags(tags)
+                .address(location.getAddress())
+                .build();
         oldSize = model.getDonations().size();
         model.addDonationItem(donationItem);
 
@@ -106,13 +111,13 @@ public class addDonationItemTest {
     public void noMatchingAddress() {
         initializeTests();
         //Location doesn't match an address
-        donationItem = new DonationItem(null,
-                25.99,
-                Category.APPAREL,
-                "This is a test item.",
-                tags,
-                "You've got the wrong address, Bud."
-        );
+        donationItem = new DonationItem.DonationItemBuilder(null)
+                .price(25.99)
+                .category(Category.APPAREL)
+                .description("This is a test item.")
+                .tags(tags)
+                .address("You've got the wrong address, bud")
+                .build();
         oldSize = model.getDonations().size();
         model.addDonationItem(donationItem);
 
@@ -126,13 +131,13 @@ public class addDonationItemTest {
     public void nullCategory() {
         initializeTests();
         //Category is null
-        donationItem = new DonationItem(null,
-                25.99,
-                null,
-                "This is a test item.",
-                tags,
-                location.getAddress()
-        );
+        donationItem = new DonationItem.DonationItemBuilder(null)
+                .price(25.99)
+                .category(Category.APPAREL)
+                .description(null)
+                .tags(tags)
+                .address(location.getAddress())
+                .build();
         oldSize = model.getDonations().size();
         model.addDonationItem(donationItem);
 

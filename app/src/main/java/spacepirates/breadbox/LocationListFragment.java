@@ -1,7 +1,5 @@
 package spacepirates.breadbox;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -10,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import java.util.List;
 
@@ -23,29 +20,15 @@ import spacepirates.breadbox.model.Model;
  */
 public class LocationListFragment extends Fragment {
 
-    /**
-    public void onCreate(Bundle savedInstance) {
-        super.onCreate(savedInstance);
-        setContentView(R.layout.fragment_location_list);
 
-        List<Location> locations = Model.getInstance().getLocations();
-
-        recyclerView = findViewById(R.id.locations_recycler);
-        recyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager linearLayoutManager =
-                                    new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        LocationRecyclerAdapter adapter = new LocationRecyclerAdapter(locations);
-        recyclerView.setAdapter(adapter);
-    }
-    **/
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_location_list, container, false);
-        List<Location> locations = Model.getInstance().getLocations();
+        Model instance = Model.getInstance();
+        List<Location> locations = instance.getLocations();
 
         RecyclerView recyclerView = view.findViewById(R.id.locations_recycler);
         recyclerView.setHasFixedSize(true);

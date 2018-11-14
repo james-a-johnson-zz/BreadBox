@@ -47,11 +47,6 @@ public class DonationItemRecyclerAdapter extends
 
     }
 
-    @Override
-    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
     @NonNull
     @Override
     public DonationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -64,10 +59,11 @@ public class DonationItemRecyclerAdapter extends
     public void onBindViewHolder(
             @NonNull final DonationViewHolder donationViewHolder, final int i) {
         DonationItem donation = donations.get(i);
-        String tags = "";
+        StringBuilder tags = new StringBuilder();
         if (donation.getTags() != null) {
             for (Tag t : donation.getTags()) {
-                tags += t + " ";
+                tags.append(t);
+                tags.append(" ");
             }
         }
 
@@ -75,7 +71,7 @@ public class DonationItemRecyclerAdapter extends
         donationViewHolder.description.setText(donation.getDescription());
         donationViewHolder.price.setText("- " + donation.getPrice());
         donationViewHolder.category.setText(donation.getCategory().toString());
-        donationViewHolder.tags.setText(tags);
+        donationViewHolder.tags.setText(tags.toString());
 
         //default for card view is collapsed form.
         collapseDonationView(donationViewHolder);

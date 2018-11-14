@@ -47,9 +47,11 @@ public class AddDonationItemActivity extends AppCompatActivity {
 
         //Location location = (Location)i.getParcelableExtra(getString(R.string.pass_location_key));
         //location = (Location)this.getIntent().getSerializableExtra("location");
-        i = this.getIntent().getIntExtra("location_index", -1);
+        Intent intent = this.getIntent();
+        i = intent.getIntExtra("location_index", -1);
         List<Location> locations;
-        locations = Model.getInstance().getLocations();
+        Model instance = Model.getInstance();
+        locations = instance.getLocations();
         location = locations.get(i);
 
         Log.d("AddDonation", "Got Location: " + location);
@@ -67,6 +69,8 @@ public class AddDonationItemActivity extends AppCompatActivity {
 
 
         // Category spinner uses the category enum to populate the spinner.
+        // Cast cannot be checked, because in the conversion from enum to list, java loses track
+        // of the type and only sees Category and therefor can' be cast to String.
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter(this,
                 android.R.layout.simple_spinner_item, Category.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -86,52 +90,48 @@ public class AddDonationItemActivity extends AppCompatActivity {
 
     private void createDonationItem() {
         Context context = getApplicationContext();
-        String failureMessage = "";
-        boolean validDonation = true;
-        String name = nameView.getText().toString();
+        String failureMessage = "Must provide a name and price.";
+        boolean validDonation;
+        String name;
         Category category;
-        double price = 0;
-        if (name.isEmpty()) {
-            validDonation = false;
-            failureMessage += "Must enter a name. ";
-        }
+        double price;
+        //Category must be entered, because it might be used for mapping in the database
+        category = (Category) categorySpinner.getSelectedItem();
+
         try {
-            price = Double.parseDouble(priceView.getText().toString());
+            EditText priceText = (EditText) priceView.getText();
+            price = Double.parseDouble(priceText.toString());
         } catch (NumberFormatException e) {
-            validDonation = false;
-            failureMessage += "Price must be a number. ";
+            //0 is not a valid price, will fail add
+            price = 0;
         }
+        EditText nameText = (EditText) nameView.getText();
+        name = nameText.toString();
+        EditText descriptionText = (EditText) descriptionView.getText();
+        String description = descriptionText.toString();
 
         //tag view should be a multi selection spinner or similar, because tags are enums
         List<Tag> tags = new ArrayList<>();
         //splits the string in the tags box into words, and places in String array tags
         //( tagView.getText().toString()).split("\\W+");
-        String description = descriptionView.getText().toString();
 
         //implement adding users to donation items
         //User donor = donorView.getText().toString();
 
-        //Category must be entered, because it might be used for mapping in the database
-        category = (Category) categorySpinner.getSelectedItem();
-        if (category == null) {
-            //If no category, invalidate donation and make a note in the failure message.
-            validDonation = false;
-            failureMessage += "Must select a Category.";
-        }
+
+
+        DonationItem newItem = new DonationItem.DonationItemBuilder(name)
+                .price(price)
+                .category(category).tags(tags)
+                .description(description)
+                .address(location.getAddress())
+                .build();
+
+        //Add donation item to donation item database
+        Model instance = Model.getInstance();
+        validDonation = instance.addDonationItem(newItem);
+
         if (validDonation) {
-            //Create new Donation Item. DonationItem builder
-            //generates new donation item and adds it to the location inventory.
-            DonationItem newItem = new DonationItem
-                    .DonationItemBuilder(name)
-                    .price(price)
-                    .category(category).tags(tags)
-                    .description(description)
-                    .address(location.getAddress())
-                    .build();
-
-            //Add donation item to donation item database
-            Model.getInstance().addDonationItem(newItem);
-
             //create and display a toast to indicate success.
             String successMessage = name + " added to " + location + ".";
             Toast.makeText(getApplicationContext(), successMessage, Toast.LENGTH_SHORT).show();

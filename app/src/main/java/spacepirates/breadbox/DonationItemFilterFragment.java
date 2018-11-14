@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -51,11 +52,14 @@ public class DonationItemFilterFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         //Currently setting to display all items. I feel it should initially be initialized empty
+        Model instance = Model.getInstance();
         DonationItemRecyclerAdapter adapter =
-                new DonationItemRecyclerAdapter(Model.getInstance().getDonations());
+                new DonationItemRecyclerAdapter(instance.getDonations());
         recyclerView.setAdapter(adapter);
 
         //Set Spinner with values of category enum.
+        // Cast cannot be checked, because in the conversion from enum to list, java loses track
+        // of the type and only sees Category and therefor can' be cast to String.
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter(view.getContext(),
                 android.R.layout.simple_spinner_item, Category.values());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -65,7 +69,8 @@ public class DonationItemFilterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 List<DonationItem> filterResult;
-                String name = nameInput.getText().toString();
+                EditText nameText = (EditText) nameInput.getText();
+                String name = nameText.toString();
                 Model model = Model.getInstance();
                 filterResult = model.filterDonationItems(name);
                 setRecycler(filterResult);

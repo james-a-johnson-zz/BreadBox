@@ -1,6 +1,7 @@
 package spacepirates.breadbox.model;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -135,70 +136,73 @@ public class DonationItem implements Comparable<DonationItem> {
         tags = builder.builderTags;
         description = builder.builderDescription;
         address = builder. builderAddress;
-        id = UUID.randomUUID().toString();
+        UUID random = UUID.randomUUID();
+        id = random.toString();
     }
 
     /**
      * Empty constructor for testing
      */
     public DonationItem() {
-        id = UUID.randomUUID().toString();
+        UUID random = UUID.randomUUID();
+        id = random.toString();
     }
 
-    /**
-     * Constructor for items without description, tags, or address
-     * @param name      The name of the item
-     * @param price     The price
-     * @param category  The category it belongs to
-     */
-    public DonationItem(String name, double price, Category category) {
-        this(name, price, category, "None");
-    }
+//    /**
+//     * Constructor for items without description, tags, or address
+//     * @param name      The name of the item
+//     * @param price     The price
+//     * @param category  The category it belongs to
+//     */
+//    public DonationItem(String name, double price, Category category) {
+//        this(name, price, category, "None");
+//    }
 
-    /**
-     * Constructor for items without tags or address
-     * @param name          The name of the item
-     * @param price         The price
-     * @param category      The category it belongs to
-     * @param description   Custom description of the item
-     */
-    public DonationItem(String name, double price, Category category,
-                        String description) {
-        this(name, price, category, description, null, null);
-    }
+//    /**
+//     * Constructor for items without tags or address
+//     * @param name          The name of the item
+//     * @param price         The price
+//     * @param category      The category it belongs to
+//     * @param description   Custom description of the item
+//     */
+//    public DonationItem(String name, double price, Category category,
+//                        String description) {
+//        this(name, price, category, description, null, null);
+//    }
 
-    /**
-     * Constructor for items without address
-     * @param name          The name of the item
-     * @param price         The price
-     * @param category      The category it belongs to
-     * @param description   Custom description of the item
-     * @param tags          List of custom tags that can be searched for
-     */
-    public DonationItem(String name, double price, Category category,
-                        String description, List<Tag> tags) {
-        this(name, price, category, description, tags, null);
-    }
+//    /**
+//     * Constructor for items without address
+//     * @param name          The name of the item
+//     * @param price         The price
+//     * @param category      The category it belongs to
+//     * @param description   Custom description of the item
+//     * @param tags          List of custom tags that can be searched for
+//     */
+//    public DonationItem(String name, double price, Category category,
+//                        String description, List<Tag> tags) {
+//        this(name, price, category, description, tags, null);
+//    }
 
-    /**
-     * Full constructor
-     * @param name          The name of the item
-     * @param price         The price
-     * @param category      The category it belongs to
-     * @param description   Custom description of the item
-     * @param tags          List of custom tags that can be searched for
-     * @param address       Address of the location where the item resides
-     */
-    public DonationItem(String name, double price, Category category,
-                        String description, List<Tag> tags, String address) {
-        this.name = name;
-        this.price = price;
-        this.category = category;
-        this.description = description;
-        this.tags = tags;
-        this.address = address;
-        id = UUID.randomUUID().toString();
-    }
+//    /**
+//     * Full constructor
+//     * @param name          The name of the item
+//     * @param price         The price
+//     * @param category      The category it belongs to
+//     * @param description   Custom description of the item
+//     * @param tags          List of custom tags that can be searched for
+//     * @param address       Address of the location where the item resides
+//     */
+//    public DonationItem(String name, double price, Category category,
+//                        String description, List<Tag> tags, String address) {
+//        this.name = name;
+//        this.price = price;
+//        this.category = category;
+//        this.description = description;
+//        this.tags = tags;
+//        this.address = address;
+//        UUID random = UUID.randomUUID();
+//        id = random.toString();
+//    }
 
     /**
      * Getter for unique ID
@@ -306,7 +310,7 @@ public class DonationItem implements Comparable<DonationItem> {
      * @return The list of tags
      */
     public List<Tag> getTags() {
-        return this.tags;
+        return Collections.unmodifiableList(this.tags);
     }
 
     @Override
@@ -321,7 +325,9 @@ public class DonationItem implements Comparable<DonationItem> {
 
     @Override
     public int compareTo(DonationItem other) {
-        return this.getName().compareTo(other.getName());
+        String thisName = this.getName();
+        String otherName = other.getName();
+        return thisName.compareTo(otherName);
     }
 
     //toStrings for tests, can delete/comment out later

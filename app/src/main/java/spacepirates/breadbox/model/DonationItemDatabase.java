@@ -10,6 +10,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -21,12 +23,16 @@ import java.util.Queue;
  */
 public class DonationItemDatabase {
     private final List<DonationItem> database;
-    private DatabaseReference db;
+    private final DatabaseReference db;
 
     /** Null Donation pattern, returned when no donations are found.
      *  Current default category is apparel. Fails curing run if category is null.
      */
-    private final DonationItem theNullDonation = new DonationItem("No Donations Found", 0, null);
+    private final DonationItem theNullDonation = new DonationItem
+            .DonationItemBuilder("No Donations Found").
+            price(0.0)
+            .category(Category.APPAREL)
+            .build();
 
     /**
      * Constructor that initializes the database
@@ -35,12 +41,9 @@ public class DonationItemDatabase {
     public DonationItemDatabase() {
         database = new ArrayList<>();
 
-        db = FirebaseDatabase.getInstance().getReference("donations");
+        FirebaseDatabase firebaseInstance = FirebaseDatabase.getInstance();
+        db = firebaseInstance.getReference("donations");
         initializeDatabase();
-    }
-
-    public DonationItemDatabase(ArrayList<DonationItem> dd) {
-        database = dd;
     }
 
     /**
@@ -49,6 +52,7 @@ public class DonationItemDatabase {
      */
     public DonationItemDatabase(List<DonationItem> list) {
         database = list;
+        db = null;
     }
 
 
@@ -56,7 +60,7 @@ public class DonationItemDatabase {
      * Method to handle technicalities of initializing database on Fire base's end
      * Includes adding every element of data as well as the case where data does not exist
      */
-    public void initializeDatabase() {
+    private void initializeDatabase() {
         ValueEventListener addItems = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -82,7 +86,7 @@ public class DonationItemDatabase {
      * Method for quick adding of an entire inventory if necessary
      * @param list List of items (inventory) from a location
      */
-    public void addInventory(List<DonationItem> list) {
+    public void addInventory(Iterable<DonationItem> list) {
         for (DonationItem di : list) {
             this.addItem(di);
         }
@@ -93,7 +97,8 @@ public class DonationItemDatabase {
      * @param item The item to be added
      */
     public void addItem(DonationItem item) {
-        db.child(item.getId()).setValue(item);
+        DatabaseReference reference = db.child(item.getId());
+        reference.setValue(item);
         database.add(item);
     }
 
@@ -102,7 +107,7 @@ public class DonationItemDatabase {
      * @return A list of donation items
      */
     public List<DonationItem> getDatabase() {
-        return database;
+        return Collections.unmodifiableList(database);
     }
 
     /**
@@ -125,7 +130,7 @@ public class DonationItemDatabase {
      * @param cat       Category that returned items will belong to
      * @return          A queue of all items that fall under the given category
      */
-    public Queue<DonationItem> getItemsByCategory(List<DonationItem> list, Category cat) {
+    public Queue<DonationItem> getItemsByCategory(Iterable<DonationItem> list, Category cat) {
         Queue<DonationItem> ret = new PriorityQueue<>();
         for (DonationItem d : list) {
             if (d.getCategory() == cat) {
@@ -140,7 +145,8 @@ public class DonationItemDatabase {
      * @param di Item to remove
      */
     public void removeItem(DonationItem di) {
-        db.child(di.getId()).removeValue();
+        DatabaseReference reference = db.child(di.getId());
+        reference.removeValue();
         database.remove(di);
     }
 
@@ -150,7 +156,7 @@ public class DonationItemDatabase {
      * @param name      Name to get item(s) by
      * @return          A filtered list of items that have similar names. Closer names appear sooner
      */
-    public Queue<DonationItem> getItemsByName(List<DonationItem> list, final String name) {
+    public Queue<DonationItem> getItemsByName(Collection<DonationItem> list, final String name) {
         /*
             PriorityQueue<DonationItem> ret = new PriorityQueue<DonationItem>(list.size(),
                 (DonationItem a, DonationItem b) -> a.getName().compareTo(name)
@@ -160,13 +166,13 @@ public class DonationItemDatabase {
                 new Comparator<DonationItem>() {
             @Override
             public int compare(DonationItem donationItem, DonationItem t1) {
-                return donationItem.getName().compareTo(name) - (t1.getName().compareTo(name));
+                String itemName = donationItem.getName();
+                String t1Name = t1.getName();
+                return itemName.compareTo(name) - (t1Name.compareTo(name));
             }
         });
+
         ret.addAll(list);
-            for (DonationItem d : list) {
-                ret.add(d);
-            }
-            return ret;
+        return ret;
         }
 }
