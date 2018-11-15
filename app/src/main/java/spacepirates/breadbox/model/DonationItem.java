@@ -310,7 +310,7 @@ public class DonationItem implements Comparable<DonationItem> {
      * @return The list of tags
      */
     public List<Tag> getTags() {
-        return Collections.unmodifiableList(this.tags);
+        return this.tags;
     }
 
     @Override

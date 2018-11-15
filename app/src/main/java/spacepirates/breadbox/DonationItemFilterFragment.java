@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +70,7 @@ public class DonationItemFilterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 List<DonationItem> filterResult;
-                EditText nameText = (EditText) nameInput.getText();
+                SpannableStringBuilder nameText = (SpannableStringBuilder) nameInput.getText();
                 String name = nameText.toString();
                 Model model = Model.getInstance();
                 filterResult = model.filterDonationItems(name);
